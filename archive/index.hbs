@@ -1,0 +1,262 @@
+{{!-- <div style="text-align: center; background-color:white; padding-bottom:30px" class="row">
+                <hr style="border-top: 1px solid #8c8b8b; width:90%">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4" style="background-color: #ffffff; vertical-align: middle;">
+                    <h3 style="vertical-align: middle; color:#3f4a68">Current Promotions on Amazon India!</h3>
+                    {{!-- <h3 style="vertical-align: middle; margin-bottom: 20px; color:#77d1e5">What are you looking for?</h3> --}}
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+            {{!-- The four Promotions - INDIA --}}
+            <div style="text-align: center; background-color:white; padding-bottom: 30px" class="row">
+                <div class="col-md-3">
+                    <a href="https://www.amazon.in/b?ie=UTF8&node=4188827031">
+                        <image style="width:80%" src="https://m.media-amazon.com/images/G/31/img17/fashion/sept/DiwaliW1/Traffic/412x500-Fashion._V516755307_.jpg"/>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="https://www.amazon.in/Mens-Clothing/b?ie=UTF8&node=1968024031">
+                        <image style="width:80%" src="https://m.media-amazon.com/images/G/31/img17/fashion/sept/DiwaliW1/Traffic/412x500-mens._V516755304_.jpg"/>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="https://www.amazon.in/Womens-clothing/b?ie=UTF8&node=1953602031">
+                        <image style="width:80%" src="https://m.media-amazon.com/images/G/31/img17/fashion/sept/DiwaliW1/Traffic/412x500-womens._V516755304_.jpg"/>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="https://www.amazon.in/b?ie=UTF8&node=1983396031">
+                        <image style="width:80%" src="https://m.media-amazon.com/images/G/31/img17/fashion/sept/DiwaliW1/Traffic/412x500-shoes._V516755304_.jpg"/>
+                    </a>
+                </div>
+            </div> --}}
+
+
+//  //Receive Search Results
+    // socket.on('searchResult', function(data){
+    //     if (data.failed){
+    //         console.log('search failed, retrying');
+    //         if (data.failed.nodeId && data.failed.dept && $searchWords.val()){
+    //             $searchWords.val('');
+
+    //             execSearch(data.failed.nodeId, data.failed.dept);
+    //         }
+    //         else if (!data.failed.nodeId && data.failed.dept != 'All'){
+    //             $selectDept.val('All');
+    //             execSearch(data.failed.nodeId, 'All');       
+    //         } 
+    //         else {
+    //             alert('Invalid Search');
+    //             $(".overlay").hide();                
+    //         }
+    //     }
+    //     else {
+    //         console.log(data);
+    //         // console.log(data.ItemSearchResponse);
+    //         // console.log(data.ItemSearchResponse.Items.Item[0]);
+
+    //         $selectDept.val(data.returnDept);
+
+    //         if (data.isNotInitialSearch && data.isNotInitialSearch == true){
+    //             if (data && data.pagenum && sessionStorage){
+    //                 sessionStorage.setItem('currentResultsPageNum', data.pagenum);
+    //             }
+    //             else 
+    //             {
+    //                 if (sessionStorage && sessionStorage.getItem('currentResultsPageNum')){
+    //                     var tempPageNum = sessionStorage.getItem('currentResultsPageNum');
+    //                     tempPageNum++;
+    //                     sessionStorage.setItem('currentResultsPageNum', tempPageNum);
+    //                 }    
+    //             }               
+    //         }
+    //         else
+    //         {
+    //             $searchResults.empty();
+    //             sessionStorage.setItem('currentResultsPageNum', 1);
+    //         }
+            
+    //         for(i=0; i<data.ItemSearchResponse.Items.Item.length; i++)
+    //         {
+    //             //BEGIN SEARCH RESULTS//
+    //             var item = data.ItemSearchResponse.Items.Item[i];
+    //             var price = 'N/A';
+    //             var itemURL = '';
+    //             var imageURL = '';
+    //             var title = '';
+    //             var brand = '';
+    //             var price = 'N/A';
+    //             var isEligibleForPrime = false;
+    //             var primeImageHtml = '<img height="14px">';
+
+    //             // Begin Price
+    //             if (item.Variations && item.Variations.Item && item.Variations.Item.constructor === Array && item.Variations.Item[0]
+    //                     && item.Variations.Item[0].Offers && item.Variations.Item[0].Offers.Offer && item.Variations.Item[0].Offers.Offer.OfferListing
+    //                     && item.Variations.Item[0].Offers.Offer.OfferListing.Price && item.Variations.Item[0].Offers.Offer.OfferListing.Price.FormattedPrice)
+    //             {
+    //                 price = item.Variations.Item[0].Offers.Offer.OfferListing.Price.FormattedPrice;
+    //                 if (item.Variations.Item[0].Offers.Offer.OfferListing.IsEligibleForPrime == 1){
+    //                     isEligibleForPrime = true;
+    //                 }
+    //             }
+    //             else if (item.Offers && item.Offers.Offer && item.Offers.Offer.OfferListing 
+    //                 && item.Offers.Offer.OfferListing.Price && item.Offers.Offer.OfferListing.Price.FormattedPrice)
+    //             {
+    //                 price = item.Offers.Offer.OfferListing.Price.FormattedPrice;
+    //                 if(item.Offers.Offer.OfferListing.IsEligibleForPrime == 1){
+    //                     isEligibleForPrime = true;
+    //                 }
+    //             }
+    //             // End Price
+
+    //             if (isEligibleForPrime){
+    //                 primeImageHtml = '<img src="/prime-check-badge-14._CB138348888_.png">';
+    //             }
+
+    //             //Begin Detail URL
+    //             if (item.DetailPageURL){
+    //                 itemURL = item.DetailPageURL;
+    //             }
+    //             //End Detail URL
+
+    //             //Begin Image
+    //             if (item.ImageSets && item.ImageSets.ImageSet){
+    //                 if (item.ImageSets.ImageSet.constructor === Array && item.ImageSets.ImageSet[0] && item.ImageSets.ImageSet[0].MediumImage && item.ImageSets.ImageSet[0].MediumImage.URL){
+    //                     imageURL = item.ImageSets.ImageSet[0].MediumImage.URL;
+    //                     console.log('imageset array:'+imageURL);
+    //                 } 
+    //                 else if (item.ImageSets.ImageSet.MediumImage && item.ImageSets.ImageSet.MediumImage.URL){
+    //                     imageURL = item.ImageSets.ImageSet.MediumImage.URL;
+    //                     console.log('imageset direct:'+imageURL);
+    //                 }    
+    //             }
+    //             else if (item.Variations && item.Variations.Item && item.Variations.Item.constructor === Array) {
+    //                 for (t=0; t < item.Variations.Item.length; t++){
+    //                     if (item.Variations.Item[t].MediumImage){
+    //                         imageURL = item.Variations.Item[t].MediumImage.URL;
+    //                         console.log('variation image: '+imageURL);
+    //                         break;
+    //                     }
+    //                 }
+    //             }
+
+    //             //End Image
+
+    //             //Begin Title
+    //             if (item.ItemAttributes){
+    //                 if (item.ItemAttributes.Title){
+    //                     title = item.ItemAttributes.Title;
+    //                 }
+    //                 if (item.ItemAttributes.Brand){
+    //                     brand = 'By '+ item.ItemAttributes.Brand;
+    //                 }
+    //             }
+    //             //End Title
+
+    //             var ASIN = "";
+    //             ASIN = item.ASIN;
+
+    //             var productBoxClass = 'product-box';
+    //             if ($chatPane.is(':visible')){
+    //                 productBoxClass = 'product-box-chat-on';
+    //             }
+
+    //             //<a href='+ itemURL +' target="_blank">
+    //             var divText =   '<div id="'+ASIN.toString()+'" onclick="itemLookup(this.id)" class="'+productBoxClass+'">'+
+    //                                 '<div class="product-image-div middle">'+
+    //                                     '<img class="product-image" src="'+ imageURL +'">'+
+    //                                 '</div>'+
+    //                                 '<div class="product-title">'+ title +'<br><p>'+ brand +'</p></div>'+
+    //                                 '<div class="product-prime-box">'+primeImageHtml+'</div>' +
+    //                                 '<p class="product-price">'+price+'</p>'+
+    //                             '</div>';
+
+    //             $searchResults.append(divText);
+    //             //END SEARCH RESULTS//
+
+                
+    //             // var userName1 = $username.val();
+    //             // var initiator1 = $initiator.text();
+
+    //             // if (userName1 == initiator1)
+    //             // {
+    //             //     io.connect('/').emit('store history', divText);
+    //             // }
+    //         }
+
+    //         if (data.BrowseNode){
+    //             //BEGIN BrowseNode tree//            
+    //             var ancestors = [];
+    //             var children = [];
+    //             var browseNodeDivText = '';
+    //             var disabledText = '';
+
+    //             if (data.disableTree){
+    //                 disabledText = ' disabled';
+    //             }
+
+    //             if (data.BrowseNode && data.BrowseNode.BrowseNodes.BrowseNode.Ancestors){
+    //                 var ancestorCursor = data.BrowseNode.BrowseNodes.BrowseNode;
+    //                 var len=0;
+    //                 while (ancestorCursor.Ancestors){
+    //                     if (ancestorCursor.Ancestors.BrowseNode.Name != 'Categories'){
+    //                         ancestors.push({
+    //                             BrowseNodeId: ancestorCursor.Ancestors.BrowseNode.BrowseNodeId,
+    //                             Name: ancestorCursor.Ancestors.BrowseNode.Name  
+    //                         });
+    //                         len++;
+    //                     }
+
+    //                     ancestorCursor =  ancestorCursor.Ancestors.BrowseNode;
+    //                 }
+
+    //                 ancestors.reverse();
+
+    //                 if (data.BrowseNode.BrowseNodes.BrowseNode.Name != 'Categories'){
+    //                     ancestors.push({
+    //                         BrowseNodeId: data.BrowseNode.BrowseNodes.BrowseNode.BrowseNodeId,
+    //                         Name: data.BrowseNode.BrowseNodes.BrowseNode.Name  
+    //                     });
+    //                     len++;
+    //                 }
+
+    //                 for (i=0; i < len-1; i++){
+    //                     browseNodeDivText+= '<li class="ancestorNode"><a class="btn'+disabledText+'" onclick="execSearch(&quot;'+ancestors[i].BrowseNodeId+'&quot;,&quot;'+$selectDept.val()+'&quot;,{lookupBrowseNode: true})">'+ancestors[i].Name+'</a></li>';
+    //                 }
+
+    //                 browseNodeDivText+= '<li class="ancestorNodeCurrent"><a class="btn disabled">'+ancestors[len-1].Name+'</a></li>';
+    //             }
+    //             else {
+    //                 browseNodeDivText+= '<li class="ancestorNodeCurrent"><a class="btn disabled">'+data.BrowseNode.BrowseNodes.BrowseNode.Name+'</a></li>';    
+    //             }
+
+    //             if (data.BrowseNode && data.BrowseNode.BrowseNodes.BrowseNode.Children){
+    //                 var children = data.BrowseNode.BrowseNodes.BrowseNode.Children.BrowseNode;
+    //                 browseNodeDivText+= '<ul class="childList">';
+    //                 if (children.constructor === Array){
+    //                     for (i=0; i<children.length; i++){
+    //                         browseNodeDivText+= '<li class="childNode"><a class="btn'+disabledText+'" onclick="execSearch(&quot;'+children[i].BrowseNodeId+'&quot;,&quot;'+$selectDept.val()+'&quot;,{lookupBrowseNode: true})">'+children[i].Name+'</a></li>';
+    //                     }
+    //                 }
+    //                 else{
+    //                     browseNodeDivText+= '<li class="childNode"><a class="btn'+disabledText+'" onclick="execSearch(&quot;'+children.BrowseNodeId+'&quot;,&quot;'+$selectDept.val()+'&quot;,{lookupBrowseNode: true})">'+children.Name+'</a></li>';
+    //                 }
+
+    //                 browseNodeDivText+= '</ul>';
+    //             }
+
+    //             if (browseNodeDivText != ''){
+    //                 $browseNodeList.empty();
+    //                 $browseNodeList.append(browseNodeDivText);
+    //             }
+    //             //END BrowseNode tree//
+    //         }
+    //         $(".overlay").hide();
+    //         viewController('searchResults');
+
+    //         broadcastSharedTab();
+    //     }
+    // });
+    // //END RECEIVE SEARCH RESULTS//

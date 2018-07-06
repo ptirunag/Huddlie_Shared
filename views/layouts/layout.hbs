@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{{title}}</title>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="fo-verify" content="0e69931a-6da1-48e9-8ba3-40c410e196a8">
+  <meta property="fb:app_id"        content="1881552072106664">
+  <meta property="og:url"           content="https://www.huddlie.com/" />
+  <meta property="og:type"          content="website" />
+  <meta property="og:title"         content="Huddlie" />
+  <meta property="og:description"   content="Shop together with your friends" />
+  <meta property="og:image"         content="https://www.huddlie.com/huddlie-200x200.png" />
+
+	
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script
+    src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+    integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+    crossorigin="anonymous"></script>
+
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css">
+	
+  <script src="/socket.io/socket.io.js"> </script>
+
+  <script src="https://simplewebrtc.com/latest-v2.js"></script> 
+  <script src="/assets/js/bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.11/css/all.css" integrity="sha384-p2jx59pefphTFIpeqCcISO9MdVfIm4pNnsL08A6v5vaQc4owkQqxMV8kg4Yvhaw/" crossorigin="anonymous">
+
+  <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css">
+	{{!-- <link rel="stylesheet" type="text/css" href="/assets/css/animate.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/font.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/li-scroller.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/slick.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/jquery.fancybox.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/theme.css"> --}}
+	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+	<link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+{{!--<style>
+  body {
+    margin-top: 20px;
+    width:98%;
+    margin-left: 1%;
+    /*background-color: #263154;*/
+    background-color: #3f4a68;
+  }
+
+  #container{
+    padding-top: 10px;
+    min-height: 80vh;
+    background-attachment: fixed,                           fixed,                          fixed;
+    background-image: linear-gradient(45deg, #82ccb9 5%, #589aa0 30%, #646fbc);
+    background-position: top left,                      center center,                  center center;
+    background-size: auto,                          cover,                          cover;
+  }
+
+  #searchResults{       
+      overflow: auto;
+  }
+
+  .catList {
+    text-align: left;
+    padding-left: 25%;
+    padding-right: 25%;
+  }
+
+  .catList .btn {
+    margin-bottom: 0px;
+    padding: 1px;
+    border: 0px;
+  }
+
+  .catList .topCat {
+    border-top: 1px;
+    border-top-color: #bbbbbb;
+    border-top-style: solid;
+  }
+
+  .catList li {
+    border-bottom: 1px;
+    border-bottom-color: #bbbbbb;
+    border-bottom-style: solid;
+  }
+
+  .product-box {
+      border: 1px solid #ddd;
+      float: left;
+      position: relative;
+      margin: 1% 1% 1% 1%;
+      font-family: Helvetica;
+      text-align: center;
+  }
+  .product-title h3{
+      margin: 2px 3px 0 2px;
+      min-width: 40px;
+      max-width: 200px;
+      font-size: 12px;
+      line-height: 15px;
+      color: #000;
+      position: relative;
+      text-align: center;
+      display: block;
+      overflow: hidden;
+      height: 45px;
+  }
+
+  .product-price {
+      text-align: center;
+      color: #900;/
+      font-weight: bold;
+  }
+
+  .product-image {
+     object-fit: contain;
+     padding-left: 20%;
+     max-width: 60%;
+     max-height: 260px;
+  }
+
+
+</style>--}}
+
+</head>
+<body>
+
+  <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0&appId=1881552072106664&autoLogAppEvents=1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script>
+    /*window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '483520168683057',
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v2.10'
+      });
+      // FB.AppEvents.logPageView(); 
+
+      // FB.getLoginStatus(function(response) {
+      //     statusChangeCallback(response);
+      // });  
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+*/
+
+
+    function sendButtonClicked(sendUrl){
+      console.log('send button clicked');
+      FB.ui({
+        method:'send',
+        link: sendUrl,
+      });
+    }
+
+    function sendButtonClicked2(sendUrl){
+      console.log('send button clicked');
+      FB.ui({
+        method:'share',
+        // quote:'This is  a test message',
+        href: sendUrl,
+      });
+    }
+
+    // function statusChangeCallback(response){
+    //   if(response.status === 'connected'){
+    //     setElements(true);
+    //     console.log('Logged in and authenticated');
+    //     testAPI();
+    //   } else {
+    //     setElements(false);
+    //     console.log('Not authenticated');
+    //   }
+    // }
+
+    // function checkLoginState() {
+    //   FB.getLoginStatus(function(response) {
+    //     statusChangeCallback(response);
+    //   });
+    // }
+
+    // function setElements(isLoggedIn){
+    //   if (isLoggedIn){
+    //     viewController('huddleOn');
+    //   } else {
+    //     viewController('huddleOff');
+    //   }
+    // }
+
+    // function fbLogout(){
+    //   console.log('logout clicked');
+    //   FB.logout(function(response){
+    //     setElements(false);
+    //   });
+    // }
+
+    // function testAPI(){
+    //   FB.api('/me/friends', function(response){
+    //     if (response && !response.err){
+    //       console.log(response);
+    //     }
+    //   });
+    // }
+
+  </script>
+
+
+
+
+	{{{ body }}}
+
+  
+</body>
+</html>

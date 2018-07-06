@@ -1,0 +1,1942 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var chatData = require('../app/models/chat');
+var amazonBrowseNodeTreeData = require('../app/models/amazonBrowseNodes');
+var amazonSearchCache = require('../app/models/amazonSearchCache.js');
+var amazonItemCache = require('../app/models/amazonItemCache.js');
+var shortFeedbackModel = require('../app/models/shortFeedback.js');
+var visitStatsModel = require('../app/models/visitStats.js');
+var collab = require('../app/models/collab.js');
+var debug = require('debug')('express1:server');
+var http = require('http');
+var https = require('https');
+var sockets = require('socket.io');
+var nodemailer = require('nodemailer');
+var xoauth2 = require('xoauth2');
+var fs = require('fs');
+var throttledQueue = require('throttled-queue');
+const amznhelper = require('apac');
+var uuid = require('uuid/v1');
+
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '8000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+if (process.env.IS_HEROKU){
+  var server = http.createServer(app);
+}
+else
+{
+  console.log('not heroku');
+  var options = {
+      key: fs.readFileSync('fake-keys/privatekey.pem'),
+      cert: fs.readFileSync('fake-keys/certificate.pem')
+  };
+  var server = https.createServer(options, app);
+}
+
+var io = sockets.listen(server, {
+    log: false,
+    origins: '*:*'
+});
+
+var piranhax = require("piranhax");
+var client2 = new piranhax("AKIAII56AVZJQGO7XU6A","ErzbxN+1dH93Qt3MlpyWOa9DvfnK26ywtuSp0mNW","huddlienc-21");
+client2.setLocale("IN");
+
+var client3 = new piranhax("AKIAII56AVZJQGO7XU6A","ErzbxN+1dH93Qt3MlpyWOa9DvfnK26ywtuSp0mNW","huddlienc-20");
+client3.setLocale("US");
+
+
+const apacClient1 = new amznhelper.OperationHelper({
+  awsId: 'AKIAII56AVZJQGO7XU6A',
+  awsSecret: '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',
+  assocId: 'huddlienc-21',
+  maxRequestsPerSecond: .5,
+  locale: 'IN'
+});
+
+const apacClient2 = new amznhelper.OperationHelper({
+  awsId: 'AKIAII56AVZJQGO7XU6A',
+  awsSecret: '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',
+  assocId: 'huddlienc-20',
+  maxRequestsPerSecond: .5,
+  locale: 'US'
+});
+
+var throttle = throttledQueue(1,2000); //at most 1 request per second.
+
+io.sockets.on('connection', function (socket) {
+    console.log('new user connection');
+    console.log(socket.id);
+
+    socket.on('newUser', function (data) {
+      console.log('newUser huddlieId: ');
+      console.log(data);
+
+      var huddlieId = '';
+      if (data && data.huddlieId && data.huddlieId != '')
+      {
+        huddlieId = data.huddlieId;
+        collab.getActiveWishlists({visitorId: huddlieId}, 0, getActiveWishlistsCB);
+      }
+      else
+      {
+        huddlieId = uuid();
+        socket.emit('setCookie',{cookieVal: huddlieId});
+      }
+
+      visitStatsModel.visitStart({huddlieId:huddlieId, socketId: socket.id}, 0, visitStartCB);
+    });
+
+    function getActiveWishlistsCB (isSuccess, attemptNumber, data)
+    {
+      if (isSuccess && isSuccess == true)
+      {
+        socket.emit('activeWishlists',{hasWishlists: true, wishlists: data});
+      }
+      else
+      {
+        if (attemptNumber && attemptNumber < 5)
+        {
+          collab.getActiveWishlists(data, attemptNumber, getActiveWishlistsCB);
+        }
+        else
+        {
+          socket.emit('activeWishlists',{hasWishlists: false});
+        }
+      }
+    }
+
+    function visitStartCB (isSuccess, attemptNumber, user){
+      if (isSuccess && isSuccess == true){
+
+      }
+      else
+      {
+        if (attemptNumber && attemptNumber < 5)
+        {
+          visitStatsModel.visitStart(user, attemptNumber, visitStartCB);
+        }
+      }
+    }
+
+    socket.on('createWishlistAndAddItemViewItem', function(data){
+      var wishlistId = uuid();
+      collab.createWishlistAndAddItem({visitorId:data.visitorId,
+                                        socketId:socket.id,
+                                        wishlistId:wishlistId,
+                                        wishlistName: data.wishlistName,
+                                        item: data.item
+                                      }, 0, createWishlistAndAddItemViewItemCB);
+    });
+
+    socket.on('insertWishlistItemViewItem', function(data){
+      collab.insertWishlistItem({visitorId: data.visitorId,
+                                  wishlistId: data.wishlistId,
+                                  item: data.item
+                                }, 0, insertWishlistItemViewItemCB);
+    });
+
+    function createWishlistAndAddItemViewItemCB (isSuccess, attemptNumber, data)
+    {
+      if (isSuccess && isSuccess == true)
+      {
+        socket.emit('createWishlistAndAddItemViewItemCB',{isSuccess:true, wishlist: data.wishlist});
+      }
+      else
+      {
+        if (attemptNumber && attemptNumber < 5)
+        {
+          collab.createWishlistAndAddItem(data, attemptNumber, createWishlistAndAddItemViewItemCB);
+        }
+        else
+        {
+          socket.emit('createWishlistAndAddItemViewItemCB', {isSuccess:false});
+        }
+      }
+    }
+
+    function insertWishlistItemViewItemCB (isSuccess, attemptNumber, data)
+    {
+      if (isSuccess && isSuccess == true)
+      {
+        socket.emit('insertWishlistItemViewItemCB',{isSuccess:true, wishlist: data.wishlist});
+      }
+      else
+      {
+        if (attemptNumber && attemptNumber < 5)
+        {
+          collab.insertWishlistItem(data, attemptNumber, insertWishlistItemViewItemCB);
+        }
+        else
+        {
+          socket.emit('insertWishlistItemViewItemCB', {isSuccess:false});
+        }
+      }
+    }
+
+    socket.on('itemSuggestedUpdateStats', function(data){
+      visitStatUpdateHandler({updateType:'sharedProductsCount'});
+      chatData.updateSharedProductsCount({chatId:data.chatId}, 0, chatSharedProductsCountUpdateCB);
+    });
+
+    function chatSharedProductsCountUpdateCB (isSuccess, attemptNumber, chat)
+    {
+      if (isSuccess && isSuccess == true){
+
+      }
+      else
+      {
+        if (attemptNumber && attemptNumber < 5)
+        {
+          chatData.updateSharedProductsCount(chat, attemptNumber, chatSharedProductsCountUpdateCB);
+        }
+      }
+    }
+
+    socket.on('visitStatUpdate', visitStatUpdateHandler);
+    function visitStatUpdateHandler (data){
+      console.log('visitstat update handler');
+      console.log(data);
+      switch(data.updateType) {
+        case 'view':
+          visitStatsModel.updateView({socketId: socket.id, 
+                                      updateType: 'view', 
+                                      currentView: data.currentView}, 0, visitStatUpdateCB);
+          break;
+        case 'sharedProductsCount':
+          visitStatsModel.updateSharedProductsCount({socketId: socket.id, 
+                                              updateType: 'sharedProductsCount'}, 0, visitStatUpdateCB);
+          break;
+        case 'cartCount':
+          visitStatsModel.updateCartCount({socketId: socket.id, 
+                                           updateType: 'cartCount'}, 0, visitStatUpdateCB);
+          break;
+        case 'checkOut':
+          visitStatsModel.updateCheckOut({socketId: socket.id, 
+                                          updateType: 'checkOut'}, 0, visitStatUpdateCB);
+          break;
+        case 'huddle':
+          visitStatsModel.updateHuddle({socketId: socket.id, 
+                                        updateType: 'huddle',
+                                        chatId: data.chatId,
+                                        initiator: data.initiator}, 0, visitStatUpdateCB);
+          break;
+      }
+    }
+
+    function visitStatUpdateCB (isSuccess, attemptNumber, user){
+      if (isSuccess && isSuccess == true){
+
+      }
+      else
+      {
+        if (attemptNumber && attemptNumber < 5)
+        {
+          switch(user.updateType) {
+            case 'view':
+              visitStatsModel.updateView(user, attemptNumber, visitStatUpdateCB);
+              break;
+            case 'sharedProductsCount':
+              visitStatsModel.updateSharedProductsCount(user, attemptNumber, visitStatUpdateCB);
+              break;
+            case 'cartCount':
+              visitStatsModel.updateCartCount(user, attemptNumber, visitStatUpdateCB);
+              break;
+            case 'checkOut':
+              visitStatsModel.updateCheckOut(user, attemptNumber, visitStatUpdateCB);
+              break;
+            case 'huddle':
+              visitStatsModel.updateHuddle(user, attemptNumber, visitStatUpdateCB);
+              break;
+          }
+
+        }
+      }
+    }
+
+    socket.on('initiateChat', initiateChat);
+    function initiateChat(data){
+      console.log(data.emails);
+      console.log(data.name);
+      var emailStatuses = '';
+      var len = data.emails.length
+
+      chatData.createChat({name: data.name, rmid: data.rmid, socketId: socket.id}, function(isSuccess, chatId){
+        if (isSuccess){
+          for (i=0; i<len; i++){
+            var emailId = data.emails[i];
+
+            var mailOptions = {
+                from: 'Huddlie <huddlie.com@gmail.com>',
+                to: emailId,
+                subject: 'Your friend '+data.name+' has invited you to shop with them!',
+                html: '<p>You have been invited by your friend '+data.name+' to shop online with them via Huddlie.<br/>Please click the link below to join your friend.<br/>'+
+                        '<a href="'+data.url+'">Huddlie</a></p>'
+            }
+
+            transporter.sendMail(mailOptions, function (err, res) {
+                if(err){
+                    emailStatuses += 'Email failed for '+emailId+'<br/>';
+                    console.log(emailStatuses);
+                } else {
+                    emailStatuses += 'Email successfully send to '+emailId+'<br/>';
+                    console.log(emailStatuses);
+                }
+            });
+          }
+
+          socket.join(chatId);
+          socket.emit('chatCreated', {isSuccess: true, chatId: chatId, emailStatuses: emailStatuses});
+
+          visitStatUpdateHandler({updateType:'huddle', chatId: chatId, initiator: true});
+        }
+        else
+        {
+          socket.emit('chatCreated',{isSuccess: false});
+        }
+      });
+    }
+    socket.on('joinChat', joinChat);
+    function joinChat(data){
+
+      chatData.joinChat({name: data.name, chatId: data.chatId, socketId: socket.id}, function(isSuccess, totalUsers){
+        if (isSuccess){
+          socket.emit('chatJoined', {isSuccess: true, totalUsers: totalUsers});
+
+          socket.join(data.chatId);
+          socket.to(data.chatId).emit('totalUsers', {totalUsers: totalUsers});
+
+          visitStatUpdateHandler({updateType:'huddle', chatId: data.chatId, initiator: false});
+
+          chatData.getChat(data.chatId, function(doc){
+            // console.log('After update:');
+            // console.log(doc);
+          });
+        }
+      });
+    }
+
+    socket.on('chatMessage', chatMessage);
+    function chatMessage(data){
+      chatData.newChatMessage({chatId: data.chatId, message: data.message}, function(isSuccess, chatHistory){
+        if (isSuccess){
+          io.in(data.chatId).emit('chatHistory', {chatHistory: chatHistory});
+        }
+      });
+    }
+    
+    socket.on('broadcastSharedTab', broadcastSharedTab);
+    function broadcastSharedTab(data){
+      chatData.updateSharedDiv({chatId: data.chatId, sharedDiv: data.storeDiv}, function(isSuccess){});
+      socket.to(data.chatId).emit('sharedDiv', {sharedDiv: data.storeDiv});
+    }
+
+    socket.on('sharedDivRequest', sharedDivRequest);
+    function sharedDivRequest(data){
+      chatData.getSharedDiv({chatId: data.chatId}, function(isSuccess, sharedDiv){
+        if (isSuccess){
+          socket.emit('sharedDivResponse', {isSuccess: true, sharedDiv: sharedDiv});
+        }
+      });
+    }
+
+    function getPathAndChildren (nodeId, nodeName, retailer){
+      amazonBrowseNodeTreeData.getNodePathAndChildren(nodeId, nodeName, retailer, function(isSuccess, path, children){
+        if (isSuccess){
+          socket.emit('getNodePathAndChildrenResponse', {isSuccess: isSuccess, nodeId: nodeId, nodeName: nodeName, path: path, children: children});
+        }
+      });
+    }
+
+    socket.on('getMultiLevel', function(data){
+      amazonBrowseNodeTreeData.getMultiLevel(data.nodeId, data.retailer, function(isSuccess, results, doc2){
+        if (isSuccess){
+          socket.emit('getMultiLevelResponse', {isSuccess: isSuccess, results: results, doc2: doc2});
+        }
+      });
+    });
+
+    function insertSearchCache(cac, attemptNumber){
+      if (attemptNumber < 5){
+        amazonSearchCache.insertCache(cac, function(isSuccess){
+          if (isSuccess != true){
+            var newAttemptNumber = attemptNumber-1;
+            insertSearchCache(cac, newAttemptNumber);
+          }
+        });
+      }
+    }
+
+    function insertItemCache(cac, attemptNumber){
+      if (attemptNumber < 5){
+        amazonItemCache.insertCache(cac, function(isSuccess){
+          if(isSuccess != true){
+            var newAttemptNumber = attemptNumber-1;
+            insertItemCache(cac, newAttemptNumber);
+          }
+        });
+      }
+    }
+
+    socket.on('searchParams', searchReq3);
+    function searchReq3(data){
+      if (data.retailer == 'IN' || data.retailer == 'US'){
+        if (data.retailer == 'IN'){
+          var client = apacClient1;
+        }
+        else
+        {
+          var client = apacClient2;
+        }
+
+        var pagenum = data.pagenum;
+        // var page2 = (data.pagenum*2);
+        // var page1 = (data.pagenum*2)-1;
+
+        var isNotInitialSearch = false;
+
+        if (pagenum == 1){
+          isNotInitialSearch = false;
+        }
+        else
+        {
+          isNotInitialSearch = true;
+        }
+
+        var searchResponseReturn = {
+            "dept":"",
+            "retailer":"",
+            "keywords":"",
+            "pagenum":"",
+            "browsenode":"",
+            "browsenodeName":"",
+            "minPrice":"",
+            "maxPrice":"",
+            "brand":"",
+            "displayBrands":[],
+            "discount":"",
+            "isNotInitialSearch": isNotInitialSearch,
+            "items":[]
+        }
+
+        var getBrowseNodeFromResults = false;
+
+        if (data.lookupBrowseNode && data.lookupBrowseNode == true && data.nodeId != '' && data.nodeName != ''){
+          
+          getPathAndChildren(data.nodeId, data.nodeName, data.retailer);
+        }
+        else {
+          getBrowseNodeFromResults = true;
+        }
+
+        var cac = {
+            "dept": data.dept,
+            "retailer": data.retailer,
+            "keyw": data.keyw,
+            "nodeId": data.nodeId,
+            "nodeName": data.nodeName,
+            "pagenum": data.pagenum,
+            "minPrice": data.minPrice,
+            "maxPrice": data.maxPrice,
+            "brand": data.brand,
+            "discount": data.discount
+        }
+
+        //check if products already exist.
+        amazonSearchCache.getOneCache(cac, function(isSuccess, doc){
+          if (isSuccess == true){
+            
+            console.log('search got from database');
+            searchResponseReturn.dept = doc.dept;
+            searchResponseReturn.retailer = doc.retailer;
+            searchResponseReturn.keywords = doc.keyw;
+            searchResponseReturn.pagenum = doc.pagenum;
+
+            if (getBrowseNodeFromResults == true){
+              searchResponseReturn.browsenode = doc.returnNodeId;
+              searchResponseReturn.browsenodeName = doc.returnNodeName;
+
+              if (doc.returnNodeId && doc.returnNodeId != '' && doc.returnNodeName && doc.returnNodeName != ''){
+                getPathAndChildren(doc.returnNodeId, doc.returnNodeName, doc.retailer);
+              }
+            }
+            else
+            {
+              searchResponseReturn.browsenode = doc.nodeId;
+              searchResponseReturn.browsenodeName = doc.nodeName; 
+            }
+            
+            searchResponseReturn.minPrice = doc.minPrice;
+            searchResponseReturn.maxPrice = doc.maxPrice;
+            searchResponseReturn.brand = doc.brand;
+            searchResponseReturn.displayBrands = doc.displayBrands;
+            searchResponseReturn.discount = doc.discount;
+            searchResponseReturn.items = doc.searchResponseItems;
+
+            socket.emit('searchResult', {isNewSearch: false, searchResponse:searchResponseReturn, rawsearchResponse:''});
+          }
+          //make live request.
+          else
+          {
+            
+            var cac2 = {
+                "dept": data.dept,
+                "retailer": data.retailer,
+                "keyw": data.keyw,
+                "nodeId": data.nodeId,
+                "nodeName": data.nodeName,
+                "pagenum": data.pagenum,
+                "minPrice": data.minPrice,
+                "maxPrice": data.maxPrice,
+                "brand": data.brand,
+                "displayBrands":[],
+                "discount": data.discount,
+                "isNodeBase": false,
+                "searchResponseItems": [],
+                "returnNodeId":"",
+                "returnNodeName":""
+            }
+
+            client.execute('ItemSearch',{
+              'SearchIndex': data.dept,
+              'BrowseNode': data.nodeId,
+              'Keywords': data.keyw,
+              'MinimumPrice': data.minPrice,
+              'MaximumPrice': data.maxPrice,
+              'Brand': data.brand,
+              "MinPercentageOff": data.discount,
+              'ItemPage': pagenum,
+              'ResponseGroup': 'Small,BrowseNodes,Images,ItemAttributes,Offers,Similarities,Variations'
+            }).then((response) => {
+              //socket.emit('searchResult2',{response:response});
+              socket.emit('printResponse', {response:response});
+              if (response && response.result && response.result.ItemSearchErrorResponse){
+                console.log('error'+data.maxCallCount);
+                console.log(response.result.ItemSearchErrorResponse);
+                
+                data.maxCallCount = data.maxCallCount - 1;
+                console.log('new Callcount = '+data.maxCallCount);
+
+                if (parseInt(data.maxCallCount) > 0){
+                  setTimeout(function () {searchReq3(data)}, 5000);
+                }
+                else
+                {
+                  socket.emit('searchResult', {failed:true, ItemSearchErrorResponse: response.result.ItemSearchErrorResponse});
+                }
+              }
+              else if (response && response.result && response.result.ItemSearchResponse){
+                console.log('callCount = '+data.maxCallCount);
+                var searchResponse = response.result.ItemSearchResponse;
+
+                  searchResponseReturn.dept = data.dept;
+                  searchResponseReturn.retailer = data.retailer;
+                  searchResponseReturn.keywords = data.keyw;
+                  searchResponseReturn.pagenum = pagenum;
+                  searchResponseReturn.browsenode = data.nodeId;
+                  searchResponseReturn.browsenodeName = data.nodeName;
+                  searchResponseReturn.minPrice = data.minPrice;
+                  searchResponseReturn.maxPrice = data.maxPrice;
+                  searchResponseReturn.brand = data.brand;
+                  searchResponseReturn.discount = data.discount;
+
+                  var browseNodeList = [];
+                  var displayBrands = [];
+
+                  for (i=0; i<searchResponse.Items.Item.length; i++){
+                      var arrayItem = {
+                          "ASIN":"",
+                          "displayASIN": "",
+                          "brand":"",
+                          "imageURL":"",
+                          "isEligibleForPrime": false,
+                          "price":"",
+                          "title":"",
+                          "similarItems":"",
+                          "percentageSaved":"",
+                          "priceAmount":""
+                      }
+
+                      var item = searchResponse.Items.Item[i];
+                      var itemBrowseNodeList = [];
+
+                      if (getBrowseNodeFromResults){
+                        if (item.BrowseNodes && item.BrowseNodes.BrowseNode
+                              && item.BrowseNodes.BrowseNode.BrowseNodeId && item.BrowseNodes.BrowseNode.Name){
+                          itemBrowseNodeList.push(
+                                {
+                                  nodeId: item.BrowseNodes.BrowseNode.BrowseNodeId,
+                                  nodeName: item.BrowseNodes.BrowseNode.Name
+                                });
+
+                          if (item.BrowseNodes.BrowseNode.Ancestors){
+                            var currentNode = item.BrowseNodes.BrowseNode;
+
+                            while (currentNode.Ancestors){
+                              if (currentNode.Ancestors && currentNode.Ancestors.BrowseNode){
+                                currentNode = currentNode.Ancestors.BrowseNode;
+
+                                if (currentNode.BrowseNodeId && currentNode.Name){
+                                  itemBrowseNodeList.push(
+                                      {
+                                        nodeId: currentNode.BrowseNodeId,
+                                        nodeName: currentNode.Name
+                                      });
+                                }
+                              }
+                            }
+                          }
+                        }                    
+                      }
+
+                      if (itemBrowseNodeList.length > 0){
+                        browseNodeList.push(itemBrowseNodeList);
+                      }
+
+
+                      if (item.ParentASIN){
+                        arrayItem.ASIN = item.ParentASIN;
+                        arrayItem.displayASIN = item.ASIN;
+                      }
+                      else
+                      {
+                        arrayItem.ASIN = item.ASIN; 
+                        arrayItem.displayASIN = item.ASIN;
+                      }
+
+                      //BEGIN SIMILAR PRODUCTS
+
+                      if (item.SimilarProducts && item.SimilarProducts.SimilarProduct && item.SimilarProducts.SimilarProduct.constructor === Array){
+                        var similarItems = '';
+                        for (x=0;x<item.SimilarProducts.SimilarProduct.length;x++){
+                          if (x >  5){
+                            break;
+                          }
+
+                          if (item.SimilarProducts.SimilarProduct[x].ASIN){
+                            if (similarItems != ''){
+                              similarItems+=',';
+                            }
+                            similarItems += item.SimilarProducts.SimilarProduct[x].ASIN;
+                          }
+                        }
+
+                        arrayItem.similarItems = similarItems;
+                      }
+
+                      //END SIMILAR PRODUCTS
+
+                      // BEGIN PERCENTAGE SAVED
+                      if (item.Offers && item.Offers.Offer && item.Offers.Offer.OfferListing
+                            && item.Offers.Offer.OfferListing.PercentageSaved){
+                        arrayItem.percentageSaved = item.Offers.Offer.OfferListing.PercentageSaved;
+                      }
+                      // END PERCENTAGE SAVED
+
+                      //BEGIN PRICE
+                      if (item.Offers && item.Offers.Offer && item.Offers.Offer.OfferListing && item.Offers.Offer.OfferListing.SalePrice
+                                && item.Offers.Offer.OfferListing.SalePrice.FormattedPrice){
+                          
+                          arrayItem.price = item.Offers.Offer.OfferListing.SalePrice.FormattedPrice;
+                          
+                          if (item.Offers.Offer.OfferListing.IsEligibleForPrime == 1){
+                              arrayItem.isEligibleForPrime = true;
+                          }
+ 
+                          if (item.Offers.Offer.OfferListing.SalePrice.Amount){
+                            arrayItem.priceAmount = item.Offers.Offer.OfferListing.SalePrice.Amount;
+                          }
+                      } 
+                      else if (item.Offers && item.Offers.Offer && item.Offers.Offer.OfferListing && item.Offers.Offer.OfferListing.Price
+                                && item.Offers.Offer.OfferListing.Price.FormattedPrice){
+                          
+                          arrayItem.price = item.Offers.Offer.OfferListing.Price.FormattedPrice;
+                          
+                          if (item.Offers.Offer.OfferListing.IsEligibleForPrime == 1){
+                              arrayItem.isEligibleForPrime = true;
+                          }
+
+                          if (item.Offers.Offer.OfferListing.Price.Amount){
+                              arrayItem.priceAmount = item.Offers.Offer.OfferListing.Price.Amount;
+                          }
+                      }
+                      else if (item.Variations && item.Variations.Item && item.Variations.Item.constructor === Array && item.Variations.Item[0]
+                            && item.Variations.Item[0].Offers && item.Variations.Item[0].Offers.Offer && item.Variations.Item[0].Offers.Offer.OfferListing
+                            && item.Variations.Item[0].Offers.Offer.OfferListing.SalePrice && item.Variations.Item[0].Offers.Offer.OfferListing.SalePrice.FormattedPrice){
+                          
+                          arrayItem.price = item.Variations.Item[0].Offers.Offer.OfferListing.SalePrice.FormattedPrice;
+                          
+                          if (item.Variations.Item[0].Offers.Offer.OfferListing.IsEligibleForPrime == 1){
+                              arrayItem.isEligibleForPrime = true;
+                          }
+
+                          if (item.Variations.Item[0].Offers.Offer.OfferListing.SalePrice.Amount){
+                            arrayItem.priceAmount = item.Variations.Item[0].Offers.Offer.OfferListing.SalePrice.Amount;
+                          }
+                      }
+                      else if (item.Variations && item.Variations.Item && item.Variations.Item.constructor === Array && item.Variations.Item[0]
+                            && item.Variations.Item[0].Offers && item.Variations.Item[0].Offers.Offer && item.Variations.Item[0].Offers.Offer.OfferListing
+                            && item.Variations.Item[0].Offers.Offer.OfferListing.Price && item.Variations.Item[0].Offers.Offer.OfferListing.Price.FormattedPrice){
+                          
+                          arrayItem.price = item.Variations.Item[0].Offers.Offer.OfferListing.Price.FormattedPrice;
+                          
+                          if (item.Variations.Item[0].Offers.Offer.OfferListing.IsEligibleForPrime == 1){
+                              arrayItem.isEligibleForPrime = true;
+                          }
+
+                          if (item.Variations.Item[0].Offers.Offer.OfferListing.Price.Amount){
+                            arrayItem.priceAmount = item.Variations.Item[0].Offers.Offer.OfferListing.Price.Amount;
+                          }
+                      }
+                      // END PRICE
+
+                      // START IMAGE
+
+                      if (item.LargeImage && item.LargeImage.URL){
+                          arrayItem.imageURL = item.LargeImage.URL;
+                      }
+                      else if (item.MediumImage && item.MediumImage.URL){
+                          arrayItem.imageURL = item.MediumImage.URL;
+                      }
+                      else if (item.ImageSets && item.ImageSets.ImageSet){
+                          if (item.ImageSets.ImageSet.constructor === Array && item.ImageSets.ImageSet[0] && item.ImageSets.ImageSet[0].MediumImage && item.ImageSets.ImageSet[0].MediumImage.URL){
+                              arrayItem.imageURL = item.ImageSets.ImageSet[0].MediumImage.URL;
+                          } 
+                          else if (item.ImageSets.ImageSet.MediumImage && item.ImageSets.ImageSet.MediumImage.URL){
+                              arrayItem.imageURL = item.ImageSets.ImageSet.MediumImage.URL;
+                          }    
+                      }
+                      else if (item.Variations && item.Variations.Item && item.Variations.Item.constructor === Array) {
+                          for (t=0; t < item.Variations.Item.length; t++){
+                              if (item.Variations.Item[t].MediumImage){
+                                  arrayItem.imageURL = item.Variations.Item[t].MediumImage.URL;
+                                  break;
+                              }
+                          }
+                      }
+                      // END IMAGE
+
+                      // BEGIN TITLE & BRAND
+                      if (item.ItemAttributes){
+                          if (item.ItemAttributes.Title){
+                              arrayItem.title = item.ItemAttributes.Title;
+                          }
+                          if (item.ItemAttributes.Brand){
+                              arrayItem.brand = item.ItemAttributes.Brand;
+                              
+                              var brandExists = false;
+
+                              for(index = 0; index < displayBrands.length; index++){
+                                if(displayBrands[index] == item.ItemAttributes.Brand){
+                                  brandExists = true;
+                                  break;
+                                }
+                              }
+
+                              if (brandExists == false){
+                                displayBrands.push(item.ItemAttributes.Brand);
+                              }
+                          }
+                      }
+                      // END TITLE & BRAND
+
+                      searchResponseReturn.items.push(arrayItem);
+                  }
+
+                  cac2.searchResponseItems = searchResponseReturn.items;
+
+                  if (getBrowseNodeFromResults == true && browseNodeList.length > 0){
+                    if (browseNodeList.length == 1){
+                      if (browseNodeList[0].length > 0){
+                        getPathAndChildren(browseNodeList[0][0].nodeId, browseNodeList[0][0].nodeName, data.retailer);
+                        cac2.returnNodeId = browseNodeList[0][0].nodeId;
+                        cac2.returnNodeName = browseNodeList[0][0].nodeName;
+                      }
+                    }
+                    else
+                    {
+                      var iterator = [];
+                      var foundNodeId = false;
+                      var browseNode = {
+                          nodeId: "",
+                          nodeName: ""
+                      }
+                      for (i=0; i<browseNodeList.length; i++){
+                        if (browseNodeList[i].length > 0){
+                          iterator = browseNodeList[i];
+                          break;
+                        }
+                      }
+
+                      for (i=0; i<iterator.length; i++){
+                        var innerNode = iterator[i];
+
+                        if (!foundNodeId){
+                          if (innerNode.nodeId && innerNode.nodeName){
+                            var counter = 0;
+
+                            for (x=0; x<browseNodeList.length; x++){
+                              var innerList = browseNodeList[x];
+                              for (y=0; y<innerList.length; y++){
+                                var compareNode = innerList[y];
+
+                                if (compareNode.nodeId && compareNode.nodeName 
+                                      && compareNode.nodeId == innerNode.nodeId
+                                      && compareNode.nodeName == innerNode.nodeName){
+                                  counter++;
+                                  break;
+                                }
+                              }
+                            }
+
+                            // if (counter == browseNodeList.length){
+                            if (counter > 1){
+                              browseNode.nodeId = innerNode.nodeId;
+                              browseNode.nodeName = innerNode.nodeName;
+                              foundNodeId = true;
+                              break;
+                            }
+                          }
+                        }
+                        else
+                        {
+                          break;
+                        }
+                      }
+
+                      if (browseNode.nodeId != '' && browseNode.nodeName != ''){
+                        console.log('yes, foung it!');
+                        getPathAndChildren(browseNode.nodeId, browseNode.nodeName, data.retailer);
+                        cac2.returnNodeId = browseNode.nodeId;
+                        cac2.returnNodeName = browseNode.nodeName;
+                      }
+                    }
+                  }
+
+                  if (data.displayBrands && data.displayBrands != ''){
+                    displayBrands = JSON.parse(data.displayBrands);
+                  }
+
+                  searchResponseReturn.displayBrands = displayBrands;
+                  cac2.displayBrands = displayBrands;
+
+                  socket.emit('searchResult', {isNewSearch: true, searchResponse:searchResponseReturn, rawsearchResponse:searchResponse});
+                  // socket.emit('searchResult2', {searchResponse:searchResponseReturn});
+
+                  insertSearchCache(cac2, 0);
+              }
+
+
+            }).catch((err) =>{
+              console.log('catch error'+data.maxCallCount);
+              console.log(err);
+              
+              data.maxCallCount = data.maxCallCount - 1;
+              console.log('new Callcount = '+data.maxCallCount);
+
+              if (parseInt(data.maxCallCount) > 0){
+                setTimeout(function () {searchReq3(data)}, 5000);
+              }
+              else
+              {
+                socket.emit('searchResult', {failed:true});
+              }
+            });
+          }
+        });
+
+        
+      }
+    }
+
+    socket.on('itemLookup', itemLookupReqNew);
+
+    function itemLookupReqNew(data){
+      if (data.retailer == 'IN' || data.retailer == 'US'){
+        if (data.retailer == 'IN'){
+          var client = apacClient1;
+        }
+        else
+        {
+          var client = apacClient2;
+        }
+
+        var paramASIN = data.itemASIN;
+
+        if (data.itemASIN && data.itemASIN != '' && data.similarItems && data.similarItems != ''){
+          paramASIN = data.itemASIN + ',' + data.similarItems;
+        }
+
+        var cac = {
+          'retailer': data.retailer,
+          'itemId': data.itemASIN
+        }
+
+        amazonItemCache.getOneCache(cac, function(isSuccess, doc){
+          if (isSuccess == true){
+            
+            console.log('item got from database');
+            
+            socket.emit('itemLookupResult', {isNewSearch: false, 
+                                              similarItems: doc.similarItems,
+                                              mapVariations: doc.mapVariations,
+                                              allVariations: doc.allVariations,
+                                              parentItem: doc.parentItem}); 
+          }
+          else
+          {
+            client.execute('ItemLookup',{
+              'ItemId': paramASIN,
+              'IdType': 'ASIN',
+              'ResponseGroup': 'Images,ItemAttributes,OfferFull,OfferSummary,Reviews,SalesRank,Similarities,Variations'
+            }).then((res) => {
+              socket.emit('printResponse', {response:res});
+              if (res && res.result && res.result.ItemLookupErrorResponse){
+                console.log('error'+data.maxCallCount);
+                console.log(res.result.ItemLookupErrorResponse);
+                
+                data.maxCallCount = data.maxCallCount - 1;
+                console.log('new Callcount = '+data.maxCallCount);
+
+                if (parseInt(data.maxCallCount) > 0){
+                  setTimeout(function () {itemLookupReqNew(data)}, 5000);
+                }
+                else
+                {
+                  socket.emit('itemLookupResult', {failed:true, ItemLookupErrorResponse: response.result.ItemSearchErrorResponse});
+                }
+              }
+              else if (res && res.result && res.result.ItemLookupResponse){
+                var response = res.result.ItemLookupResponse;
+                console.log('here');
+                socket.emit('printResponse', {response:response});
+
+                if (response && response.Items && response.Items.Item){
+                  var items = [];
+
+                  if (response.Items.Item.constructor === Array){
+                    items = response.Items.Item;
+                  }
+                  else {
+                    items = [response.Items.Item];
+                  }
+
+                  //BEGIN MAP VARIATIONS
+                  var mapVariations = [];
+
+                  //END MAP VARIATIONS
+
+                  var allVariations = [];
+                  var similarItems = [];
+
+                  var parentItem = {
+                    "ASIN":data.itemASIN,
+                    "displayASIN":data.displayASIN,
+                    "hasReviews":false,
+                    "reviewIFrameURL":"",
+                    "title":"",
+                    "maxQty":"0",
+                    "needMapping":false,
+                    "mainVariationDim":"",
+                    "secVariationDim":"",
+                    "features":[],
+                    "isVariationParent": false,
+                            "merchantName":"",
+                            "listPrice":"",
+                            "isFulfilled":false,
+                            "isEligibleForPrime":false,
+                            "offerListingId":"",
+                            "availability":"", 
+                            "percentageSaved":"",
+                            "offerPrice":"",
+                            "amountSaved":"",
+                            "mainImgURL":"",
+                            "isItemAvailable":false,
+                            "altImgList":[]  
+                  }
+
+                  for (i=0; i<items.length; i++){
+                    var item = items[i];
+
+                    if (item.ASIN && item.ASIN == data.itemASIN){
+                      // PARENT ITEM INFO
+                      // CUST REVIEWS
+                      if (item.CustomerReviews && item.CustomerReviews.HasReviews && item.CustomerReviews.HasReviews == "true"){
+                        parentItem.hasReviews = true;
+                        parentItem.reviewIFrameURL = item.CustomerReviews.IFrameURL;
+                      }
+
+                      // TITLE & FEATURES
+                      if (item.ItemAttributes){
+                        if (item.ItemAttributes.Title){
+                          parentItem.title = item.ItemAttributes.Title;
+                        }
+                        if (item.ItemAttributes.Feature && item.ItemAttributes.Feature.constructor === Array){
+                          parentItem.features = item.ItemAttributes.Feature;
+                        }
+                      }
+
+                      // MAXQTY
+                      if (item.OfferSummary && item.OfferSummary.TotalNew && item.OfferSummary.TotalNew != '0') {
+                        parentItem.maxQty = item.OfferSummary.TotalNew;
+                      }
+                      //END PARENT ITEM INFO
+
+                      // if VARIATION PARENT
+                      if (item.VariationSummary){
+                        parentItem.isVariationParent = true;
+
+                        if (item.VariationSummary && item.VariationSummary.LowestPrice && item.VariationSummary.LowestPrice.FormattedPrice
+                            && item.VariationSummary && item.VariationSummary.HighestPrice && item.VariationSummary.HighestPrice.FormattedPrice){
+                          parentItem.listPrice = item.VariationSummary.LowestPrice.FormattedPrice + ' - ' +
+                                                    item.VariationSummary.HighestPrice.FormattedPrice;
+                        }
+
+                        // START IMAGE
+
+                        if (item.LargeImage && item.LargeImage.URL){
+                            parentItem.mainImgURL = item.LargeImage.URL;
+                        }
+                        else if (item.MediumImage && item.MediumImage.URL){
+                            parentItem.mainImgURL = item.MediumImage.URL;
+                        }
+                        else if (item.ImageSets && item.ImageSets.ImageSet){
+                            if (item.ImageSets.ImageSet.constructor === Array && item.ImageSets.ImageSet[0] && 
+                                      item.ImageSets.ImageSet[0].MediumImage && item.ImageSets.ImageSet[0].MediumImage.URL){
+                                parentItem.mainImgURL = item.ImageSets.ImageSet[0].MediumImage.URL;
+                            } 
+                            else if (item.ImageSets.ImageSet.MediumImage && item.ImageSets.ImageSet.MediumImage.URL){
+                                parentItem.mainImgURL = item.ImageSets.ImageSet.MediumImage.URL;
+                            }    
+                        }
+
+                        if (parentItem.mainImgURL != ''){
+                          parentItem.altImgList.push(parentItem.mainImgURL);
+                        }
+                        // END IMAGE
+
+                        // ALT IMAGES
+
+                        if (item.ImageSets && item.ImageSets.ImageSet && item.ImageSets.ImageSet.constructor === Array){
+                          var count = 0;
+                          for (y2=0; y2<item.ImageSets.ImageSet.length; y2++){
+                            if (count==6){
+                              break;
+                            }
+
+                            var iterator = item.ImageSets.ImageSet[y2];
+
+                            if (iterator.LargeImage && iterator.LargeImage.URL && 
+                                        iterator.LargeImage.URL != parentItem.mainImgURL){
+                              parentItem.altImgList.push(iterator.LargeImage.URL);
+                              count++;
+                            }
+                          }
+                        }
+
+                        // END ALT IMAGES
+                      }
+                      //END if VARIATION PARENT
+
+                      //VARIATION INFO
+
+                      if (item.Variations && item.Variations.Item){
+
+                        var needMapping = false;
+                        var mainVariationDim = "";
+                        var secVariationDim = "";
+
+                        if (item.Variations.VariationDimensions && item.Variations.VariationDimensions.VariationDimension
+                              && item.Variations.VariationDimensions.VariationDimension.constructor === Array){
+                          var variationDimensions = item.Variations.VariationDimensions.VariationDimension;
+
+                          if (variationDimensions.length == 1){
+                            parentItem.mainVariationDim = variationDimensions[0];
+                            parentItem.needMapping = false;
+
+                            needMapping = false;
+                            mainVariationDim = variationDimensions[0];
+                          }
+                          else if (variationDimensions.length == 2){
+                            var hasColor = false;
+                            var colorIndex = 0;
+                            var nonColorIndex = 0;
+
+                            for(t=0; t<2; t++){
+                              if(variationDimensions[t] == 'Color'){
+                                colorIndex = t;
+                                hasColor = true;
+
+                                if (t == 0){
+                                  nonColorIndex = 1;
+                                }
+                                else {
+                                  nonColorIndex = 0;
+                                }
+                              }
+                            }
+
+                            if (hasColor == true){
+                              parentItem.mainVariationDim = variationDimensions[colorIndex];
+                              parentItem.secVariationDim = variationDimensions[nonColorIndex];
+                              parentItem.needMapping = true; 
+
+                              needMapping = false;
+                              mainVariationDim = variationDimensions[colorIndex];
+                              secVariationDim = variationDimensions[nonColorIndex];
+                            }
+                            else
+                            {
+                              parentItem.mainVariationDim = variationDimensions[0];
+                              parentItem.secVariationDim = variationDimensions[1];
+                              parentItem.needMapping = true; 
+
+                              needMapping = false;
+                              mainVariationDim = variationDimensions[0];
+                              secVariationDim = variationDimensions[1];
+                            }
+                          }
+
+                        }
+                        else if (item.Variations.VariationDimensions && item.Variations.VariationDimensions.VariationDimension){
+                          var variationDimension = item.Variations.VariationDimensions.VariationDimension;
+
+                          if (variationDimension == 'Color'){
+                            parentItem.mainVariationDim = variationDimension;
+                            parentItem.needMapping = false;
+
+                            needMapping = false;
+                            mainVariationDim = variationDimension;   
+                          }
+                          else
+                          {
+                            parentItem.mainVariationDim = 'Color';
+                            parentItem.secVariationDim = variationDimension;
+                            parentItem.needMapping = true;
+
+                            needMapping = true;
+                            mainVariationDim = 'Color'; 
+                            secVariationDim = variationDimension;
+                          }
+
+                          
+                        }
+
+                        var variationsArray;
+
+                        if (item.Variations.Item.constructor === Array){
+                          variationsArray = item.Variations.Item;
+                        }
+                        else
+                        {
+                          variationsArray = [item.Variations.Item];
+                        }
+
+                        for (x=0; x<variationsArray.length; x++){
+
+                          var vItem = variationsArray[x];
+
+                          var variationItem = {
+                            "ASIN":"",//done
+                            "merchantName":"",//done
+                            "listPrice":"",//done
+                            "isFulfilled":false, //done
+                            "isEligibleForPrime":false, //done
+                            "offerListingId":"",//done
+                            "availability":"", //done
+                            "percentageSaved":"",//done
+                            "offerPrice":"",//done
+                            "amountSaved":"",//done
+                            "mainImgURL":"",//done
+                            "isItemAvailable":false,//done
+                            "altImgList":[],//done
+                            "mainDimVal":"",
+                            "secDimVal":""
+                          }
+
+                          if (vItem.ASIN){
+                            variationItem.ASIN = vItem.ASIN;
+                          }
+
+                          if (vItem.ItemAttributes && vItem.ItemAttributes.ListPrice && vItem.ItemAttributes.ListPrice.FormattedPrice){
+                            variationItem.listPrice = vItem.ItemAttributes.ListPrice.FormattedPrice;
+                          }
+
+                          if (vItem.Offers && vItem.Offers.Offer && vItem.Offers.Offer.Merchant && vItem.Offers.Offer.Merchant.Name){
+                            variationItem.merchantName = vItem.Offers.Offer.Merchant.Name;
+                          }
+
+                          if (vItem.Offers && vItem.Offers.Offer && vItem.Offers.Offer.OfferListing){
+                            variationItem.isItemAvailable = true;
+
+                            if (vItem.Offers.Offer.OfferListing.OfferListingId){
+                                variationItem.offerListingId = vItem.Offers.Offer.OfferListing.OfferListingId;
+                            }                    
+
+                            if (vItem.Offers.Offer.OfferListing.IsEligibleForSuperSaverShipping && 
+                                  vItem.Offers.Offer.OfferListing.IsEligibleForSuperSaverShipping == '1'){
+                                variationItem.isFulfilled = true;
+                            }
+
+                            if (vItem.Offers.Offer.OfferListing.IsEligibleForPrime && 
+                                  vItem.Offers.Offer.OfferListing.IsEligibleForPrime == '1'){
+                                variationItem.isEligibleForPrime = true;
+                            }
+     
+                            if (vItem.Offers.Offer.OfferListing.Availability){
+                                variationItem.availability = vItem.Offers.Offer.OfferListing.Availability;
+                            }
+
+                            if (vItem.Offers.Offer.OfferListing.PercentageSaved){
+                                variationItem.percentageSaved = vItem.Offers.Offer.OfferListing.PercentageSaved;
+                            }
+
+                            if (vItem.Offers.Offer.OfferListing.Price && vItem.Offers.Offer.OfferListing.Price.FormattedPrice){
+                                variationItem.offerPrice = vItem.Offers.Offer.OfferListing.Price.FormattedPrice;
+                            }
+
+                            if (vItem.Offers.Offer.OfferListing.SalePrice && vItem.Offers.Offer.OfferListing.SalePrice.FormattedPrice){
+                                variationItem.offerPrice = vItem.Offers.Offer.OfferListing.SalePrice.FormattedPrice;
+                            }
+
+                            if (vItem.Offers.Offer.OfferListing.AmountSaved && vItem.Offers.Offer.OfferListing.AmountSaved.FormattedPrice){
+                                variationItem.amountSaved = vItem.Offers.Offer.OfferListing.AmountSaved.FormattedPrice;
+                            }
+                          }
+
+
+                          // START IMAGE
+
+                          if (vItem.LargeImage && vItem.LargeImage.URL){
+                              variationItem.mainImgURL = vItem.LargeImage.URL;
+                          }
+                          else if (vItem.MediumImage && vItem.MediumImage.URL){
+                              variationItem.mainImgURL = vItem.MediumImage.URL;
+                          }
+                          else if (vItem.ImageSets && vItem.ImageSets.ImageSet){
+                              if (vItem.ImageSets.ImageSet.constructor === Array && vItem.ImageSets.ImageSet[0] && 
+                                        vItem.ImageSets.ImageSet[0].MediumImage && vItem.ImageSets.ImageSet[0].MediumImage.URL){
+                                  variationItem.mainImgURL = vItem.ImageSets.ImageSet[0].MediumImage.URL;
+                              } 
+                              else if (vItem.ImageSets.ImageSet.MediumImage && vItem.ImageSets.ImageSet.MediumImage.URL){
+                                  variationItem.mainImgURL = vItem.ImageSets.ImageSet.MediumImage.URL;
+                              }    
+                          }
+
+                          if (variationItem.mainImgURL != ''){
+                            variationItem.altImgList.push(variationItem.mainImgURL);
+                          }
+                          // END IMAGE
+
+                          // ALT IMAGES
+
+                          if (vItem.ImageSets && vItem.ImageSets.ImageSet && vItem.ImageSets.ImageSet.constructor === Array){
+                            var count = 0;
+                            for (y=0; y<vItem.ImageSets.ImageSet.length; y++){
+                              if (count==6){
+                                break;
+                              }
+
+                              var iterator = vItem.ImageSets.ImageSet[y];
+
+                              if (iterator.LargeImage && iterator.LargeImage.URL && 
+                                          iterator.LargeImage.URL != variationItem.mainImgURL){
+                                variationItem.altImgList.push(iterator.LargeImage.URL);
+                                count++;
+                              }
+                            }
+
+                            if (parentItem.mainImgURL == ''){
+                              parentItem.mainImgURL = variationItem.mainImgURL;
+                              parentItem.altImgList = variationItem.altImgList;
+                            }
+                          }
+
+                          // END ALT IMAGES
+
+
+                          // MAP VARIATIONS
+                          if (vItem.VariationAttributes && vItem.VariationAttributes.VariationAttribute){
+                            if (vItem.VariationAttributes.VariationAttribute.constructor === Array){
+                              var secDimItem = {
+                                "secDimName":"",
+                                "secDimVal":"",
+                                "ASIN":""
+                              }
+
+                              for(y=0;y<vItem.VariationAttributes.VariationAttribute.length; y++){
+                                var iterator = vItem.VariationAttributes.VariationAttribute[y];
+
+                                if (iterator.Name && iterator.Name == secVariationDim){
+                                  secDimItem.secDimName = iterator.Name;
+                                  secDimItem.secDimVal = iterator.Value;
+                                  secDimItem.ASIN = vItem.ASIN;
+
+                                  variationItem.secDimVal = iterator.Value;
+                                }
+                              }
+
+                              for(y=0; y<vItem.VariationAttributes.VariationAttribute.length; y++){
+                                var iterator = vItem.VariationAttributes.VariationAttribute[y];
+
+                                if (iterator.Name && iterator.Name == mainVariationDim){
+                                  var dimExists = false;
+
+                                  for(z=0; z<mapVariations.length; z++){
+                                    if (mapVariations[z].mainDimVal == iterator.Value){
+
+                                      variationItem.mainDimVal = iterator.Value;
+                                      mapVariations[z].secDimItems.push(secDimItem);
+
+                                      dimExists = true;
+                                      break;
+                                    }
+                                  }
+
+                                  if (dimExists == false){
+                                    var mainDimItem = {
+                                      "mainDimName":"",
+                                      "mainDimVal":"",
+                                      "imgURL":"",
+                                      "ASIN":"",
+                                      "secDimItems":[]
+                                    }
+
+                                    variationItem.mainDimVal = iterator.Value;
+
+                                    mainDimItem.mainDimName = iterator.Name;
+                                    mainDimItem.mainDimVal = iterator.Value;
+                                    mainDimItem.imgURL = variationItem.mainImgURL; 
+                                    mainDimItem.secDimItems.push(secDimItem);
+
+                                    mapVariations.push(mainDimItem);
+                                  }
+                                }
+                              }
+                            }
+                            else
+                            {
+                              if (vItem.VariationAttributes.VariationAttribute.Name == 'Color'){
+                                var mainDimItem = {
+                                  "mainDimName":"",
+                                  "mainDimVal":"",
+                                  "imgURL":"",
+                                  "ASIN":"",
+                                  "secDimItems":[]
+                                }
+
+                                mainDimItem.mainDimName = vItem.VariationAttributes.VariationAttribute.Name;
+                                mainDimItem.mainDimVal = vItem.VariationAttributes.VariationAttribute.Value;
+                                mainDimItem.imgURL = variationItem.mainImgURL;
+                                mainDimItem.ASIN = variationItem.ASIN;
+
+                                variationItem.mainDimVal = vItem.VariationAttributes.VariationAttribute.Value;
+
+                                mapVariations.push(mainDimItem);
+                              }
+                              else
+                              {
+
+                                var secDimItem = {
+                                  "secDimName":"",
+                                  "secDimVal":"",
+                                  "ASIN":""
+                                }
+
+                                secDimItem.secDimName = vItem.VariationAttributes.VariationAttribute.Name;
+                                secDimItem.secDimVal = vItem.VariationAttributes.VariationAttribute.Value;
+                                secDimItem.ASIN = variationItem.ASIN;
+
+                                variationItem.secDimVal = vItem.VariationAttributes.VariationAttribute.Value;
+
+                                var mainDimItem = {
+                                  "mainDimName":"",
+                                  "mainDimVal":"",
+                                  "imgURL":"",
+                                  "ASIN":"",
+                                  "secDimItems":[]
+                                }
+
+                                mainDimItem.mainDimName = 'Color';
+                                mainDimItem.mainDimVal = 'Generic';
+                                mainDimItem.imgURL = variationItem.mainImgURL;
+                                mainDimItem.secDimItems.push(secDimItem);
+
+                                variationItem.mainDimVal = 'Generic';
+
+                                var isInArray = false;
+
+                                for (f=0; f<mapVariations.length; f++){
+                                  if (mapVariations[f].mainDimVal == 'Generic'){
+
+                                    mapVariations[f].secDimItems.push(secDimItem);
+
+                                    isInArray = true;
+                                    break;
+                                  }
+                                }
+
+                                if (isInArray == false){
+                                  mapVariations.push(mainDimItem); 
+                                }
+                              }
+                            }
+                          }
+                          // MAP VARIATIONS
+
+                          allVariations.push(variationItem);
+                        }
+                      }
+                      else
+                      {
+                        var vItem = item;
+
+                        if (vItem.ItemAttributes && vItem.ItemAttributes.ListPrice && vItem.ItemAttributes.ListPrice.FormattedPrice){
+                          parentItem.listPrice = vItem.ItemAttributes.ListPrice.FormattedPrice;
+                        }
+
+                        if (vItem.Offers && vItem.Offers.Offer && vItem.Offers.Offer.Merchant && vItem.Offers.Offer.Merchant.Name){
+                          parentItem.merchantName = vItem.Offers.Offer.Merchant.Name;
+                        }
+
+                        if (vItem.Offers && vItem.Offers.Offer && vItem.Offers.Offer.OfferListing){
+                          parentItem.isItemAvailable = true;
+
+                          if (vItem.Offers.Offer.OfferListing.OfferListingId){
+                              parentItem.offerListingId = vItem.Offers.Offer.OfferListing.OfferListingId;
+                          }                    
+
+                          if (vItem.Offers.Offer.OfferListing.IsEligibleForSuperSaverShipping && 
+                                vItem.Offers.Offer.OfferListing.IsEligibleForSuperSaverShipping == '1'){
+                              parentItem.isFulfilled = true;
+                          }
+
+                          if (vItem.Offers.Offer.OfferListing.IsEligibleForPrime && 
+                                vItem.Offers.Offer.OfferListing.IsEligibleForPrime == '1'){
+                              parentItem.isEligibleForPrime = true;
+                          }
+
+                          if (vItem.Offers.Offer.OfferListing.Availability){
+                              parentItem.availability = vItem.Offers.Offer.OfferListing.Availability;
+                          }
+
+                          if (vItem.Offers.Offer.OfferListing.PercentageSaved){
+                              parentItem.percentageSaved = vItem.Offers.Offer.OfferListing.PercentageSaved;
+                          }
+
+                          if (vItem.Offers.Offer.OfferListing.Price && vItem.Offers.Offer.OfferListing.Price.FormattedPrice){
+                              parentItem.offerPrice = vItem.Offers.Offer.OfferListing.Price.FormattedPrice;
+                          }
+
+                          if (vItem.Offers.Offer.OfferListing.SalePrice && vItem.Offers.Offer.OfferListing.SalePrice.FormattedPrice){
+                              parentItem.offerPrice = vItem.Offers.Offer.OfferListing.SalePrice.FormattedPrice;
+                          }
+
+                          if (vItem.Offers.Offer.OfferListing.AmountSaved && vItem.Offers.Offer.OfferListing.AmountSaved.FormattedPrice){
+                              parentItem.amountSaved = vItem.Offers.Offer.OfferListing.AmountSaved.FormattedPrice;
+                          }
+                        }
+
+
+                        // START IMAGE
+
+                        if (vItem.LargeImage && vItem.LargeImage.URL){
+                            parentItem.mainImgURL = vItem.LargeImage.URL;
+                        }
+                        else if (vItem.MediumImage && vItem.MediumImage.URL){
+                            parentItem.mainImgURL = vItem.MediumImage.URL;
+                        }
+                        else if (vItem.ImageSets && vItem.ImageSets.ImageSet){
+                            if (vItem.ImageSets.ImageSet.constructor === Array && vItem.ImageSets.ImageSet[0] && 
+                                      vItem.ImageSets.ImageSet[0].MediumImage && vItem.ImageSets.ImageSet[0].MediumImage.URL){
+                                parentItem.mainImgURL = vItem.ImageSets.ImageSet[0].MediumImage.URL;
+                            } 
+                            else if (vItem.ImageSets.ImageSet.MediumImage && vItem.ImageSets.ImageSet.MediumImage.URL){
+                                parentItem.mainImgURL = vItem.ImageSets.ImageSet.MediumImage.URL;
+                            }    
+                        }
+
+                        if (parentItem.mainImgURL != ''){
+                          parentItem.altImgList.push(parentItem.mainImgURL);
+                        }
+                        // END IMAGE
+
+                        // ALT IMAGES
+
+                        if (vItem.ImageSets && vItem.ImageSets.ImageSet && vItem.ImageSets.ImageSet.constructor === Array){
+                          var count = 0;
+                          for (y=0; y<vItem.ImageSets.ImageSet.length; y++){
+                            if (count==6){
+                              break;
+                            }
+
+                            var iterator = vItem.ImageSets.ImageSet[y];
+
+                            if (iterator.LargeImage && iterator.LargeImage.URL && 
+                                        iterator.LargeImage.URL != parentItem.mainImgURL){
+                              parentItem.altImgList.push(iterator.LargeImage.URL);
+                              count++;
+                            }
+                          }
+                        }
+
+                        // END ALT IMAGES
+                      }
+
+                      //END VARIATION INFO
+                    }
+                    else
+                    {
+                      var similarItem = {
+                        "ASIN":"",
+                        "displayASIN":"",
+                        "brand":"",
+                        "imageURL":"",
+                        "isEligibleForPrime": false,
+                        "price":"",
+                        "title":"",
+                      }
+
+                      if (item.ParentASIN){
+                        similarItem.ASIN = item.ParentASIN;
+                        similarItem.displayASIN = item.ASIN;
+                      }
+                      else
+                      {
+                        similarItem.ASIN = item.ASIN; 
+                        similarItem.displayASIN = item.ASIN;
+                      }
+
+                      //BEGIN PRICE
+                      if (item.Offers && item.Offers.Offer && item.Offers.Offer.OfferListing && item.Offers.Offer.OfferListing.SalePrice
+                                && item.Offers.Offer.OfferListing.SalePrice.FormattedPrice){
+                          
+                          similarItem.price = item.Offers.Offer.OfferListing.SalePrice.FormattedPrice;
+                          
+                          if (item.Offers.Offer.OfferListing.IsEligibleForPrime == 1){
+                              similarItem.isEligibleForPrime = true;
+                          }
+                      } 
+                      else if (item.Offers && item.Offers.Offer && item.Offers.Offer.OfferListing && item.Offers.Offer.OfferListing.Price
+                                && item.Offers.Offer.OfferListing.Price.FormattedPrice){
+                          
+                          similarItem.price = item.Offers.Offer.OfferListing.Price.FormattedPrice;
+                          
+                          if (item.Offers.Offer.OfferListing.IsEligibleForPrime == 1){
+                              similarItem.isEligibleForPrime = true;
+                          }
+                      }
+                      else if (item.Variations && item.Variations.Item && item.Variations.Item.constructor === Array && item.Variations.Item[0]
+                            && item.Variations.Item[0].Offers && item.Variations.Item[0].Offers.Offer && item.Variations.Item[0].Offers.Offer.OfferListing
+                            && item.Variations.Item[0].Offers.Offer.OfferListing.SalePrice && item.Variations.Item[0].Offers.Offer.OfferListing.SalePrice.FormattedPrice){
+                          
+                          similarItem.price = item.Variations.Item[0].Offers.Offer.OfferListing.SalePrice.FormattedPrice;
+                          
+                          if (item.Variations.Item[0].Offers.Offer.OfferListing.IsEligibleForPrime == 1){
+                              similarItem.isEligibleForPrime = true;
+                          }
+                      }
+                      else if (item.Variations && item.Variations.Item && item.Variations.Item.constructor === Array && item.Variations.Item[0]
+                            && item.Variations.Item[0].Offers && item.Variations.Item[0].Offers.Offer && item.Variations.Item[0].Offers.Offer.OfferListing
+                            && item.Variations.Item[0].Offers.Offer.OfferListing.Price && item.Variations.Item[0].Offers.Offer.OfferListing.Price.FormattedPrice){
+                          
+                          similarItem.price = item.Variations.Item[0].Offers.Offer.OfferListing.Price.FormattedPrice;
+                          
+                          if (item.Variations.Item[0].Offers.Offer.OfferListing.IsEligibleForPrime == 1){
+                              similarItem.isEligibleForPrime = true;
+                          }
+                      }
+                      // END PRICE
+
+                      // START IMAGE
+
+                      if (item.LargeImage && item.LargeImage.URL){
+                          similarItem.imageURL = item.LargeImage.URL;
+                      }
+                      else if (item.MediumImage && item.MediumImage.URL){
+                          similarItem.imageURL = item.MediumImage.URL;
+                      }
+                      else if (item.ImageSets && item.ImageSets.ImageSet){
+                          if (item.ImageSets.ImageSet.constructor === Array && item.ImageSets.ImageSet[0] && item.ImageSets.ImageSet[0].MediumImage && item.ImageSets.ImageSet[0].MediumImage.URL){
+                              similarItem.imageURL = item.ImageSets.ImageSet[0].MediumImage.URL;
+                          } 
+                          else if (item.ImageSets.ImageSet.MediumImage && item.ImageSets.ImageSet.MediumImage.URL){
+                              similarItem.imageURL = item.ImageSets.ImageSet.MediumImage.URL;
+                          }    
+                      }
+                      else if (item.Variations && item.Variations.Item && item.Variations.Item.constructor === Array) {
+                          for (t=0; t < item.Variations.Item.length; t++){
+                              if (item.Variations.Item[t].MediumImage){
+                                  similarItem.imageURL = item.Variations.Item[t].MediumImage.URL;
+                                  break;
+                              }
+                          }
+                      }
+                      // END IMAGE
+
+                      // BEGIN TITLE & BRAND
+                      if (item.ItemAttributes){
+                          if (item.ItemAttributes.Title){
+                              similarItem.title = item.ItemAttributes.Title;
+                          }
+                          if (item.ItemAttributes.Brand){
+                              similarItem.brand = item.ItemAttributes.Brand;
+                          }
+                      }
+                      // END TITLE & BRAND
+
+                      similarItems.push(similarItem);
+                    }
+                  }
+
+                  console.log('here 2');
+                  socket.emit('itemLookupResult', {isNewSearch: true,
+                                                    ItemLookupResponse: res.result.ItemLookupResponse, 
+                                                    similarItems: similarItems,
+                                                    mapVariations: mapVariations,
+                                                    allVariations: allVariations,
+                                                    parentItem: parentItem});
+                  var cac2 = {
+                    'retailer': data.retailer,
+                    'itemId': data.itemASIN,
+                    'similarItems': similarItems,
+                    'mapVariations': mapVariations,
+                    'allVariations': allVariations,
+                    'parentItem': parentItem
+                  } 
+
+                  socket.emit('printResponse',{cac2:cac2});
+ 
+                  insertItemCache(cac2, 0);
+                }
+              }  
+            }).catch((err) =>{
+              console.log(err);
+            });
+          }
+        });
+      }
+    }
+
+    socket.on('createCart', createCart);
+    function createCart(data){
+      console.log('cart create params');
+      console.log(data.retailer+', '+data.quantity+', '+data.offerListingId);
+      if (data.retailer == 'IN' || data.retailer == 'US'){
+        console.log('INDIA or US');
+        if (data.retailer == 'IN'){
+          var client = client2;
+        }
+        else{
+          var client = client3;
+        }
+
+        var cartItem = client.CreateCartItem("OfferListingId", data.offerListingId, data.quantity);
+
+        client.CartCreate([cartItem]
+          ).then(result => {
+            socket.emit('createCartResult', {CartCreateResponse: result.raw().CartCreateResponse});
+            visitStatUpdateHandler({updateType:'cartCount'});
+          }).catch(err => {
+            console.log('Create Cart Error: '+ err);
+            socket.emit('createCartResult', {isFailed:true});
+          });
+      }
+      else
+      {
+        console.log('Amazon US not configured yet');
+      }
+    }
+
+    socket.on('getCart', getCart);
+    function getCart(data){
+      if (data.retailer == 'IN' || data.retailer == 'US'){
+        console.log('INDIA or US');
+        if (data.retailer == 'IN'){
+          var client = client2;
+        }
+        else{
+          var client = client3;
+        }
+
+        client.CartGet(data.cartId, null, data.hmac
+          ).then(result => {
+            socket.emit('getCartResult', {CartGetResponse: result.raw().CartGetResponse});
+          }).catch(err => {
+            console.log('Get Cart Errod: '+err);
+            socket.emit('getCartResult', {isFailed: true});
+          });
+
+      }
+      else
+      {
+        console.log('Amazon US not Configured yet');
+      }
+    }
+
+    socket.on('addToCart', addToCart);
+    function addToCart(data){
+      console.log('cart add params');
+      console.log(data.retailer+', '+data.quantity+', '+data.cartId+', '+data.hmac+', '+data.offerListingId);
+
+      if (data.retailer == 'IN' || data.retailer == 'US'){
+        console.log('INDIA or US');
+        if (data.retailer == 'IN'){
+          var client = client2;
+        }
+        else{
+          var client = client3;
+        }
+
+        var cartItem = client.CreateCartItem("OfferListingId", data.offerListingId, data.quantity);
+
+        client.CartAdd([cartItem], data.cartId, data.hmac
+          ).then(result => {
+            socket.emit('addToCartResult', {CartAddResponse: result.raw().CartAddResponse});
+            visitStatUpdateHandler({updateType:'cartCount'});
+          }).catch(err => {
+            console.log('Add Cart Error: '+err);
+            socket.emit('createCartResult', {isFailed:true});
+          });
+      }
+      else
+      {
+        console.log('Amazon US not configured yet');
+      }
+    }
+
+    socket.on('modifyCart', modifyCart);
+    function modifyCart(data){
+      console.log('cart modify params');
+      console.log(data.retailer+', '+data.quantity+', '+data.cartId+', '+data.hmac+', '+data.cartItemId);
+      if (data.retailer == 'IN' || data.retailer == 'US'){
+        console.log('INDIA or US');
+        if (data.retailer == 'IN'){
+          var client = client2;
+        }
+        else{
+          var client = client3;
+        }
+
+        var cartItem = client.CreateCartItem("CartItemId", data.cartItemId, data.quantity);
+
+        client.CartModify([cartItem], data.cartId, data.hmac
+          ).then(result => {
+            socket.emit('modifyCartResult', {CartModifyResponse: result.raw().CartModifyResponse});
+          }).catch(err => {
+            console.log('Modify Cart Error: '+err);
+            socket.emit('modifyCartResult', {isFailed: true});
+          });
+      }
+    }
+
+    socket.on('clearCart', clearCart);
+    function clearCart(data){
+    }
+
+    socket.on('shortFeedback', handleShortFeedback);
+    function handleShortFeedback(data){
+      shortFeedbackModel.createUpdateFeedback(data, 1, handleShortFeedbackCB);
+    }
+
+    function handleShortFeedbackCB(isSuccess, attemptNumber){
+      if (isSuccess && isSuccess == true)
+      {
+        socket.emit('shortFeedbackReply', {isSuccess: true});
+      }
+      else
+      {
+        if (attemptNumber && attemptNumber < 5 && feedback){
+          shortFeedbackModel.createUpdateFeedback(feedback, attemptNumber, handleShortFeedbackCB);
+        }
+        else
+        {
+          socket.emit('shortFeedbackReply', {isSuccess: false});
+        }
+      }
+    }    
+
+    socket.on('disconnect', disconnected);
+    function disconnected(data){
+      console.log('connection disconnected');
+      console.log(socket.id);
+      handleHuddleUserExit(socket.id);
+
+      var currentDateTime = new Date();
+      visitStatsModel.visitEnd({socketId: socket.id, endTime: currentDateTime}, 0, visitStatsEndCB);
+    }
+
+    function visitStatsEndCB(isSuccess, attemptNumber, user){
+      if (isSuccess && isSuccess == true){
+
+      }
+      else
+      {
+        if (attemptNumber && attemptNumber < 5)
+        {
+          visitStatsModel.visitEnd(user, attemptNumber, visitStatsEndCB);
+        }
+      }
+    }
+
+
+    function handleHuddleUserExit(socketId){
+      chatData.checkIsInitiatorAndGetChatId(socketId, function(isSuccess, chatId, initiator){
+        if (isSuccess && isSuccess == true){
+          emitEndHuddle(chatId, initiator);
+          // chatData.removeChat(chatId);
+          chatData.endChat(chatId, 0, endChatCB);
+        }
+        else
+        {
+          leaveChat(socketId);
+        }
+      });
+    }
+
+    function endChatCB(isSuccess, attemptNumber, chatId)
+    {
+      if (isSuccess && isSuccess == true){
+
+      }
+      else
+      {
+        if (attemptNumber && attemptNumber < 5)
+        {
+          chatData.endChat(chatId, attemptNumber, endChatCB);
+        }
+      }
+    }
+
+    function leaveChat(socketId){
+      chatData.leaveChat(socketId, function(isSuccess, chatId, chatHistory, totalUsers){
+        if (isSuccess && isSuccess == true){
+          socket.to(chatId).emit('chatHistory', {chatHistory: chatHistory});
+          socket.to(chatId).emit('totalUsers', {totalUsers: totalUsers});
+        }
+      });
+    }
+
+    function emitEndHuddle(chatId, initiator){
+      socket.to(chatId).emit('endHuddleBroadcast', {initiator: initiator});
+    }
+});
+
+//  BEGIN EMAIL SECTION
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        type: 'OAuth2',
+        user: 'huddlie.com@gmail.com',
+        clientId: '881671565375-lgr3e1s2ohq93pvfb3fa0899r1bvau2v.apps.googleusercontent.com',
+        clientSecret: 'VbNKNlKlSa9fuIUWCBYRne7T',
+        refreshToken: '1/sdtioyBFxxhlBB4e4zEaWfldYuZadZVkAKj5fRFwAHQ',
+        accessToken: 'ya29.GlvgBFx_dq8a5C_bl--hOtlPTesULDvNrzKr1swrn7dcCmoikgsq5Sad_KtbB9n84hbVX3fRs11EgD6lRu9k-pUsAqCzxDTVd0RsU7TrWndREFzT_SQX-DNDxv5U'
+    }
+});
+
+
+function sendInviteEmail(name, toAddress, chatId, cb){
+  var mailOptions = {
+      from: 'Huddlie <huddlie.com@gmail.com>',
+      to: toAddress,
+      subject: 'Shop with your friend '+name+' in real-time!',
+      text: 'You have been invited by your friend '+name+' to try Huddlie.<br/>Please click the link below to join your friend.<br/>'+
+              '<a href="https://www.huddlie.com/?'+chatId+'">Huddlie</a>'
+  }
+
+  transporter.sendMail(mailOptions, function (err, res) {
+      if(err){
+          cb(false);
+      } else {
+          cb(true);
+      }
+  });
+}
+
+//  END EMAIL SECTION
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
