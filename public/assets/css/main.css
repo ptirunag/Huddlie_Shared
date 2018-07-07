@@ -26,7 +26,7 @@ body {
   height: 80px;
   display: none;
 }
-/*testing github*/
+
 .overlay {
   position: fixed;
   top: 50%;
@@ -125,9 +125,6 @@ body {
 
 
 @media only screen and (max-width: 768px){ 
-  .box {
-        height: auto !important;
-    } 
   .navbar-nav .paddingRight10 {
     padding-right: 0px;
     padding-bottom: 10px;
@@ -349,96 +346,6 @@ body {
   outline: 0;
 }
 
-/*Start New Flyout*/
-
-#flyoutDivAmazonUS {
-}
-
-#flyoutTopLevelList > li:hover, #flyoutTopLevelList > li > label:hover {
-    cursor: pointer;
-    color: aquamarine;
-}
-
-#flyoutTopLevelList {
-
-}
-
-.float-flyout-US {
-    overflow: hidden;
-}
-
-.float-flyout-US > li {
-    float: left;
-    padding: 10px;
-    width: 16.666%;
-}
-
-.float-flyout-IN {
-    overflow: hidden;
-}
-
-.float-flyout-IN > li {
-    float: left;
-    padding: 10px;
-    width: 20%;
-}
-
-
-.flyout0Node {
-
-}
-
-.flyout0Node label {
-  font-weight: bold;
-}
-
-.flyout0Node > .caret {
-  opacity: 0;
-}
-
-.selectedFlyout0Node {
-
-}
-
-.selectedFlyout0Node > .caret {
-  opacity: 1;
-}
-
-.flyoutDetailDiv {
-  display: none;
-}
-
-.selectedFlyoutDetailDiv {
-  display: block;
-}
-
-.flyoutNodeList {
-    padding: 25px;
-}
-
-.flyoutNodeList label {
-  font-weight: normal;
-}
-
-.flyoutNodeList > li:hover, .flyoutNodeList > li > label:hover {
-    cursor: pointer;
-    color: aquamarine;
-}
-
-
-.flyoutSubHeadNode {
-
-}
-
-.flyoutSubHeadNode > label {
-  font-weight: bold;
-}
-
-.bg-gray {
-    background-color: #F0F8FF;
-}
-
-/*End Flyout*/
                         
 
 /*Start Wishlist*/
