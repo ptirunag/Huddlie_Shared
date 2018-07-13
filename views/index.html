@@ -133,6 +133,86 @@
                         onclick="personalTab();">Personal Tab</button>
     </div>
     <div id="mainPane" class="mainPaneChatOff">
+        <div id="footerDocsDiv" class="col-md-12" style="background-color: white">
+          <div id="PrivacyPolicyDiv" class="col-md-10 col-md-offset-1 jumbotron" style="margin-bottom: 0px !important; min-height: 80vh !important">
+            <div class="container">
+              <div class="text-center">
+                <h3><strong><u>
+                  Privacy Policy
+                </u></strong></h3>
+              </div>
+              <br/>
+              <div>
+                <p><small>
+                  This notice explains the on-line information privacy policy practices of Huddlie, Inc. (“Huddlie”) so that you may make choices as to how to use our website. By using our website, you consent to the collection and use of information as described in this notice. We recommend that you review this notice from time to time to see if it has changed. Your continued use of our site is your acceptance of our privacy policy.
+                </small></p>
+                <p><small>
+                  <b>Use and Purpose of Collected Information</b> – Our website <b>does not collect any personal information</b> about you other than the information that you intentionally submit to us by completing and sending a form on our website, by submitting email to us, or by logging onto one of the areas of our website that is restricted to registered users.
+                </small></p>
+                <p><small>
+                  Huddlie will use this information in connection with processing your inquiries and request and/or to help improve our products and services. Huddlie intends to share such information with third parties outside of Huddlie, including its affiliated manufacturers and service providers.
+                </small></p>
+                <p><small>
+                  <b>IP Addresses</b> – We do not collect any information about users who are merely browsing through our website. However, if you request a page from our website or download any information, our servers will log your current IP address. An IP address is automatically assigned to your computer every time you browse the Internet. We do not link IP addresses to any personal information about you. We will see your e-mail address only if you give it to us by filling out a form or by sending us an e-mail message or if you are a registered user.
+                </small></p>
+                <p><small>
+                  <b>Cookies</b> – Our website may use “cookies” to process and store information relevant to your use of our websites and services. Cookies are identifiers that a website can send to your browser to keep on your computer to identify you and make your successive visits to the website more efficient. You can set your browser to notify you when you are sent a cookie. This will give you the chance to decide whether or not to accept it.
+                </small></p>
+                <p><small>
+                  <b>User Information</b> – In our effort to provide personalization and some services, we may at times ask you to submit information about yourself. You never have to answer these questions. However, if you should elect to withhold requested information, we may not be able to provide you with some of the services dependent upon the collection of this information.
+                </small></p>
+                <p><small>
+                  We may use your personal information to send you e-mails and certain marketing communications that we think may be of interest to you, such as new product offerings and/or technical updates. You may stop the delivery of future promotional e-mail from Huddlie by following the specific instructions in the e-mail you receive.
+                </small></p>
+                <p><small>
+                  <b>Links</b> – Our website may contain links to other sites. Huddlie is not responsible for the privacy practices or the content of other websites. Please refer to the policies of the respective site(s).
+                </small></p>
+                <p><small>
+                  <b>Submissions</b> – Anything that you post or upload to our website (“Submission”) is understood to be non-confidential and non-proprietary. You have no expectation of privacy and Huddlie has no obligation of privacy with respect to any Submission. Furthermore, Huddlie is not responsible for the use and/or treatment of your Submission made by Huddlie’s affiliated manufacturers and service providers. Prior to making any Submission you acknowledge that (1) your Submission is not owned or claimed to be owned by a third party or that it infringes the patent, copyright, trademark, or other intellectual property rights of another and (2) you will hold Huddlie harmless from any liability incurred with or arising from such Submission.
+                </small></p>
+              </div>
+            </div>
+          </div>
+          <div id="AffiliateDisclosureDiv" class="col-md-10 col-md-offset-1 jumbotron" style="margin-bottom: 0px !important; min-height: 80vh !important">
+            <div class="container">
+              <div class="text-center">
+                <h3><strong><u>
+                  Affiliate Disclosure
+                </u></strong></h3>
+              </div>
+              <br/>
+              <div>
+                <p><small>
+                  Huddlie links to featured products via Amazon and other online retailers. When you click on these links and purchase products, the URL automatically includes an identifier that tells the retailer you discovered the link on Huddlie. We then earn a small percentage of the purchase price as a referral fee. Our team is not beholden to or indebted by these retailers.
+                </small></p>
+                <br/>
+                <p><small>
+                  Affiliate linking has become a regular process in digital publishing. The earnings from affiliate links contribute to our editorial practice and fund our ability to appropriately staff our team and create unique online features that assist you with your shopping requirements.
+                </small></p>
+              </div>
+            </div>
+          </div>
+          <div id="AboutUsDiv" class="col-md-10 col-md-offset-1 jumbotron" style="margin-bottom: 0px !important; min-height: 80vh !important">
+            <div class="container">
+              <div class="text-center">
+                <h3><strong><u>
+                  About Us
+                </u></strong></h3>
+              </div>
+              <br/>
+              <div>
+                <p><small>
+                  Huddlie is a social shopping platform that helps you to shop together online with your friends and family. We offer a real time service where you can invite your friends to shop with you via video, audio and chat. You can browse products from third party retailers like Amazon and get their opinions instantly. Once you are done adding items to your cart, you will be redirected to the retailer's website to finish the transaction. 
+                </small></p>
+                <br/>
+                <p><small>
+                  We also offer offline features like creating polls and other such methods on a set of products that you shortlist, which then can be shared with your contacts to vote on or participate. These set of features are aimed to help users who are not able to get real time opinions. Product browsing and other shopping functionalities remain the same.
+                </small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Home page div/Banners Area -->
         <div id="bannersArea" class="col-md-12" style="background-color:white">
             <!-- Amazon Banner -->
@@ -2812,9 +2892,9 @@
                 <label style="color:#5bc0de">&copy; 2018 Huddlie, Inc.</label>
             </li>
             <li>
-                <a class="footerHyperLinks">Privacy Policy</a>  |  
-                <a class="footerHyperLinks">Terms of Use</a>    |
-                <a class="footerHyperLinks">About Us</a> 
+                <a onclick="viewController('PrivacyPolicy');" class="footerHyperLinks">Privacy Policy</a>  |  
+                <a onclick="viewController('AffiliateDisclosure');" class="footerHyperLinks">Affiliate Disclosure</a>    |
+                <a onclick="viewController('AboutUs');" class="footerHyperLinks">About Us</a> 
             </li>
             <li>
                 <label id="footerAmazonDisclosureLabel">As an Amazon Associate, Huddlie earns from qualifying purchases.</label>
@@ -5336,7 +5416,68 @@
             }
         }
 
+
+        $('#footerDocsDiv').hide();
+
         switch(mode){
+            case 'PrivacyPolicy':
+              $('#footerDocsDiv').show();
+              $('#PrivacyPolicyDiv').show();
+              $('#AffiliateDisclosureDiv').hide();
+              $('#AboutUsDiv').hide();
+
+              // HIDE
+              $storeArea.hide();
+              $bannersArea.hide();
+              $itemDetails.hide();
+              $shoppingCartArea.hide();
+              $searchWords.hide();
+              $searchButton.hide();
+
+              //SCROLLTOP
+              document.body.scrollTop = 0;
+              document.documentElement.scrollTop = 0;
+
+              break;
+            case 'AffiliateDisclosure':
+              $('#footerDocsDiv').show();
+              $('#PrivacyPolicyDiv').hide();
+              $('#AffiliateDisclosureDiv').show();
+              $('#AboutUsDiv').hide();
+
+              // HIDE
+              $storeArea.hide();
+              $bannersArea.hide();
+              $itemDetails.hide();
+              $shoppingCartArea.hide();
+              $searchWords.hide();
+              $searchButton.hide();
+
+              //SCROLLTOP
+              document.body.scrollTop = 0;
+              document.documentElement.scrollTop = 0;
+
+              break;
+            case 'AboutUs':
+              $('#footerDocsDiv').show();
+              $('#PrivacyPolicyDiv').hide();
+              $('#AffiliateDisclosureDiv').hide();
+              $('#AboutUsDiv').show();
+
+              // HIDE
+              $storeArea.hide();
+              $bannersArea.hide();
+              $itemDetails.hide();
+              $shoppingCartArea.hide();
+              $searchWords.hide();
+              $searchButton.hide();
+
+              //SCROLLTOP
+              document.body.scrollTop = 0;
+              document.documentElement.scrollTop = 0;
+
+              break;
+
             case 'homeBanner':
                 // SHOW
                 $bannersArea.show();
@@ -5380,6 +5521,10 @@
                 $itemDetails.hide();
                 $shoppingCartArea.hide();
                 $multiSelect.hide();
+
+                //SCROLLTOP
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
 
                 if ($chatPane.is(':visible')){
                     $('.product-box').removeClass("product-box").addClass("product-box-chat-on");
