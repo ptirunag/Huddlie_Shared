@@ -38,7 +38,12 @@
   <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
-	<link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" type="text/css" href="/assets/css/custom/flyout.css">
+	<!-- End Custom Stylesheets -->
+  
+  <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
 
 </head>
 <body>
@@ -5620,32 +5625,12 @@
                             '<option value="Beauty" data-USID="11055981">Beauty</option>'+
                             '<option value="SportingGoods" data-USID="3375301">Sports, Fitness, and Outdoors</option>';
 
-        var multi0INArray = [{dept:'Apparel', displayName:'Apparel'}, 
-                                {dept:'Beauty', displayName:'Beauty'}, 
-                                {dept:'Jewelry', displayName:'Jewellery'}, 
-                                {dept:'Shoes', displayName:'Shoes and Handbags'}, 
-                                {dept:'SportingGoods', displayName:'Sports, Fitness, and Outdoors'}, 
-                                {dept:'Watches', displayName:'Watches'}];
-
-        var multi0USArray = [{dept:'FashionWomen', displayName:'Fashion - Women'}, 
-                                {dept:'FashionMen', displayName:'Fashion - Men'}, 
-                                {dept:'FashionGirls', displayName:'Fashion - Girls'}, 
-                                {dept:'FashionBoys', displayName:'Fashion - Boys'}, 
-                                {dept:'FashionBaby', displayName:'Fashion - Baby'}, 
-                                {dept:'Beauty', displayName:'Beauty'},
-                                {dept:'SportingGoods', displayName:'Sports, Fitness, and Outdoors'}];
-
-        var multiNuetralDivText = '';
-        var multiNeutralArray = [];
-
         switch(retailer){
             case 'IN':
                 $selectDept.empty();
                 $selectDept.append(departmentsIN);
 
                 retailerSelected('IN', false);
-
-                multiNeutralArray = multi0INArray;
 
                 $('#priceFilters-IN').show();
                 $('#priceFilters-US').hide();
@@ -5660,9 +5645,6 @@
 
                 retailerSelected('US', false);
 
-                multiNeutralArray = multi0USArray;
-
-
                 $('#priceFilters-US').show();
                 $('#priceFilters-IN').hide();
 
@@ -5673,27 +5655,11 @@
             default:
                 break;
         }
-        
-        for (i=0; i< multiNeutralArray.length; i++){
-            var deptName = multiNeutralArray[i].dept;
-            var displayName = multiNeutralArray[i].displayName;
-            multiNuetralDivText += '<li id="dept-'+deptName+'-name"'+
-                                            'onmouseover="hoverMulti0Department(&quot;'+deptName+'&quot;,true);"'+
-                                            'class="multi0Item">'+
-                                        '<label>'+displayName+'</label>'+
-                                        '<span class="caret" aria-hidden="true"></span>'+
-                                    '</li>';
-        }
-
-        $multi0DepartmentList.empty();
-        $multi0DepartmentList.append(multiNuetralDivText);
 
         if (sessionStorage){
             sessionStorage.setItem('currentRetailer', $selectRetailer.val());
             viewController('homeBanner');
         }
-
-        departmentChanged();
     }
 
     function retailerSelected(retailer, callRetailerChange) {
@@ -5715,65 +5681,6 @@
         }
     }
 
-    function hoverMulti0Department(dept, callDeptChange) {
-
-        var currentDept = $selectDept.val();
-
-        if (currentDept != dept || callDeptChange == false){
-            $('.multi0ItemSelected').removeClass('multi0ItemSelected').addClass('multi0Item');
-            $('#dept-'+dept+'-name').removeClass('multi0Item').addClass('multi0ItemSelected');
-
-            $selectDept.val(dept);
-
-            if (callDeptChange && callDeptChange == true){
-                departmentChanged();
-            }
-        }
-    }
-
-    function departmentChanged(){
-        $multiSelect.empty();
-
-        if (sessionStorage && sessionStorage.getItem('currentRetailer')){
-            var currentRetailer = sessionStorage.getItem('currentRetailer');
-        }
-        else
-        {
-            var currentRetailer = $selectRetailer.val();
-        }
-
-        switch(currentRetailer){
-            case 'IN':
-                var nodeId = $selectDept.find(':selected').attr('data-INID');
-                var multi0DeptId = $selectDept.find(':selected').val();
-                hoverMulti0Department(multi0DeptId, false); 
-                
-                if(typeof nodeId == 'undefined'){
-                    nodeId = '';
-                }
-                var retailer = 'AMZNIN';
-                break;
-            case 'US':
-                var nodeId = $selectDept.find(':selected').attr('data-USID');
-                var multi0DeptId = $selectDept.find(':selected').val();
-                hoverMulti0Department(multi0DeptId, false); 
-
-                if (typeof nodeId == 'undefined'){
-                    nodeId = '';
-                }
-                var retailer = 'AMZNUS';
-                break;
-            default:
-                return;
-        }
-
-        if (sessionStorage){
-            sessionStorage.setItem(currentRetailer+'-currentDepartment', nodeId);
-        }
-        console.log(nodeId+retailer);
-        socket.emit('getMultiLevel', {nodeId: nodeId, retailer: retailer});
-    }
-
     function hoverFlyout0Node(currentElement, divElement)
     {
       $('.selectedFlyout0Node').removeClass('selectedFlyout0Node');
@@ -5788,250 +5695,6 @@
                     nodeName: nodeName,
                     dept: dept,
                     lookupBrowseNode: true});
-    }
-
-
-    socket.on('getMultiLevelResponse', function(data){
-        console.log(data);
-
-        if (data.isSuccess && data.results && typeof data.results != 'undefined' && data.results.constructor === Array && data.results.length > 0){
-            var nodes = data.results;
-            
-            var maxLevels = 20;
-            var levels = new Array(maxLevels);
-
-            var hoverInitial = false;
-            var hoverInitialNodeId = '';
-            var hoverInitialNodeName = '';
-
-            for (i=0; i<nodes.length; i++){
-                if (nodes[i].path && typeof nodes[i].path != 'undefined' && nodes[i].path.constructor === Array){
-                    var len = nodes[i].path.length-1;
-
-                    if (len >= 0 && len < maxLevels){
-                        if(levels[len] && typeof levels[len] != 'undefined' && levels[len].constructor === Array && levels[len].length > 0){
-                            levels[len].push(nodes[i]);
-                        }
-                        else
-                        {
-                            var newLevel = [];
-                            newLevel.push(nodes[i]);
-                            levels[len] = newLevel;
-                        }
-                    }
-                }
-            }
-
-            //build the divtext;
-            var divText0;
-            var level0;
-            var iteratorStart = 1;
-            console.log({levels: levels});
-
-            level0 = levels[0];
-
-            if (!level0 || typeof level0 == 'undefined'){
-                for (i=0; i<maxLevels; i++){
-                    levels[i] = levels[i+1];
-                }
-
-                level0 = levels[0];
-            }
-
-            $multiSelect.empty();
-
-            //LEVEL 0
-            if (typeof level0 != 'undefined' && level0 && level0.constructor === Array && level0.length > 0){
-                //begin
-                divText0 = '<div class="col-md-3" id="level0Nodes">';
-
-                divText0 += '<ul class="list-group level0Children">';
-
-                for (i=0; i<level0.length; i++){
-
-                    var nodeId = level0[i].nodeId;
-                    var nodeName = level0[i].nodeName;
-
-                    divText0 += '<li id="'+nodeId+'"'+
-                                                'onmouseover="hoverMultiBrowseNodes(&quot;'+nodeId+'&quot;, 0, '+maxLevels+', &quot;'+nodeName+'&quot;);" '+
-                                                'onclick="hoverMultiBrowseNodes(&quot;'+nodeId+'&quot;, 0, '+maxLevels+', &quot;'+nodeName+'&quot;,true);" '+
-                                                'class="level0Item multiLevelItem">'+
-                                            '<label>'+nodeName+'</label>'+
-                                            '<span class="glyphicon glyphicon-menu-right rightGlyph"></span>'+
-                                        '</li>';
-
-                    if (i==0){
-                        hoverInitial = true;
-                        hoverInitialNodeId = nodeId;
-                        hoverInitialNodeName = nodeName;
-                    }
-                }
-
-                divText0 += '</ul>';
-
-                //end div tag
-                divText0 += '</div>';
-                
-                $multiSelect.append(divText0);
-            }
-
-            //LEVEL 1-MaxLevels
-            for (iterator = iteratorStart; iterator < maxLevels; iterator++){
-                var level;
-                var divText;
-
-                level = levels[iterator];
-
-                if (typeof level != 'undefined' && level.constructor === Array && level.length > 0){
-                    var parents = [];
-
-                    //organize by parents and corresponding child arrays.
-                    for(i=0; i<level.length; i++){
-                        if(level[i].path && level[i].path.constructor === Array && level[i].path.length > 0){
-                            var currentNode = level[i];
-                            var path = currentNode.path;
-                            var parentNodeId = path[0].pathNodeId;
-                            var addedToParents = false;
-
-                            if (parents.length>0){
-                                for (t=0;t<parents.length;t++){
-                                    var parent = parents[t];
-                                    if (parent && parent.parentNodeId && parent.parentNodeId == parentNodeId){
-                                        parents[t].children.push(currentNode);
-                                        addedToParents = true;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (!addedToParents){
-                                var currentNodeInAnArray = [];
-                                currentNodeInAnArray.push(currentNode);
-                                parents.push({"parentNodeId":parentNodeId, "children":currentNodeInAnArray});                         
-                            }
-                        }
-                    }
-
-                    console.log(parents);
-
-                    //begin
-                    divText = '<div class="col-md-3" id="level'+iterator+'Nodes">';
-
-                    for (x=0; x<parents.length; x++){
-                        var parent = parents[x];
-
-                        divText += '<ul class="list-group level'+iterator+'Children multiLevelChildren" id="'+parent.parentNodeId+'Children">';
-
-                        for (y=0; y<parent.children.length; y++){
-                            var nodeId = parent.children[y].nodeId;
-                            var nodeName = parent.children[y].nodeName;
-                        
-                            divText += 
-                                        '<li id="'+nodeId+'"'+
-                                                'onmouseover="hoverMultiBrowseNodes(&quot;'+nodeId+'&quot;, '+iterator+', '+maxLevels+', &quot;'+nodeName+'&quot;);" '+
-                                                'onclick="hoverMultiBrowseNodes(&quot;'+nodeId+'&quot;, '+iterator+', '+maxLevels+', &quot;'+nodeName+'&quot;, true);" '+
-                                                'class="level'+iterator+'Item multiLevelItem">'+
-                                            '<label>'+nodeName+'</label>'+
-                                            '<span class="glyphicon glyphicon-menu-right rightGlyph"></span>'+
-                                        '</li>';
-                        }
-
-                        divText += '</ul>';
-                    }
-
-                    //end div tag
-                    divText += '</div>';
-
-                    $multiSelect.append(divText);
-                }
-            }
-
-            if (hoverInitial == true){
-                hoverMultiBrowseNodes(hoverInitialNodeId, 0, maxLevels, hoverInitialNodeName);
-            }
-        }
-    });
-
-    function multiSelectSearchButtonClicked(){
-        if (sessionStorage && sessionStorage.getItem('currentMultiSelectItem')){
-            var nodePair = JSON.parse(sessionStorage.getItem('currentMultiSelectItem'));
-
-            execSearch({nodeId: nodePair.nodeId, 
-                        nodeName: nodePair.nodeName,
-                        lookupBrowseNode:true});
-        }
-    }
-
-    function hoverMultiBrowseNodes(itemId, level, maxLevels, itemName, execSearch){
-
-        if (sessionStorage){
-            if (sessionStorage.getItem('currentMultiSelectItem')){
-                sessionStorage.removeItem('currentMultiSelectItem');
-            }
-
-            var nodePair = {
-                nodeId: itemId,
-                nodeName: itemName
-            }
-
-            sessionStorage.setItem('currentMultiSelectItem', JSON.stringify(nodePair));
-        }
-
-        
-        $('.level'+level+'Item').removeClass('multiLevelItemSelected').addClass('multiLevelItem');    
-        
-
-        var levelIterator = level + 1;
-        for(i=levelIterator;i<maxLevels;i++){
-            $('.level'+i+'Children').hide();
-            $('.level'+i+'Item').removeClass('multiLevelItemSelected').addClass('multiLevelItem');
-        }
-
-
-        var height = ($('#'+itemId).height()+5)/2;
-        $('#'+itemId).removeClass('multiLevelItem').addClass('multiLevelItemSelected');    
-        
-
-        var newItemId = '#'+itemId+'Children';
-
-        $(newItemId).show();
-
-        if ($(newItemId).length > 0){
-            var lower, upper;
-            if (level > 1){
-                lower = level - 2;
-                upper = level + 1;
-            }
-            else
-            {
-                lower = 0;
-                upper = 3;
-            }
-
-            for (i=0;i<maxLevels;i++){
-                if (i >= lower && i <= upper){
-                    $('#level'+i+'Nodes').show();
-                    if (i > 0){
-                        $('#level'+i+'Nodes').css('border-left','solid 1px #8c8b8b');
-                    }
-                    else
-                    {
-                        $('#level'+i+'Nodes').css('border-left','0px');
-                    }
-                }
-                else
-                {
-                    $('#level'+i+'Nodes').hide();
-                    $('#level'+i+'Nodes').css('border-left','0px');
-                }
-            }
-        }
-
-        broadcastSharedTab();
-
-        if (execSearch && execSearch == true){
-            multiSelectSearchButtonClicked();
-        }
     }
 
     function brandClicked(index){
@@ -6748,7 +6411,7 @@
 
                   },
                 success: function(Data) {
-
+                  
                     if (Data) {
                         var DataArr = Data.toString().split(',');
                         var Queries = new Array();
