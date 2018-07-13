@@ -268,7 +268,10 @@ var getOneCache = function(cac, cb){
 				}
 				else
 				{
-					cb(false, doc);
+					// cb(false, doc);
+					// TEMPORARILY ALLOWING OLD CACHE
+
+					cb(true, doc);
 				}
 			}
 			else
