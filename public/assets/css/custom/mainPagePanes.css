@@ -1,0 +1,86 @@
+
+@media only screen and (max-width: 768px){ 
+
+	.mainPageProductPaneOuterColorDiv {
+		padding: 20px 10px 20px 10px;
+	}
+
+    .mainPageProductPaneOuterDiv > .col-md-12 {
+  		padding: 0px 15px 0px 15px;
+	} 
+
+	.mainPageProductPaneOuterDiv > .col-md-12 > .product-box {
+		width: 50%;
+	}
+}
+
+/*Bootstrap Small devices: >768px, <992px */
+@media only screen and (max-width: 992px) and (min-width: 768px) {
+
+	.mainPageProductPaneOuterColorDiv {
+		padding: 20px 10px 20px 10px;
+	}
+
+  	.mainPageProductPaneOuterDiv > .col-md-12 {
+  		padding: 0px 20px 0px 20px;
+	}
+
+	.mainPageProductPaneOuterDiv > .col-md-12 > .product-box {
+		width: 33.33%;
+	}
+}
+
+/* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
+@media (min-width: 991px){
+
+	.mainPageProductPaneOuterColorDiv {
+		padding: 30px 50px 3px 50px;
+	}
+
+ 	.mainPageProductPaneOuterDiv > .col-md-12 {
+  		/*padding: 0px 75px 0px 75px;*/
+  		margin: 0px 75px 0px 75px;
+	}
+
+	.mainPageProductPaneOuterDiv > .col-md-12 > .product-box {
+		width: 20%;
+	}
+}
+
+.mainPageProductPaneOuterShadowDiv {
+	padding: 0px !important;
+	border: 1px solid #ddd;
+	box-shadow: 3px 3px #ddd;
+}
+
+.mainPageProductPaneOuterDiv, .mainPageProductPaneOuterDiv > .col-md-12 {
+	background-color: white;
+}
+
+.mainPageProductPaneHeaderDiv{
+	background-color: white;
+}
+
+.mainPageProductPaneSubheader{
+	color: #3f4a68;
+	vertical-align: middle;
+	padding-left: 20px;
+}
+
+.mainPageProductPaneOuterDiv > .col-md-12 > .product-box {
+  background-color: white;
+  border: none !important;
+  padding-top: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.mainPageProductPaneOuterDiv > .col-md-12 > .product-box:hover{
+	box-shadow: 2px 2px 2px 2px #bbb;
+	z-index: 999;
+}
+
+.mainPageProductPaneOuterDiv > .row {
+	margin: 0px !important;
+	padding:0px !important;
+}

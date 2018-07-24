@@ -1,6 +1,6 @@
-/*
-*{outline: 1px solid red;}
-*/
+
+/**{outline: 1px solid red;}*/
+
 body {
   margin-top: 20px;
 /*  width:98%;
@@ -809,6 +809,7 @@ body {
     display: table-cell;
     cursor: pointer;
 }
+
 .product-box-chat-on {
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;

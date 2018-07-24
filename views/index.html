@@ -40,7 +40,9 @@
   <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
 
   <!-- Custom Stylesheets -->
+  <link rel="stylesheet" type="text/css" href="/assets/css/custom/mainPagePanes.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/custom/flyout.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/custom/topnavigation.css">
 	<!-- End Custom Stylesheets -->
   
   <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
@@ -69,6 +71,8 @@
     <a id="headerLogo" onclick="viewController('homeBanner');" class="brand"><img src="/huddlie-h35.png"> </a>
   </div>
   <div id="navbar" class="navbar-collapse collapse">
+  <!-- Temporary. To be removed. Remove below outer div for search box and cart button. -->
+    <div style="display: none">
     <ul class="nav navbar-nav">
       <li style="width: 50px" class="hidden-xs hidden-sm">
       </li>
@@ -79,6 +83,7 @@
         <input type="submit" id="searchButton" class="btn btn-primary" value="Search" style="width:100%;margin:0;display:none" />
       </li>
     </ul>
+    </div>
     <ul class="nav navbar-nav navbar-right">
       <li class="paddingRight20">
         <button id="cartMainButton" type="button" class="btn btn-primary" onclick="viewCart()" style="width:100%; display:none;">
@@ -97,9 +102,27 @@
         </label>
         <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="color:white;top:-8px"></span>
       </li>
-      <li class="chatViewButtonOuter">
+      <li class="paddingRight20 chatViewButtonOuter">
         <button id="chatViewButton" class="btn btn-info" type="button" onclick="chatViewButtonClicked();" style="width:100%;">Huddle Up!
         </button>
+      </li>
+      <li id="retailerDropdownOuter">
+        <button id="retailerDropdownButton" class="form-control" onclick="retailerDropdownButtonClicked();">
+          <span id="retailerDropdownButtonSpanUS"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/flags/4x3/us.svg"/>US</span>
+          <span id="retailerDropdownButtonSpanIN" style="display: none;"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/flags/4x3/in.svg"/>IN</span>
+          <span class="caret"></span>
+        </button>
+
+        <div id="retailerDropdownMenu">
+          <a onclick="retailerDropdownMenuButtonSelected('US', true)">
+            <span><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/flags/4x3/us.svg"/></span>
+            US
+          </a>
+          <a onclick="retailerDropdownMenuButtonSelected('IN', true)">
+            <span><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/flags/4x3/in.svg"/></span>
+            IN
+          </a>
+        </div>
       </li>
     </ul>
   </div>
@@ -116,7 +139,7 @@
                       <!-- Temporary - To be removed -->
                       <div class="col-md-12" style="background-color: white; border-bottom: solid gray 1px">
                         <div class="row">
-                            <div id="flyoutDivAmazonUS" class="col-md-12 text-center pagination-centered">
+                            <div id="flyoutDivAmazonUS" class="col-md-12 text-center pagination-centered" style="background-color: #f0f0f0">
                                 
                                 <ul id="flyoutTopLevelList" class="list-inline float-flyout-US" style="margin-bottom: -10px !important;margin-top: -5px !important">
                                     <li id="flyoutUSNode-Women" class="flyout0Node" onmouseover="hoverFlyout0Node('flyoutUSNode-Women','flyoutUSDetailDiv-Women')">
@@ -1233,9 +1256,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div id="flyoutDivAmazonIN" class="col-md-12 text-center pagination-centered" style="display: none">
+                            <div id="flyoutDivAmazonIN" class="col-md-12 text-center pagination-centered" style="display: none; background-color: #f0f0f0">
                                 
-                                <ul id="flyoutTopLevelList" class="list-inline float-flyout-IN">
+                                <ul id="flyoutTopLevelList" class="list-inline float-flyout-IN" style="margin-bottom: -10px !important;margin-top: -5px !important">
                                     <li id="flyoutINNode-Women" class="flyout0Node" onmouseover="hoverFlyout0Node('flyoutINNode-Women','flyoutINDetailDiv-Women')">
                                         <label>Women</label>
                                         <span class="caret"></span>
@@ -2353,7 +2376,7 @@
         </div>
 
         <!-- Home page div/Banners Area -->
-        <div id="bannersArea" class="col-md-12" style="background-color:white">
+        <div id="bannersArea" style="background-color:white">
             <!-- Amazon Banner -->
           <!-- Temporary - to be removed. remove outer div to display country buttons. -->
           <div style="display: none;">
@@ -4527,7 +4550,8 @@
                     </div>
             </div>
 
-            <div id="fourBannersArea" style="display:none">
+            <div id="fourBannersArea" class="col-md-12" style="display:none">
+                
                 <div style="text-align: center; background-color:white;" class="row">
                   <!-- Temporary - to be removed. uncomment below line. -->
                     <!-- <hr style="border-top: 1px solid #8c8b8b; width:90%;"> -->
@@ -4605,12 +4629,553 @@
                     </div>
                 </div>
             </div>
-            
-            <div style="background-color:white;width:100%">
-            <br/>
+
+            <div id="mainPageProductPanesContainerUS">
+
+              <!-- lighter pink #fff9fc; -->
+              <div class="col-md-12 mainPageProductPaneOuterColorDiv" style="background-color: #ffedf6;">
+                <div class="col-md-12  mainPageProductPaneOuterShadowDiv">
+                  <div style="text-align: center;" class="col-md-12 mainPageProductPaneHeaderDiv">
+                      <!-- Temporary - to be removed. uncomment below line. -->
+                      <!-- <hr style="border-top: 1px solid #8c8b8b; width:90%;"> -->
+                      <div class="col-md-4">
+                      </div>
+                      <div class="col-md-4" style="vertical-align: middle;">
+                          <h3 style="vertical-align: middle; color:#3f4a68 ; margin: 20px 0px 0px 0px !important"><strong>Women's Clothing</strong></h3>
+                      </div>
+                      <div class="col-md-4">
+                      </div>
+                  </div>
+                  
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader" style="margin-top: 10px !important;">Dresses</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B07BQNGXLN" onclick="redirectItemLookup(&quot;B07BQNGXLN&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/411yAPvQ8pL.jpg"></div><div class="product-title">MOLERANI Women's Short Sleeve Shirt Casual Loose Swing Dress, Black, Medium<br><p>By MOLERANI</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$18.99</p></div>
+                      
+                      <div id="B07BQPF5RW" onclick="redirectItemLookup(&quot;B07BQPF5RW&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41G%2BuDQnbjL.jpg"></div><div class="product-title">Milumia Women's Button Up Split Floral Print Flowy Party Maxi Dress Medium Light Green<br><p>By Milumia</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$31.99</p></div>
+
+                      <div id="B01DGN083G" onclick="redirectItemLookup(&quot;B01DGN083G&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51EVIijg4tL.jpg"></div><div class="product-title">DRESSTELLS Vintage 1950s Rockabilly Polka Dots Audrey Dress Retro Cocktail Dress Cherry White S<br><p>By DRESSTELLS</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$25.66</p></div>
+
+                      <div id="B07CKQS1BL" onclick="redirectItemLookup(&quot;B07CKQS1BL&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41JcX38QSBL.jpg"></div><div class="product-title">oxiuly Women's Vintage Black Dot Patchwork Pocket Puffy Swing Casual Dress OX165 (XL, Black)<br><p>By oxiuly</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$29.96</p></div>
+
+                      <div id="B079LXDZTT" onclick="redirectItemLookup(&quot;B079LXDZTT&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/31sOcZFUaZL.jpg"></div><div class="product-title">Lark &amp; Ro Women's 3/4 Sleeve Knit Fit and Flare Dress, Cobalt, X-Large<br><p>By Lark &amp; Ro</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$39.00</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Tops &amp; Tees</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B074SNMLM3" onclick="redirectItemLookup(&quot;B074SNMLM3&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51Icrvma7ZL.jpg"></div><div class="product-title">YunJey short sleeve round neck triple color block stripe T-shirt casual blouse,Red,Medium<br><p>By YunJey</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$15.99</p></div>
+
+                      <div id="B074SF62MY" onclick="redirectItemLookup(&quot;B074SF62MY&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/514K0bHpZTL.jpg"></div><div class="product-title">Plus Size Tunic Tops,Women Vintage V Neck Paisley Blouse Short Sleeve Flowy Tops Shirt Black,XXL<br><p>By Halife</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$21.99</p></div>
+
+                      <div id="B06XDC1J96" onclick="redirectItemLookup(&quot;B06XDC1J96&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41XSIBSy-HL.jpg"></div><div class="product-title">MakeMeChic Women's Flowy V Neck Strappy Loose Tank Tops Cami Blouse Black XL<br><p>By MakeMeChic</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$13.99</p></div>
+
+                      <div id="B01E2DKX66" onclick="redirectItemLookup(&quot;B01E2DKX66&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51XfuFW2c3L.jpg"></div><div class="product-title">Relipop Women's Sheer Chiffon Blouse Loose Tops Kimono Floral Print Cardigan (XX-Large, Beige)<br><p>By Relipop</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$17.99</p></div>
+
+                      <div id="B074WGR1JX" onclick="redirectItemLookup(&quot;B074WGR1JX&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51l5QCDe3qL.jpg"></div><div class="product-title">Jack BB Dakota Junior's Delle Linen Blend Jersey Top, Light Heathered Grey, Medium<br><p>By Jack</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$45.00</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Skirts</h3>
+                    </div>
+                    
+                    <div class="row col-md-12">
+                      <div id="B01FP2SXG0" onclick="redirectItemLookup(&quot;B01FP2SXG0&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/5194wO6j5DL.jpg"></div><div class="product-title">Afibi Women Full/Ankle Length Blending Maxi Chiffon Long Skirt Beach Skirt (Medium, Design A)<br><p>By Afibi</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$24.99</p></div>
+
+                      <div id="B06XW3VXHW" onclick="redirectItemLookup(&quot;B06XW3VXHW&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41TSO22YLdL.jpg"></div><div class="product-title">Yonala Womens Boho Floral Tie Up Waist Summer Beach Wrap Cover Up Maxi Skirt Apricot Small<br><p>By Yonala</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$17.99</p></div>
+
+                      <div id="B078N5J36H" onclick="redirectItemLookup(&quot;B078N5J36H&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/31GXPB7f5WL.jpg"></div><div class="product-title">Women Elegant High Waist Work Fishtail Party Skirts L K241-1<br><p>By Kate Kasin</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$18.99</p></div>
+
+                      <div id="B01C2PO7PE" onclick="redirectItemLookup(&quot;B01C2PO7PE&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/419JmV%2BiZzL.jpg"></div><div class="product-title">Joeoy Women's Elastic Waist Ballet Layered Princess Mesh Tulle Midi Skirt-S<br><p>By Joeoy</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$16.99</p></div>
+
+                      <div id="B06XZPDBH4" onclick="redirectItemLookup(&quot;B06XZPDBH4&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51oxcbG9U9L.jpg"></div><div class="product-title">Taydey A-Line Pleated Vintage Skirts for Women (S, Navy Flower)<br><p>By Taydey</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$18.99</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Pants</h3>
+                    </div>
+                    
+                    <div class="row col-md-12">
+                      <div id="B00JZ1RKUS" onclick="redirectItemLookup(&quot;B00JZ1RKUS&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/31YCyiPF9-L.jpg"></div><div class="product-title">Rekucci Women's "Ease In To Comfort Fit" Capri with Button Detail (14,Black)<br><p>By Rekucci</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$28.99</p></div>
+
+                      <div id="B00O4BJ39U" onclick="redirectItemLookup(&quot;B00O4BJ39U&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/31OAQy18E9L.jpg"></div><div class="product-title">LEE Women's Relaxed Fit Capri Pant, White, 4 Medium<br><p>By LEE</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$32.90</p></div>
+
+                      <div id="B076PZKYX3" onclick="redirectItemLookup(&quot;B076PZKYX3&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/31aRVmFrMEL.jpg"></div><div class="product-title">Daily Ritual Women's Skinny Stretch Jegging, Black, M, Regular<br><p>By Daily Ritual</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$20.00</p></div>
+
+                      <div id="B01FYQXK6U" onclick="redirectItemLookup(&quot;B01FYQXK6U&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41k7EY1zCqL.jpg"></div><div class="product-title">Levi's Women's 721 High Rise Skinny Jeans, Vintage Blues, 27 (US 4) R<br><p>By Levi's</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$54.06</p></div>
+
+                      <div id="B00OLOYMVY" onclick="redirectItemLookup(&quot;B00OLOYMVY&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/3198Z0PsVLL.jpg"></div><div class="product-title">Briggs New York Women's Petite Bistretch Tummy Straight Leg Pant, Black, 14 Petite<br><p>By Briggs</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$19.99</p></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="col-md-12" style="height: 45px; background: linear-gradient(180deg, #f7e8e6, #ffffdd);">, #fff9fc, #fefff9, #edfaff
+              </div> -->
+              
+              <!-- lighter yellow #fefff9; -->
+              <div class="col-md-12 mainPageProductPaneOuterColorDiv" style="background-color: #fcffed;">
+                <div class="col-md-12  mainPageProductPaneOuterShadowDiv">
+                  <div style="text-align: center;" class="col-md-12 mainPageProductPaneHeaderDiv">
+                      <!-- Temporary - to be removed. uncomment below line. -->
+                      <!-- <hr style="border-top: 1px solid #8c8b8b; width:90%;"> -->
+                      <div class="col-md-4">
+                      </div>
+                      <div class="col-md-4" style="vertical-align: middle;">
+                          <h3 style="vertical-align: middle; color:#3f4a68 ; margin: 20px 0px 0px 0px !important"><strong>Shoes &amp; Handbags</strong></h3>
+                      </div>
+                      <div class="col-md-4">
+                      </div>
+                  </div>
+                  
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader" style="margin-top: 10px !important;">Women's Sandals</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B07BHW6KX6" onclick="redirectItemLookup(&quot;B07BHW6KX6&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/412jirAkLqL.jpg"></div><div class="product-title">SANDALUP Women's Elastic Flat Sandals Navy Blue Size 05<br><p>By SANDALUP</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$16.99</p></div>
+
+                      <div id="B073RNDDKG" onclick="redirectItemLookup(&quot;B073RNDDKG&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41rsTnaRduL.jpg"></div><div class="product-title">DREAM PAIRS Women's Ingrid Gold Plaid Ankle Strap Low Wedge Sandals Size 8 M US<br><p>By DREAM PAIRS</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$24.99</p></div>
+
+                      <div id="B07CQQLX9C" onclick="redirectItemLookup(&quot;B07CQQLX9C&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41-T0pO5GWL.jpg"></div><div class="product-title">DREAM PAIRS Women's Gigi Black Nubuck Fashion Stilettos Open Toe Pump Heeled Sandals Size 9 B(M) US<br><p>By DREAM PAIRS</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$24.99</p></div>
+
+                      <div id="B00TVJ2KRM" onclick="redirectItemLookup(&quot;B00TVJ2KRM&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41h1%2B-WcUPL.jpg"></div><div class="product-title">Blowfish Women's Granola Fisherman Sandal, Whiskey Dyecut PU, 9 M US<br><p>By Blowfish</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$26.31</p></div>
+
+                      <div id="B00V822V8I" onclick="redirectItemLookup(&quot;B00V822V8I&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/31SC4blQDlL.jpg"></div><div class="product-title">Crocs Women's Meleen Twist W Flat Sandal, Mushroom/Gold, 5 M US<br><p>By Crocs</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$27.99</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Women's Shoes</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B01LZA9WUZ" onclick="redirectItemLookup(&quot;B01LZA9WUZ&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41oMgs4V93L.jpg"></div><div class="product-title">Converse Womens Chuck Taylor Shoreline Sneaker (Medium/6.5 B(M) US, Black)<br><p>By Converse</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$42.12</p></div>
+
+                      <div id="B073X7HBJ7" onclick="redirectItemLookup(&quot;B073X7HBJ7&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41BMRtmbJhL.jpg"></div><div class="product-title">Le Mouton Unisex LM-01-BG - Merino Wool Lightweight Unisex Shoes 11W/10M M<br><p>By Le Mouton</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$95.00</p></div>
+
+                      <div id="B013BP489Y" onclick="redirectItemLookup(&quot;B013BP489Y&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51ea2OFws6L.jpg"></div><div class="product-title"> Skechers Women's Sport Empire - Rock Around Relaxed Fit Fashion Sneaker, Black, 8 B(M) US<br><p>By Skechers</p></div><div class="product-prime-box"><img height="14px"></div><p class="product-price">$63.00</p></div>
+
+                      <div id="B01M9C1PD1" onclick="redirectItemLookup(&quot;B01M9C1PD1&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41hC8vIdMaL.jpg"></div><div class="product-title">Converse Chuck Taylor All Star Shoreline White Lace-Up Sneaker - 9.5 B(M) US Women / 7.5 D(M) US Men<br><p>By Converse</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$49.95</p></div>
+
+                      <div id="B0797XZFGB" onclick="redirectItemLookup(&quot;B0797XZFGB&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51zrIUI2uNL.jpg"></div><div class="product-title">TOMS Womens Cabrillo Casual Shoe (8 M(B) US, Infinity Blue Textured Velour Mix)<br><p>By TOMS</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$74.95</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Handbags &amp; Clutches</h3>
+                    </div>
+                    
+                    <div class="row col-md-12">
+                      <div id="B01MS6FIBT" onclick="redirectItemLookup(&quot;B01MS6FIBT&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/416TIyWeP9L.jpg"></div><div class="product-title">BEKILOLE Women's Stylish Waterproof Tote Bag Nylon Travel Shoulder Beach Bags-Blue Color - Medium Size<br><p>By BEKILOLE</p></div><div class="product-prime-box"><img height="14px"></div><p class="product-price">$14.95</p></div>
+
+                      <div id="B078GSKL86" onclick="redirectItemLookup(&quot;B078GSKL86&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51%2Bkox%2BQRlL.jpg"></div><div class="product-title">GESU Womens Shining Envelope Clutch Purses Evening Bag Handbags For Wedding and Party<br><p>By GESU</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$14.99</p></div>
+
+                      <div id="B01N1ICPRT" onclick="redirectItemLookup(&quot;B01N1ICPRT&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51WWbRdhsJL.jpg"></div><div class="product-title">Lightweight Medium Crossbody Bag with Tassel Tan<br><p>By Deluxity</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$13.94</p></div>
+
+                      <div id="B0719X659J" onclick="redirectItemLookup(&quot;B0719X659J&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51PHxvrjLkL.jpg"></div><div class="product-title">Handbags for Women Shoulder Bags Tote Satchel Hobo 3pcs Purse Set Pearlescent-Khaki<br><p>By LOVEVOOK</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$45.99</p></div>
+
+                      <div id="B071VK5XFL" onclick="redirectItemLookup(&quot;B071VK5XFL&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51LfHduhIDL.jpg"></div><div class="product-title">Women Fashion Shoulder Bag Jelly Clutch Handbag Quilted Crossbody Bag with Chain - Red<br><p>By Chrysansmile</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$19.99</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Men's Shoes</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B01N9SQVRR" onclick="redirectItemLookup(&quot;B01N9SQVRR&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41do1mE%2BxpL.jpg"></div><div class="product-title">Under Armour Women's Verge Low, Black (001)/Black, 11<br><p>By Under Armour</p></div><div class="product-prime-box"><img height="14px"></div><p class="product-price">$74.99</p></div>
+
+                      <div id="B00605L6Z2" onclick="redirectItemLookup(&quot;B00605L6Z2&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41CNfm%2BYOAL.jpg"></div><div class="product-title">PUMA Men's Roma Basic Fashion Sneaker, White/Black - 8 D(M) US<br><p>By PUMA</p></div><div class="product-prime-box"><img height="14px"></div><p class="product-price">$59.95</p></div>
+
+                      <div id="B019EA7JSC" onclick="redirectItemLookup(&quot;B019EA7JSC&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/416GsZFadoL.jpg"></div><div class="product-title">OLUKAI Nohea Moku Shoe - Men's Rock/Mustang 10.5<br><p>By OLUKAI</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$94.86</p></div>
+
+                      <div id="B00MH331BI" onclick="redirectItemLookup(&quot;B00MH331BI&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41fOKbB6%2BzL.jpg"></div><div class="product-title">Skechers for Work Men's Felton Shoe, Black, 10.5 M US<br><p>By Skechers</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$38.21</p></div>
+
+                      <div id="B011O0K57W" onclick="redirectItemLookup(&quot;B011O0K57W&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51LChvFnLHL.jpg"></div><div class="product-title">Merrell Men's Moab Edge Shoes, Grey, 9.5 M US<br><p>By Merrell</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$57.80</p></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-12 mainPageProductPaneOuterColorDiv" style="background-color: #edfaff;">
+                <div class="col-md-12  mainPageProductPaneOuterShadowDiv">
+                  <div style="text-align: center;" class="col-md-12 mainPageProductPaneHeaderDiv">
+                      <!-- Temporary - to be removed. uncomment below line. -->
+                      <!-- <hr style="border-top: 1px solid #8c8b8b; width:90%;"> -->
+                      <div class="col-md-4">
+                      </div>
+                      <div class="col-md-4" style="vertical-align: middle;">
+                          <h3 style="vertical-align: middle; color:#3f4a68 ; margin: 20px 0px 0px 0px !important"><strong>Men's Clothing</strong></h3>
+                      </div>
+                      <div class="col-md-4">
+                      </div>
+                  </div>
+                  
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader" style="margin-top: 10px !important;">T-Shirts</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B07CR2RRCD" onclick="redirectItemLookup(&quot;B07CR2RRCD&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41AkNUYhLJL.jpg"></div><div class="product-title">H2H Mens Casual Slim Fit Raglan Baseball 3/4 Sleeve Henley Premium T-Shirts CHARCOALBLACK US L/Asia XL (CMTTS0174)<br><p>By H2H</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$18.50</p></div>
+
+                      <div id="B07C3WWRFV" onclick="redirectItemLookup(&quot;B07C3WWRFV&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51-OzaJj4lL.jpg"></div><div class="product-title">Mr.Zhang Men's Casual Slim Fit Short Sleeve Henley T-shirts Cotton Shirts VG-Blue-US L<br><p>By Mr.Zhang</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$18.99</p></div>
+                      
+                      <div id="B01N6DJO7M" onclick="redirectItemLookup(&quot;B01N6DJO7M&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41YCgcHqhXL.jpg"></div><div class="product-title">Champion Men's Classic Jersey T-Shirt, Oatmeal Heather, M<br><p>By Champion</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$15.10</p></div>
+
+                      <div id="B01KLICT2C" onclick="redirectItemLookup(&quot;B01KLICT2C&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/410rhNEZA3L.jpg"></div><div class="product-title">Under Armour Men's Tech Polo, Midnight Navy (410)/Graphite, Large<br><p>By Under Armour</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$39.99</p></div>
+
+                      <div id="B075JWLX3Q" onclick="redirectItemLookup(&quot;B075JWLX3Q&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51zxlb0GiOL.jpg"></div><div class="product-title">Original Penguin Men's Short Sleeve NEP Stripe Henley, Dark Sapphire, Extra Large<br><p>By Original Penguin</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$55.00</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Pants</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B0018OR118" onclick="redirectItemLookup(&quot;B0018OR118&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41qEnW6NLqL.jpg"></div><div class="product-title">Levi's Men's 501 Levisoriginal Fit, Medium Stonewash - 38x28<br><p>By Levi's</p></div><div class="product-prime-box"><img height="14px"></div><p class="product-price">$39.99</p></div>
+
+                      <div id="B07BTPX4ZK" onclick="redirectItemLookup(&quot;B07BTPX4ZK&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41zREKH1zDL.jpg"></div><div class="product-title">UNIONBAY Men's Survivor Iv Relaxed Fit Cargo Pant - Reg and Big and Tall Sizes, rye, 44x32<br><p>By UNIONBAY</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$25.00</p></div>
+
+                      <div id="B00AHLXHC0" onclick="redirectItemLookup(&quot;B00AHLXHC0&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41I19dTihtL.jpg"></div><div class="product-title">Columbia Men's Silver Ridge Stretch Convertible Pants, Whale, 34 x 32<br><p>By Columbia</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$43.93</p></div>
+
+                      <div id="B00NJGPYI0" onclick="redirectItemLookup(&quot;B00NJGPYI0&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41jqg3bSRSL.jpg"></div><div class="product-title">Dickies Men's Original 874 Work Pant Khaki 42W x 34L<br><p>By Dickies</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$19.99</p></div>
+
+                      <div id="B077V4KCT2" onclick="redirectItemLookup(&quot;B077V4KCT2&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41sGkwUWmkL.jpg"></div><div class="product-title">Columbia Silver Ridge Cargo Pant, Peat Moss, 34" x 34"<br><p>By Columbia</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$32.44</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Sweaters, Hoodies &amp; Sweatshirts</h3>
+                    </div>
+                    
+                    <div class="row col-md-12">
+                      <div id="B07CNC2QDJ" onclick="redirectItemLookup(&quot;B07CNC2QDJ&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51DHHmVIHbL.jpg"></div><div class="product-title">H2H Mens Casual V-Neck Long Sleeves Cardigan Sweater Gray US L/Asia XL (CMOCAL012)<br><p>By H2H</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$21.99</p></div>
+
+                      <div id="B007IDM2B2" onclick="redirectItemLookup(&quot;B007IDM2B2&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41xqfymNxpL.jpg"></div><div class="product-title">Alternative Men's Eco Zip Hoodie Sweatshirt Shirt, Eco True Black, X-Large<br><p>By Alternative</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$23.94</p></div>
+
+                      <div id="B073JDXH38" onclick="redirectItemLookup(&quot;B073JDXH38&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51AhFusREwL.jpg"></div><div class="product-title">Goodthreads Men's French Terry Full-Zip Hoodie, Charcoal Heather, X-Large<br><p>By Goodthreads</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$35.00</p></div>
+
+                      <div id="B00E8Q2FFK" onclick="redirectItemLookup(&quot;B00E8Q2FFK&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/31ZNB27-mjL.jpg"></div><div class="product-title">Bodek And Rhodes 67445224 6021 Next Level Unisex Tri-Blend Long-Sleeve Hoody Military Green - Medium<br><p>By Next Level</p></div><div class="product-prime-box"><img height="14px"></div><p class="product-price">$10.99</p></div>
+
+                      <div id="B075JP1TM1" onclick="redirectItemLookup(&quot;B075JP1TM1&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/51cTucJf0dL.jpg"></div><div class="product-title">Amazon Essentials Men's Full-Zip Hooded Fleece Sweatshirt, Charcoal Heather, X-Large<br><p>By Amazon Essentials</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$19.00</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Shorts</h3>
+                    </div>
+                    
+                    <div class="row col-md-12">
+                      <div id="B01JQU0Y8C" onclick="redirectItemLookup(&quot;B01JQU0Y8C&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41Shft7fnFL.jpg"></div><div class="product-title">Amazon Essentials Men's Classic-Fit Cargo Short, Navy, 36<br><p>By Amazon Essentials</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$18.00</p></div>
+
+                      <div id="B01MT8MQBT" onclick="redirectItemLookup(&quot;B01MT8MQBT&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/4170RxQLSuL.jpg"></div><div class="product-title">UNIONBAY Men's Survivor Belted Cargo Short, Military, 36<br><p>By UNIONBAY</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$29.95</p></div>
+
+                      <div id="B00NYSURQM" onclick="redirectItemLookup(&quot;B00NYSURQM&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41qTbskFgqL.jpg"></div><div class="product-title">IZOD Men's Classic Fit Golf Short, Nickel, 36W<br><p>By IZOD</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$21.33</p></div>
+
+                      <div id="B001UQ6TSA" onclick="redirectItemLookup(&quot;B001UQ6TSA&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/410ZB4g7TFL.jpg"></div><div class="product-title">Levi's Men's 505 Regular Fit Short, Medium Stonewash, 36<br><p>By Levi's</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$26.99</p></div>
+
+                      <div id="B075G6N12V" onclick="redirectItemLookup(&quot;B075G6N12V&quot;,&quot;US&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-na.ssl-images-amazon.com/images/I/41vRfJOpGRL.jpg"></div><div class="product-title">Savane Men's Pleated Mirco Fiber Short, Total Eclipse, 38<br><p>By Savane</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">$24.99</p></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
-            
+
+            <div id="mainPageProductPanesContainerIN">
+
+              <div class="col-md-12 mainPageProductPaneOuterColorDiv" style="background-color: #ffedf6;">
+                <div class="col-md-12  mainPageProductPaneOuterShadowDiv">
+                  <div style="text-align: center;" class="col-md-12 mainPageProductPaneHeaderDiv">
+                      <!-- Temporary - to be removed. uncomment below line. -->
+                      <!-- <hr style="border-top: 1px solid #8c8b8b; width:90%;"> -->
+                      <div class="col-md-4">
+                      </div>
+                      <div class="col-md-4" style="vertical-align: middle;">
+                          <h3 style="vertical-align: middle; color:#3f4a68 ; margin: 20px 0px 0px 0px !important"><strong>Women's Clothing</strong></h3>
+                      </div>
+                      <div class="col-md-4">
+                      </div>
+                  </div>
+                  
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader" style="margin-top: 10px !important;">Tops &amp; Tees</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B076CRNNQZ" onclick="redirectItemLookup(&quot;B076CRNNQZ&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/411byStzFJL._SL160_.jpg"></div><div class="product-title">Vvoguish Women's Regular Fit Cotton Top<br><p>By Vvoguish</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 399.00</p></div>
+
+                      <div id="B01N1SNE1V" onclick="redirectItemLookup(&quot;B01N1SNE1V&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/418n-qyntXL.jpg"></div><div class="product-title">Aeropostale Women's Polo<br><p>By Aeropostale</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 389.00</p></div>
+
+                      <div id="B07D78Y282" onclick="redirectItemLookup(&quot;B07D78Y282&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41iOXRk2%2BUL.jpg"></div><div class="product-title">Forever 21 Women's Slim Fit Shirt<br><p>By Forever 21</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 999.00</p></div>
+
+                      <div id="B078HC5QJW" onclick="redirectItemLookup(&quot;B078HC5QJW&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41i4U0NVh2L._SL160_.jpg"></div><div class="product-title">Vvoguish Women's Cotton Top (VVPNTTP1030M, Magenta)<br><p>By Vvoguish</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 388.00</p></div>
+
+                      <div id="B07CX5S1RW" onclick="redirectItemLookup(&quot;B07CX5S1RW&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41aYEZWFKeL.jpg"></div><div class="product-title">Styleville.in Women's Plain Regular Fit Top<br><p>By Styleville.in</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 429.00</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Skirts</h3>
+                    </div>
+                    
+                    <div class="row col-md-12">
+                      <div id="B07D4R1KY4" onclick="redirectItemLookup(&quot;B07D4R1KY4&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/51BiOGS4fKL.jpg"></div><div class="product-title">global desi Women's A-Line Midi Skirt<br><p>By global desi</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 879.00</p></div>
+
+                      <div id="B01LNWKXSM" onclick="redirectItemLookup(&quot;B01LNWKXSM&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41zfbt1ysaL.jpg"></div><div class="product-title">Pezzava Women's Cotton Mini Skirt (Red_Free)<br><p>By Pezzava</p></div><div class="product-prime-box"><img height="14px"></div><p class="product-price">INR 276.00</p></div>
+
+                      <div id="B07D78GBKS" onclick="redirectItemLookup(&quot;B07D78GBKS&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/31WuH%2Bqv4YL.jpg"></div><div class="product-title">Forever 21 Women's Skirt<br><p>By Forever 21</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 999.00</p></div>
+
+                      <div id="B07D4SXKJD" onclick="redirectItemLookup(&quot;B07D4SXKJD&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/31o0Lqk7-sL.jpg"></div><div class="product-title">AND Women's Knee-Long Skirt<br><p>By AND</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 604.00</p></div>
+
+                      <div id="B07D4QL7XG" onclick="redirectItemLookup(&quot;B07D4QL7XG&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/519FBquzzOL.jpg"></div><div class="product-title">global desi Women's A-Line Midi Skirt<br><p>By global desi</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 879.00</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Kurtas &amp; Salwar Suit Sets</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B078H7FFWS" onclick="redirectItemLookup(&quot;B078H7FFWS&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41gJ6GOxbaL.jpg"></div><div class="product-title">Amayra Women's Cotton Printed Blue Anarkali Kurti<br><p>By Amayra</p></div><div class="product-prime-box"><img height="14px"></div><p class="product-price">INR 799.00</p></div>
+
+                      <div id="B073YFJTNL" onclick="redirectItemLookup(&quot;B073YFJTNL&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/51G6aFrkQSL.jpg"></div><div class="product-title">Gulmohar Jaipur Women's Cotton A-line Kurti (Green)<br><p>By GULMOHAR JAIPUR</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 649.00</p></div>
+
+                      <div id="B07DVSGSML" onclick="redirectItemLookup(&quot;B07DVSGSML&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/412nxeyFCgL._SL160_.jpg"></div><div class="product-title">Sreshee Women's Premium Cotton Designer Kurti with Palazzo Pants Set<br><p>By Sreshee</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 999.00</p></div>
+
+                      <div id="B07CVGTZML" onclick="redirectItemLookup(&quot;B07CVGTZML&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41VpghAyu7L.jpg"></div><div class="product-title">Pramukh Fashion Women's Cotton kurtis (ky kurtis)_Free Size semi stich<br><p>By Pramukh Fashion</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 399.00</p></div>
+
+                      <div id="B07CQ4XZ9C" onclick="redirectItemLookup(&quot;B07CQ4XZ9C&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/51tAvyt1bjL.jpg"></div><div class="product-title">Pramukh Fashion New Semistichead pack of 3 kurtis combo<br><p>By Pramukh Fashion</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 725.00</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Sarees</h3>
+                    </div>
+                    
+                    <div class="row col-md-12">
+                      <div id="B072PTGN1G" onclick="itemLookup(&quot;B072PTGN1G&quot;,&quot;B0728MXDWM,B0797XG6NG,B06Y46683Y,B078V73KQQ,B074G1PS4V,B075MDXCZ8&quot;,&quot;B072PTGN1G&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/51w498OnBRL.jpg"></div><div class="product-title">Rani Saahiba Women's Art Silk Saree with Blouse Piece<br><p>By Rani Saahiba</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 519.00</p></div>
+
+                      <div id="B07BZFPCL8" onclick="itemLookup(&quot;B07BZFPCL8&quot;,&quot;B07D5CDZQ4,B07BZPLMJB,B078Y7DD52,B07C9T8NLY,B079CJZXH2,B07DMMGY64&quot;,&quot;B07BZFPCL8&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41c-nbrCUBL.jpg"></div><div class="product-title">Nirmla Fashion Cotton Silk Saree With Blouse Piece(saree for S1115__Free Size)<br><p>By Nirmla Fashion</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 589.00</p></div>
+
+                      <div id="B0764TQGBQ" onclick="itemLookup(&quot;B0764TQGBQ&quot;,&quot;B07B87MYJT,B07BLZW8D5,B07BJ6JJBH,B077HZZVCN,B078771JK9,B079C434MH&quot;,&quot;B0764TQGBQ&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/51MROrcFfuL._SL160_.jpg"></div><div class="product-title">Ecolors Fab Women's Cotton Silk Saree (EC_500_Series_2017_Sarees)<br><p>By Ecolors Fab</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 689.00</p></div>
+
+                      <div id="B079NBHCKM" onclick="redirectItemLookup(&quot;B079NBHCKM&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/51STUrvpZ0L.jpg"></div><div class="product-title">Mrinalika Fashion Women's Art Silk Saree With Blouse Piece (Srja006_Red)<br><p>By Mrinalika Fashion</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 429.00</p></div>
+
+                      <div id="B07DQL5NNK" onclick="redirectItemLookup(&quot;B07DQL5NNK&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41JCOH0XHlL._SL160_.jpg"></div><div class="product-title">Indira Designer Women's Cotton Silk Plain Saree With Blouse<br><p>By Indira Designer</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 499.00</p></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="col-md-12" style="height: 45px; background: linear-gradient(180deg, #f7e8e6, #ffffdd);">, #fff9fc, #fefff9, #edfaff
+              </div> -->
+              
+              <div class="col-md-12 mainPageProductPaneOuterColorDiv" style="background-color: #fcffed;">
+                <div class="col-md-12  mainPageProductPaneOuterShadowDiv">
+                  <div style="text-align: center;" class="col-md-12 mainPageProductPaneHeaderDiv">
+                      <!-- Temporary - to be removed. uncomment below line. -->
+                      <!-- <hr style="border-top: 1px solid #8c8b8b; width:90%;"> -->
+                      <div class="col-md-4">
+                      </div>
+                      <div class="col-md-4" style="vertical-align: middle;">
+                          <h3 style="vertical-align: middle; color:#3f4a68 ; margin: 20px 0px 0px 0px !important"><strong>Shoes &amp; Handbags</strong></h3>
+                      </div>
+                      <div class="col-md-4">
+                      </div>
+                  </div>
+                  
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader" style="margin-top: 10px !important;">Women's Sandals</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B06XZNHK15" onclick="redirectItemLookup(&quot;B06XZNHK15&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41UHNf5iFDL.jpg"></div><div class="product-title">Denill Designer Synthetic Women's Wedges<br><p>By Denill</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 449.00</p></div>
+
+                      <div id="B079ZDM3HC" onclick="redirectItemLookup(&quot;B079ZDM3HC&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41Ft2jpKF3L.jpg"></div><div class="product-title">BATA Women's Bellasandal Fashion Sandals<br><p>By BATA</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 599.00</p></div>
+
+                      <div id="B00SYIVGHG" onclick="redirectItemLookup(&quot;B00SYIVGHG&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41n7fnYl2fL.jpg"></div><div class="product-title">Bata Women's Fashion Sandals<br><p>By BATA</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 639.00</p></div>
+
+                      <div id="B06XKDB6JH" onclick="redirectItemLookup(&quot;B06XKDB6JH&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41e5dsNMRuL.jpg"></div><div class="product-title">Catwalk Women's Fashion Sandals<br><p>By Catwalk</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 799.00</p></div>
+
+                      <div id="B072HXH58Z" onclick="redirectItemLookup(&quot;B072HXH58Z&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/516fmbsK2lL._SL160_.jpg"></div><div class="product-title">VAGON Women's Suede Leather Block Heel Sandals<br><p>By VAGON</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 475.00</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Women's Shoes</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B012WNQJ5M" onclick="redirectItemLookup(&quot;B012WNQJ5M&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41Gxt5LaLwL.jpg"></div><div class="product-title">Converse Unisex Canvas Sneakers<br><p>By Converse</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 1,499.00</p></div>
+
+                      <div id="B01L7QZT1K" onclick="redirectItemLookup(&quot;B01L7QZT1K&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41fbfmndeLL.jpg"></div><div class="product-title">Asian shoes RL-23 Navy Blue Pink Canvas Women Shoes<br><p>By Asian shoes</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 359.00</p></div>
+
+                      <div id="B074CF88RW" onclick="redirectItemLookup(&quot;B074CF88RW&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41ggBZuFbeL.jpg"></div><div class="product-title">Thari Choice Woman Faux Leather Belly Shoe<br><p>By Thari Choice</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 359.00</p></div>
+
+                      <div id="B01HVVFL68" onclick="redirectItemLookup(&quot;B01HVVFL68&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41zkukkrgzL.jpg"></div><div class="product-title">Asian shoes LR-93 Black Canvas Ladies Shoes<br><p>By Asian shoes</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 319.00</p></div>
+
+                      <div id="B0753YKK8Z" onclick="redirectItemLookup(&quot;B0753YKK8Z&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/51RcySR2coL.jpg"></div><div class="product-title">Scantia Women/Girl Casual Canvas Loafers Shoes_Casual Shoes with Stylish look New Latest Fashionable Trail Casual Fitness shoes comfortable to Wear with Attractive look shoe for Party or Carry in Daily Life _(Hurry Bumper Valentine Offer on Scantia Collection)<br><p>By Scantia</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 399.00</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Handbags &amp; Clutches</h3>
+                    </div>
+                    
+                    <div class="row col-md-12">
+                      <div id="B01A5OCT6S" onclick="redirectItemLookup(&quot;B01A5OCT6S&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41B3tRKK0mL.jpg"></div><div class="product-title">Fostelo Westside Women's Handbag (Tan)<br><p>By Fostelo</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 664.00</p></div>
+
+                      <div id="B074RGFV5R" onclick="redirectItemLookup(&quot;B074RGFV5R&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41WcLGqA5WL.jpg"></div><div class="product-title">Kleio Polka Dots Canvas Slingbag For Girls / Women<br><p>By Kleio</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 479.00</p></div>
+
+                      <div id="B0728BJ9YY" onclick="redirectItemLookup(&quot;B0728BJ9YY&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/51vCAGyvQPL.jpg"></div><div class="product-title">Di Grazia Women's 5 in 1 Combo Of Shoulder Bag, Satchel, Clutch, Wallet &amp; Handbag (Blue ,Blue-5in1-Combo-Bag)<br><p>By DI GRAZIA</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 1,999.00</p></div>
+
+                      <div id="B076N36VMN" onclick="redirectItemLookup(&quot;B076N36VMN&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41POkTjYhRL.jpg"></div><div class="product-title">Fostelo Versatile Women's Clutch (Green)<br><p>By Fostelo</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 449.00</p></div>
+
+                      <div id="B074MFQ61R" onclick="redirectItemLookup(&quot;B074MFQ61R&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41iLY4crK8L.jpg"></div><div class="product-title">Caprese Women's Satchel (Purple)<br><p>By Caprese</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 1,759.00</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Men's Shoes</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B010NBOHLS" onclick="redirectItemLookup(&quot;B010NBOHLS&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41ZxYlVYFbL.jpg"></div><div class="product-title">Sparx Men's Multicolour Canvas Sneakers<br><p>By Sparx</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 849.00</p></div>
+
+                      <div id="B01DB938EG" onclick="redirectItemLookup(&quot;B01DB938EG&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41iy-8sMu9L.jpg"></div><div class="product-title">Kraasa Men's Faux Leather Sneaker<br><p>By Kraasa</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 449.00</p></div>
+
+                      <div id="B077N1B1DF" onclick="redirectItemLookup(&quot;B077N1B1DF&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41nborNDPYL.jpg"></div><div class="product-title">Sparx Men's Sm-323 Dip Canvas Shoes - Black<br><p>By Sparx</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 669.00</p></div>
+
+                      <div id="B06X3RFXH9" onclick="redirectItemLookup(&quot;B06X3RFXH9&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/415zPYzVTaL.jpg"></div><div class="product-title">Shoes Bank Men's Leather Outdoor Casual + Partywear Shoes<br><p>By Shoes Bank</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 499.00</p></div>
+
+                      <div id="B079LJZGWV" onclick="redirectItemLookup(&quot;B079LJZGWV&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/51fz4tBUhML.jpg"></div><div class="product-title">Bond Street by (Red Tape) Men's Sneakers<br><p>By Bond Street by (Red Tape)</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 778.00</p></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-12 mainPageProductPaneOuterColorDiv" style="background-color: #edfaff;">
+                <div class="col-md-12  mainPageProductPaneOuterShadowDiv">
+                  <div style="text-align: center;" class="col-md-12 mainPageProductPaneHeaderDiv">
+                      <!-- Temporary - to be removed. uncomment below line. -->
+                      <!-- <hr style="border-top: 1px solid #8c8b8b; width:90%;"> -->
+                      <div class="col-md-4">
+                      </div>
+                      <div class="col-md-4" style="vertical-align: middle;">
+                          <h3 style="vertical-align: middle; color:#3f4a68 ; margin: 20px 0px 0px 0px !important"><strong>Men's Clothing</strong></h3>
+                      </div>
+                      <div class="col-md-4">
+                      </div>
+                  </div>
+                  
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader" style="margin-top: 10px !important;">T-Shirts</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B075KG92QD" onclick="redirectItemLookup(&quot;B075KG92QD&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/51IFX3Bez2L.jpg"></div><div class="product-title">Seven Rocks Men's Buttoned Cotton Tshirt<br><p>By Seven Rocks</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 499.00</p></div>
+
+                      <div id="B078ZHRQVC" onclick="redirectItemLookup(&quot;B078ZHRQVC&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/51uWxQZ8-iL.jpg"></div><div class="product-title">Zeyo Heavy Cotton Olive White Printed Full Sleeve Tshirt for Mens - Stylish Round Neck t Shirt - Regular fit tee<br><p>By Zeyo</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 749.00</p></div>
+
+                      <div id="B075XK25L8" onclick="itemLookup(&quot;B075XK25L8&quot;,&quot;B075XM393G,B06XHZV974,B078MFCSPP,B073SRH333,B078B5FJJJ,B0785JX2JR&quot;,&quot;B075XK25L8&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41SEHNMbGBL.jpg"></div><div class="product-title">Veirdo Men's Cotton T-Shirt Black Maroon Casual T-Shirt<br><p>By Veirdo</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 399.00</p></div>
+
+                      <div id="B01LZZOS9I" onclick="redirectItemLookup(&quot;B01LZZOS9I&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41ePg31MX8L.jpg"></div><div class="product-title">WEXFORD Men's Cotton Polo Neck Half Sleeve Casual T-Shirt (Grey)<br><p>By WEXFORD</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 530.00</p></div>
+
+                      <div id="B06XCXMW4B" onclick="redirectItemLookup(&quot;B06XCXMW4B&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/515naKq8IqL.jpg"></div><div class="product-title">Urbano Fashion Men's Black, Grey, Yellow Round Neck Full Sleeve T-Shirt<br><p>By Urbano Fashion</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 385.00</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Shirts</h3>
+                    </div>
+                    
+                    <div class="row col-md-12">
+                      <div id="B078ZS6H2G" onclick="redirectItemLookup(&quot;B078ZS6H2G&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/51-a93sfo-L.jpg"></div><div class="product-title">Dennis Lingo Men's Cotton Casual Shirt (Red_Medium)<br><p>By Dennis Lingo</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 649.00</p></div>
+
+                      <div id="B07BBDM8JH" onclick="redirectItemLookup(&quot;B07BBDM8JH&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/415i0lLeb1L.jpg"></div><div class="product-title">GAP Men's Plain Regular Fit Casual Shirt<br><p>By GAP</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 1,177.55</p></div>
+
+                      <div id="B075H2M7GG" onclick="redirectItemLookup(&quot;B075H2M7GG&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/512Q30Z4axL.jpg"></div><div class="product-title">Pearl Ocean Men's Satin Shirt (Sandy Brown)<br><p>By PEARL OCEAN</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 699.00</p></div>
+
+                      <div id="B077Z99VYF" onclick="redirectItemLookup(&quot;B077Z99VYF&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41DH-CiRzNL.jpg"></div><div class="product-title">Peter England Men's Checkered Slim Fit Formal Shirt<br><p>By Peter England</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 599.00</p></div>
+
+                      <div id="B077ZFL859" onclick="redirectItemLookup(&quot;B077ZFL859&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41W8tqFW90L.jpg"></div><div class="product-title">Peter England Men's Printed Slim Fit Casual Shirt<br><p>By Peter England</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 899.00</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Pants</h3>
+                    </div>
+
+                    <div class="row col-md-12">
+                      <div id="B07864V3WN" onclick="redirectItemLookup(&quot;B07864V3WN&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41yY6YMST7L.jpg"></div><div class="product-title">US Polo Association Men's Tapered Fit Jeans<br><p>By US Polo Association</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 1,623.00</p></div>
+
+                      <div id="B07BY7PYL5" onclick="redirectItemLookup(&quot;B07BY7PYL5&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/411a6qVuVXL.jpg"></div><div class="product-title">Indian Terrain Men's Slim Fit Casual Trousers<br><p>By Indian Terrain</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 1,439.00</p></div>
+
+                      <div id="B013WL4SS8" onclick="redirectItemLookup(&quot;B013WL4SS8&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41ok2P5mYYL.jpg"></div><div class="product-title">Allen Solly Men's Casual Trousers<br><p>By Allen Solly</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 949.00</p></div>
+
+                      <div id="B079F8ZF5Y" onclick="redirectItemLookup(&quot;B079F8ZF5Y&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41kx2poglEL.jpg"></div><div class="product-title">Pepe Jeans Men's Slim Fit Jeans<br><p>By Pepe Jeans</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 1,949.00</p></div>
+
+                      <div id="B0797DNFWV" onclick="redirectItemLookup(&quot;B0797DNFWV&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41MKwIJm2HL.jpg"></div><div class="product-title">Roots By Ruggers Men's Chino Formal Trousers<br><p>By Roots By Ruggers</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 1,340.00</p></div>
+                    </div>
+                  </div>
+
+                  <div class="mainPageProductPaneOuterDiv">
+                    <div class="row col-md-12">
+                      <h3 class="mainPageProductPaneSubheader">Shorts</h3>
+                    </div>
+                    
+                    <div class="row col-md-12">
+                      <div id="B0797FRXDM" onclick="redirectItemLookup(&quot;B0797FRXDM&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41lM7Yx4eGL.jpg"></div><div class="product-title">Jack &amp; Jones Men's Regular Fit Shorts<br><p>By Jack &amp; Jones</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 1,319.00</p></div>
+
+                      <div id="B07D6JKDP8" onclick="redirectItemLookup(&quot;B07D6JKDP8&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/411joy0re0L.jpg"></div><div class="product-title">Breakbounce Men's Slim Fit Shorts<br><p>By Breakbounce</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 1,259.00</p></div>
+
+                      <div id="B07BWSV3FG" onclick="redirectItemLookup(&quot;B07BWSV3FG&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41X4ierKBsL.jpg"></div><div class="product-title">French Connection Men's Regular Fit Shorts<br><p>By French Connection</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 1,379.00</p></div>
+
+                      <div id="B078YJ4XRR" onclick="redirectItemLookup(&quot;B078YJ4XRR&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/31MKYuSuOQL.jpg"></div><div class="product-title">United Colors of Benetton Men's Slim Fit Shorts<br><p>By United Colors of Benetton</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 1,319.00</p></div>
+
+                      <div id="B077ZCBBR4" onclick="redirectItemLookup(&quot;B077ZCBBR4&quot;,&quot;IN&quot;)" class="product-box"><div class="product-image-div middle"><img class="product-image" src="https://images-eu.ssl-images-amazon.com/images/I/41UU4aPklFL.jpg"></div><div class="product-title">US Polo Association Men's Regular Fit Shorts<br><p>By US Polo Association</p></div><div class="product-prime-box"><img src="/prime-check-badge-14._CB138348888_.png"></div><p class="product-price">INR 863.92</p></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
         </div>
+
         <!-- Main product search and detail div -->
         <div class="col-md-12" id="storeArea" style="display:none;">
             <!-- Tab selector (between shared and own) -->
@@ -7961,6 +8526,7 @@
                 $selectDept.append(departmentsIN);
 
                 retailerSelected('IN', false);
+                retailerDropdownMenuButtonSelected('IN', false);
 
                 $('#priceFilters-IN').show();
                 $('#priceFilters-US').hide();
@@ -7968,18 +8534,25 @@
                 $('#flyoutDivAmazonUS').hide();
                 $('#flyoutDivAmazonIN').show();
 
+                $('#mainPageProductPanesContainerIN').show();
+                $('#mainPageProductPanesContainerUS').hide();
+
                 break;
             case 'US':
                 $selectDept.empty();
                 $selectDept.append(departmentsUS);
 
                 retailerSelected('US', false);
+                retailerDropdownMenuButtonSelected('US', false);
 
                 $('#priceFilters-US').show();
                 $('#priceFilters-IN').hide();
 
                 $('#flyoutDivAmazonUS').show();
                 $('#flyoutDivAmazonIN').hide();
+
+                $('#mainPageProductPanesContainerIN').hide();
+                $('#mainPageProductPanesContainerUS').show();
 
                 break;
             default:
@@ -8009,6 +8582,44 @@
                 $('#fourBannersArea').show();
             }
         }
+    }
+
+    function retailerDropdownButtonClicked()
+    {
+      $('#retailerDropdownMenu').show();
+      $('#retailerDropdownOuter').mouseleave(function(){
+        $('#retailerDropdownMenu').hide();
+      });
+    }
+
+    function retailerDropdownMenuButtonSelected(retailer, callRetailerChange)
+    {
+      var currentRetailer = $selectRetailer.val();
+
+      if (currentRetailer == '' || currentRetailer != retailer || callRetailerChange == false)
+      {
+        $('#retailerDropdownButton').attr('value',retailer);
+
+        switch(retailer)
+        {
+          case 'IN':
+            $('#retailerDropdownButtonSpanIN').show();
+            $('#retailerDropdownButtonSpanUS').hide();
+            break;
+          case 'US':
+            $('#retailerDropdownButtonSpanIN').hide();
+            $('#retailerDropdownButtonSpanUS').show();
+            break;
+        }
+
+        $selectRetailer.val(retailer);
+
+        if (callRetailerChange && callRetailerChange == true){
+            retailerChanged();   
+        }
+      }
+
+      $('#retailerDropdownMenu').hide();      
     }
 
     function hoverFlyout0Node(currentElement, divElement)
