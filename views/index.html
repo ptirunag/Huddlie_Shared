@@ -6853,18 +6853,36 @@
                     //NEW START
 
                     var retailerCode = searchResponse.retailer;
-                    
-                    var divText =   '<div id="'+ASIN.toString()+
-                            '" onclick="redirectItemLookup(&quot;'+ASIN.toString()+
-                                                    '&quot;,&quot;'+retailerCode+'&quot;)"'+
-                            ' class="'+productBoxClass+'">'+
-                                        '<div class="product-image-div middle">'+
-                                            '<img class="product-image" src="'+ imageURL +'">'+
-                                        '</div>'+
-                                        '<div class="product-title">'+ title +'<br><p>'+ brand +'</p></div>'+
-                                        '<div class="product-prime-box">'+primeImageHtml+'</div>' +
-                                        '<p class="product-price">'+price+'</p>'+
-                                    '</div>';
+
+                    if (retailerCode == 'US')
+                    {
+                      var divText =   '<div id="'+ASIN.toString()+
+                              '" onclick="redirectItemLookup(&quot;'+ASIN.toString()+
+                                                      '&quot;,&quot;'+retailerCode+'&quot;)"'+
+                              ' class="'+productBoxClass+'">'+
+                                          '<div class="product-image-div middle">'+
+                                              '<img class="product-image" src="'+ imageURL +'">'+
+                                          '</div>'+
+                                          '<div class="product-title">'+ title +'<br><p>'+ brand +'</p></div>'+
+                                          '<div class="product-prime-box">'+primeImageHtml+'</div>' +
+                                          '<p class="product-price">'+price+'</p>'+
+                                      '</div>';
+                    }
+                    else
+                    {
+                      var divText =   '<div id="'+ASIN.toString()+
+                              '" onclick="itemLookup(&quot;'+ASIN.toString()+
+                                                      '&quot;,&quot;'+similarItems+
+                                                      '&quot;,&quot;'+displayASIN+'&quot;)"'+
+                              ' class="'+productBoxClass+'">'+
+                                          '<div class="product-image-div middle">'+
+                                              '<img class="product-image" src="'+ imageURL +'">'+
+                                          '</div>'+
+                                          '<div class="product-title">'+ title +'<br><p>'+ brand +'</p></div>'+
+                                          '<div class="product-prime-box">'+primeImageHtml+'</div>' +
+                                          '<p class="product-price">'+price+'</p>'+
+                                      '</div>';
+                    }
 
                     //NEW END
 
@@ -8622,7 +8640,7 @@
       $('#retailerDropdownMenu').hide();      
     }
 
-    function hoverFlyout0Node(currentElement, divElement)
+    function hoverFlyout0Node2(currentElement, divElement)
     {
       $('.selectedFlyout0Node').removeClass('selectedFlyout0Node');
       $('#'+currentElement).addClass('selectedFlyout0Node');
@@ -8635,6 +8653,21 @@
         $('.selectedFlyoutDetailDiv').removeClass('selectedFlyoutDetailDiv');
       });
       //temporary ends;
+    }
+    function hoverFlyout0Node(currentElement, divElement)
+    {
+
+      $('#'+currentElement).data('hovered', true);
+      $('#'+currentElement).mouseleave(function(){
+        $('#'+currentElement).data('hovered', false);
+      });
+
+      setTimeout(function(){
+        if ($('#'+currentElement).data('hovered') == true)
+        {
+          hoverFlyout0Node2(currentElement, divElement);
+        }
+      }, 300);
     }
 
     function flyoutNodeClicked (nodeId, nodeName, dept)
