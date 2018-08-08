@@ -1,61 +1,229 @@
 
-@media only screen and (max-width: 768px){ 
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@-webkit-keyframes fadeOut {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+@keyframes fadeOut {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+
+@media only screen and (max-width: 767px){ 
+  #flyoutCategoriesOuterPhone {
+    padding: 0px;
+    background-color: #3f4a68;
+    color: white;
+  }
+
   .box {
-        height: auto !important;
-    } 
+      height: auto !important;
+      background-color: #fff;
+  }
+
+  #newTopFlyoutOuterDiv {
+    border: none !important;
+    display: none; /*initially*/
+  }
+
+  #flyoutDivAmazonUS, #flyoutDivAmazonIN {
+    padding: 0px;
+  }
+
+  .flyoutDetailDiv {
+    background-color: #fff;
+    border-bottom: solid 1px #ddd;
+  }
+
+  .flyoutDetailDiv > .col-md-6 {
+    padding: 10px 0px 0px 0px;
+  }
+
+  .flyoutDetailDiv > .col-md-6 > .col-md-12 {
+    padding: 0px;
+  }
+
+  .flyoutDetailDiv > .col-md-6 > .col-md-6 {
+    padding: 0px;
+  }
+
+  .flyoutTopLevelList {
+
+  }
+
+  .flyoutTopLevelList > li {
+    display: block;
+    text-align: left;
+    border: solid 1px #ddd;
+  } 
+
+  .flyoutTopLevelList > li > label {
+    padding-left: 5%;
+    margin: 10px 0px 10px 0px;
+  }
+  
+  .flyoutTopLevelList > li > .caret {
+    display: none;
+  }
+
+  .flyoutTopLevelList > li > .glyphicon {
+    float: right;
+    padding-right: 5%;
+    margin: 15px 0px 0px 0px;
+    font-size: 10px;
+  }
+
+  .flyoutSubHeadNode > .glyphicon {
+    float: right;
+    padding-right: 7%;
+    margin: 10px 0px 0px 0px;
+    font-size: 10px;
+  }
+
+  .flyoutTopLevelList > li > .glyphicon-minus {
+    display: none;
+  }
+
+  .selectedFlyoutDetailDiv > .box {
+    padding: 0px;
+  }
+
+  .flyoutNodeList > li {
+    display: none;
+  }
+
+  .flyoutNodeList > .flyoutSubHeadNode {
+    display: block;
+    border-top: solid 1px #ddd;
+  }
+
+  .flyoutNodeList > .flyoutNodesOpened {
+    border-left: solid 1px #ddd;
+    margin-left: 5%;
+  }
+
+  .flyoutNodeList {
+    padding: 0px;
+  }
+
+  .flyoutNodeList label {
+    padding-left: 5%;
+    margin: 5px 0px 5px 0px;
+  }
+
+  .flyoutSubHeadNode label {
+    padding-left: 7%;
+  }
+
+  .flyout0NodePhone {
+    display: none !important;
+  }
+
+  .bg-gray {
+    background-color: #fff;
+  }
 }
 
 /*Bootstrap Small devices: >768px, <992px */
-@media only screen and (max-width: 992px) and (min-width: 768px) {
-  
+@media only screen and (max-width: 991px) and (min-width: 768px) {
+  #flyoutCategoriesOuterPhone {
+    display: none;
+  }
+
+  .flyoutTopLevelList > li > .glyphicon {
+    display: none;
+  }
+
+  .flyoutSubHeadNode > .glyphicon {
+    display: none;
+  }
 }
 
 /* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
-@media (min-width: 991px){
+@media (min-width: 992px){
   
+  #flyoutCategoriesOuterPhone {
+    display: none;
+  }
+
+  .flyoutTopLevelList {
+    margin: -5px 0px -10px 0px;
+  }
+
+  .float-flyout-US > li{
+    float: left;
+    padding: 10px;
+    width: 16.666%;
+  }
+  .float-flyout-IN > li {
+    float: left;
+    padding: 10px;
+    width: 20%;
+  }
+
+  .flyoutTopLevelList > li > .glyphicon {
+    display: none;
+  }
+
+  .flyoutSubHeadNode > .glyphicon {
+    display: none;
+  }
+
+  #flyoutDivAmazonUS, #flyoutDivAmazonIN {
+    /*Temporary - to be removed when top flyout is removed*/
+    position: relative;
+    /*Temporary ends*/
+  }
+
+  .flyoutDetailDiv {
+    /*Temporary - to be removed when top flyout removed*/
+    position: absolute;
+    z-index: 999;
+    background-color: white;
+    width: 100%;
+    left:0;
+    /*temporary ends*/
+  }
+
+  .flyoutNodeList {
+    padding: 25px;
+  }
+
+  .flyoutTopLevelList > li:hover, .flyoutTopLevelList > li > label:hover {
+    cursor: pointer;
+    color: aquamarine;
+  }
+
+  .flyoutNodeList > li:hover, .flyoutNodeList > li > label:hover {
+      cursor: pointer;
+      color: aquamarine;
+  }
+
+  .bg-gray {
+    background-color: #F0F8FF;
+  }
 }
 
 /*Start New Flyout*/
 
 #flyoutDivAmazonUS, #flyoutDivAmazonIN {
-  /*Temporary - to be removed when top flyout is removed*/
-  position: relative;
   background-color: white;
-  /*Temporary ends*/
-}
-
-#flyoutTopLevelList > li:hover, #flyoutTopLevelList > li > label:hover {
-    cursor: pointer;
-    color: aquamarine;
-}
-
-#flyoutTopLevelList {
-
 }
 
 .float-flyout-US {
     overflow: hidden;
 }
 
-.float-flyout-US > li {
-    float: left;
-    padding: 10px;
-    width: 16.666%;
-}
-
 .float-flyout-IN {
     overflow: hidden;
-}
-
-.float-flyout-IN > li {
-    float: left;
-    padding: 10px;
-    width: 20%;
-}
-
-
-.flyout0Node {
-
 }
 
 .flyout0Node label {
@@ -66,42 +234,26 @@
   opacity: 0;
 }
 
-.selectedFlyout0Node {
-
-}
-
 .selectedFlyout0Node > .caret {
   opacity: 1;
 }
 
 .flyoutDetailDiv {
   display: none;
-  /*Temporary - to be removed when top flyout removed*/
-  position: absolute;
-  z-index: 999;
-  background-color: white;
-  width: 100%;
-  left:0;
-  /*temporary ends*/
 }
 
 .selectedFlyoutDetailDiv {
   display: block;
 }
 
-.flyoutNodeList {
-    padding: 25px;
-}
-
 .flyoutNodeList label {
   font-weight: normal;
 }
 
-.flyoutNodeList > li:hover, .flyoutNodeList > li > label:hover {
+.flyoutNodeList > li:focus, .flyoutNodeList > li > label:focus {
     cursor: pointer;
-    color: aquamarine;
+    color: red;
 }
-
 
 .flyoutSubHeadNode {
 
@@ -109,10 +261,6 @@
 
 .flyoutSubHeadNode > label {
   font-weight: bold;
-}
-
-.bg-gray {
-    background-color: #F0F8FF;
 }
 
 /*End Flyout*/

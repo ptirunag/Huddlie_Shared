@@ -2,10 +2,6 @@
 /**{outline: 1px solid red;}*/
 
 body {
-  margin-top: 20px;
-/*  width:98%;
-  margin-left: 1%;*/
-  /*background-color: #263154;*/
   background-color: #3f4a68;
 }
 
@@ -104,10 +100,6 @@ body {
   100% { transform: rotate(360deg); }
 }
 
-#hud-navCollapse{
-  padding:0px;
-}
-
 #container{
   margin:0px;
   min-height: 80vh;
@@ -124,22 +116,12 @@ body {
         }
 
 
-@media only screen and (max-width: 768px){ 
-  .navbar-nav .paddingRight10 {
-    padding-right: 0px;
-    padding-bottom: 10px;
+@media only screen and (max-width: 767px){ 
+  body {
+    margin-top: 10px;
   }
-  .navbar-nav .paddingRight20 {
-    padding-right: 0px;
-    padding-bottom: 20px;
-  }
-  .navbar-nav .paddingLeft20 {
-    padding-left: : 0px;
-    padding-top: 20px;
-  }
-  .chatViewButtonOuter label {
-    width: 100%;
-  }
+
+  
   #bannersArea div iframe {
     width: 100%; /* to make amazon banner look ok */
   }
@@ -150,61 +132,15 @@ body {
       width: 50%;
     }
 
-    #cartMainButton{
-      width: 100%;
-      margin: 0;
-    }
-
-    #chatViewButton{
-      margin:0px;
-    }
-    #chatViewButtonOuterDiv{
-      padding: 0px;
-    }
-
-    #cartButtonOuterDiv{
-      padding: 0px;
-    }
+    
 }
 /*Bootstrap Small devices: >768px, <992px */
-@media only screen and (max-width: 992px) and (min-width: 768px) {
-  #hud-navbar-container{
-    display: flex;
-    flex-direction: column; 
-  }
-  #hud-navCollapse2{
-  }
-  /*
-  In Phone: padding-right:0px; padding-bottom:10px;
-  ADD to Media Query.
-  */
-  .navbar-nav .paddingRight10 {
-    padding-right: 10px;
-    padding-bottom: 0px;
-  }
-  /*
-  In Phone: padding-right:0px; padding-bottom:20px;
-  ADD to Media Query.
-  */
-  .navbar-nav .paddingRight20 {
-    padding-right: 20px;
-    padding-bottom: 0px;
+@media only screen and (max-width: 991px) and (min-width: 768px) {
+  body {
+    margin-top: 15px;
   }
 
-  .navbar-nav .paddingLeft10 {
-    padding-left: 10px;
-  }
-  .navbar-nav .paddingLeft20 {
-    padding-left: 20px;
-  }
-  .chatViewButtonOuter label {
-    max-width: 90px;
-  }
-
-  #searchForm{
-    display: flex;
-    flex-direction: row;
-  }
+ 
   .product-box {
         width: 33.33%;
     }
@@ -212,24 +148,15 @@ body {
       width: 33.33%;
     }
 
-    #cartMainButton{
-      width: 100%;
-      margin: 0;
-    }
-
-    #chatViewButton{
-      margin:0px;
-    }
-    #chatViewButtonOuterDiv{
-      padding: 0px;
-    }
-    #cartButtonOuterDiv{
-      padding: 0px;
-    }
+    
 }
 
 /* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
-@media (min-width: 991px){
+@media (min-width: 992px){
+  body {
+    margin-top: 15px;
+  }
+
   #filters{
     display: block;
   }
@@ -240,79 +167,11 @@ body {
       width: 25%;
     }
 
-    /*#cartMainButton{
-      margin-left: 20px;
-    }*/
-    #chatViewButtonOuterDiv{
-      padding-left: 20px;
-    }
-    #cartButtonOuterDiv{
-      padding-left: 0px;
-    }
-
-  /*
-  In Phone: padding-right:0px; padding-bottom:10px;
-  ADD to Media Query.
-  */
-  .navbar-nav .paddingRight10 {
-    padding-right: 10px;
-    padding-bottom: 0px;
-  }
-  /*
-  In Phone: padding-right:0px; padding-bottom:20px;
-  ADD to Media Query.
-  */
-  .navbar-nav .paddingRight20 {
-    padding-right: 20px;
-    padding-bottom: 0px;
-  }
-
-  .navbar-nav .paddingLeft10 {
-    padding-left: 10px;
-  }
-  .navbar-nav .paddingLeft20 {
-    padding-left: 20px;
-  }
-  .chatViewButtonOuter label {
-    max-width: 90px;
-  }
+    
 }
 
 .requiredInputBorderHighlight {
   border: 1px solid red !important;
-}
-
-#navbar-outerDiv {
-  margin-bottom: 5px;
-}
-
-.navbar-header {
-  margin-left: 10px;
-}
-
-.nav {
-  margin:0px !important;
-  min-height: 45px;
-}
-
-.chatViewButtonOuter label {
-  color: white;
-  font-weight: normal;
-}
-
-
-.navbar-collapse.in .chatViewButtonOuter span {
-  display: none;
-} 
-
-.navbar-toggle {
-  margin-top:0px;
-  background-color:#3f4a68;
-  border: 1px solid black;
-  border-radius: 4px;
-}
-.navbar-toggle .icon-bar {
-  background-color: white;
 }
 
 #bannersArea {

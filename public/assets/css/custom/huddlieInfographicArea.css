@@ -1,0 +1,27 @@
+@media only screen and (max-width: 768px){ 
+	#desktopInfographicContainer {
+		display: none;
+	}
+}
+
+/*Bootstrap Small devices: >768px, <992px */
+@media only screen and (max-width: 992px) and (min-width: 768px) {
+	#desktopInfographicContainer {
+		display: none;
+	}
+}
+
+/* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
+@media (min-width: 992px){
+	#phoneInfographicContainer {
+		display: none;
+	}
+
+	#huddlieInfoGraphicDiv > .col-md-4 {
+		padding: 20px;
+	}
+}
+
+#huddlieInfoGraphicDiv {
+	padding: 30px 10% 30px 10%;
+}

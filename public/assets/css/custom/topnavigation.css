@@ -1,4 +1,182 @@
 
+@media only screen and (max-width: 767px){ 
+
+#navbar {
+	display: none;
+}
+
+.navbar-nav .paddingRight10 {
+	padding-right: 0px;
+	padding-bottom: 10px;
+}
+.navbar-nav .paddingRight20 {
+	padding-right: 0px;
+	padding-bottom: 20px;
+}
+.navbar-nav .paddingLeft20 {
+	padding-left: : 0px;
+	padding-top: 20px;
+}
+.chatViewButtonOuter label {
+	width: 100%;
+}
+
+#cartMainButton{
+	width: 100%;
+	margin: 0;
+}
+
+#chatViewButton{
+	margin:0px;
+}
+#chatViewButtonOuterDiv{
+	padding: 0px;
+}
+
+#cartButtonOuterDiv{
+	padding: 0px;
+}
+
+}
+
+@media only screen and (max-width: 991px) and (min-width: 768px) {
+	#navbarPhone {
+		display: none;
+	}
+
+ #hud-navbar-container{
+    display: flex;
+    flex-direction: column; 
+  }
+  #hud-navCollapse2{
+  }
+  /*
+  In Phone: padding-right:0px; padding-bottom:10px;
+  ADD to Media Query.
+  */
+  .navbar-nav .paddingRight10 {
+    padding-right: 10px;
+    padding-bottom: 0px;
+  }
+  /*
+  In Phone: padding-right:0px; padding-bottom:20px;
+  ADD to Media Query.
+  */
+  .navbar-nav .paddingRight20 {
+    padding-right: 20px;
+    padding-bottom: 0px;
+  }
+
+  .navbar-nav .paddingLeft10 {
+    padding-left: 10px;
+  }
+  .navbar-nav .paddingLeft20 {
+    padding-left: 20px;
+  }
+  .chatViewButtonOuter label {
+    max-width: 90px;
+  }
+
+  #searchForm{
+    display: flex;
+    flex-direction: row;
+  }
+
+  #cartMainButton{
+      width: 100%;
+      margin: 0;
+    }
+
+    #chatViewButton{
+      margin:0px;
+    }
+    #chatViewButtonOuterDiv{
+      padding: 0px;
+    }
+    #cartButtonOuterDiv{
+      padding: 0px;
+    }
+}
+
+@media (min-width: 992px){
+	#navbarPhone {
+		display: none;
+	}
+
+	/*#cartMainButton{
+      margin-left: 20px;
+    }*/
+    #chatViewButtonOuterDiv{
+      padding-left: 20px;
+    }
+    #cartButtonOuterDiv{
+      padding-left: 0px;
+    }
+
+  /*
+  In Phone: padding-right:0px; padding-bottom:10px;
+  ADD to Media Query.
+  */
+  .navbar-nav .paddingRight10 {
+    padding-right: 10px;
+    padding-bottom: 0px;
+  }
+  /*
+  In Phone: padding-right:0px; padding-bottom:20px;
+  ADD to Media Query.
+  */
+  .navbar-nav .paddingRight20 {
+    padding-right: 20px;
+    padding-bottom: 0px;
+  }
+
+  .navbar-nav .paddingLeft10 {
+    padding-left: 10px;
+  }
+  .navbar-nav .paddingLeft20 {
+    padding-left: 20px;
+  }
+  .chatViewButtonOuter label {
+    max-width: 90px;
+  }
+}
+
+#navbar, #navbarPhone {
+	margin: 0px;
+}
+
+.navbar-header {
+  margin-left: 10px;
+}
+
+.nav {
+  margin:0px !important;
+  min-height: 45px;
+}
+
+#hud-navCollapse{
+  padding:0px;
+}
+
+.chatViewButtonOuter label {
+  color: white;
+  font-weight: normal;
+}
+
+
+.navbar-collapse.in .chatViewButtonOuter span {
+  display: none;
+} 
+
+.navbar-toggle {
+  margin-top:0px;
+  background-color:#3f4a68;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+.navbar-toggle .icon-bar {
+  background-color: white;
+}
 
 #retailerDropdownOuter {
 
