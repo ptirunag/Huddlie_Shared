@@ -36,12 +36,14 @@ var index = require('./routes/index');
 app.use('/', index);
 app.use('/index', index);
 app.use('/home', index);
+app.use('/test', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
+  console.log(err);
 });
 
 // error handler
@@ -53,6 +55,7 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+  console.log(err);
 });
 
 module.exports = app;

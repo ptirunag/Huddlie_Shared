@@ -7,6 +7,8 @@ var uuid = require('uuid/v1');
 /* GET home page. */
 router.get('/', routeDefault);
 router.get('/home', routeDefault2);
+router.get('/tinderSwipeTest', routeTinderSwipeTest);
+router.get('/test', routeTest);
 
 function routeDefault(req, res, next) {
 
@@ -34,9 +36,16 @@ function routeDefault(req, res, next) {
 	}
 }
 
+function routeTest(req, res, next) {
+	res.redirect('/test.html');
+}
+
 function routeDefault2(req, res, next) {
-	console.log('testing if this works');
 	res.redirect('/');
+}
+
+function routeTinderSwipeTest(req, res, next) {
+	res.render('tinderSwipeTest');
 }
 
 module.exports = router;
