@@ -1,3 +1,8 @@
+/*Note: 
+logo blue = #44d9e6   
+header blue = #3f4a68
+*/
+
 
 /**{outline: 1px solid red;}*/
 
@@ -109,18 +114,17 @@ body {
   background-size: auto,                          cover,                          cover;
 }
 
-#cartImage{
-          height: 18px;
-          width: 18px;
-          margin-right: 5px;
-        }
-
-
 @media only screen and (max-width: 767px){ 
   body {
-    margin-top: 10px;
+    /*margin-top: 5px;*/
   }
 
+  #container {
+    overflow: auto;
+  }
+  #footer {
+    overflow: auto;
+  }
   
   #bannersArea div iframe {
     width: 100%; /* to make amazon banner look ok */
@@ -167,7 +171,20 @@ body {
       width: 25%;
     }
 
-    
+  
+    #chatActivePane{
+      height: 100%;
+      position: fixed;
+      right: 0;
+      top: 0;
+      z-index: 9999;
+      left:75%;
+      border-left: 1px solid #555;
+      background-attachment: fixed,                           fixed,                          fixed;
+      background-image: linear-gradient(45deg, #82ccb9 5%, #589aa0 30%, #646fbc);
+      background-position: top left,                      center center,                  center center;
+      background-size: auto,                          cover,                          cover;
+    }
 }
 
 .requiredInputBorderHighlight {
@@ -348,12 +365,8 @@ body {
   width: 100%;
 }
 
-#headerLogo, #footerLogo {
+#footerLogo {
   cursor: pointer;
-}
-
-#headerLogo {
-  padding: 0px !important;
 }
 
 .footerHyperLinks {
@@ -447,19 +460,6 @@ body {
       width: 100%;
       min-height: 100px;
       padding: 10%;
-    }
-    #chatActivePane{
-      height: 100%;
-      position: fixed;
-      right: 0;
-      top: 0;
-      z-index: 9999;
-      left:75%;
-      border-left: 1px solid #555;
-      background-attachment: fixed,                           fixed,                          fixed;
-      background-image: linear-gradient(45deg, #82ccb9 5%, #589aa0 30%, #646fbc);
-      background-position: top left,                      center center,                  center center;
-      background-size: auto,                          cover,                          cover;
     }
       #remotes{
       }

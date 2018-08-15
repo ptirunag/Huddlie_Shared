@@ -5,6 +5,29 @@
 	display: none;
 }
 
+#navbarHeader {
+	display: none;
+	z-index:999;
+}
+
+#navbarPhone {
+	max-height: 45px;
+	height: 45px;
+	padding: 8px;
+}
+
+#headerLogoPhone {
+	height: 30px;
+}
+#headerLogoPhone > img {
+	height: 30px;
+}
+
+#navbarPhone > .list-inline {
+	float: right;
+	height: 30px;
+}
+
 .navbar-nav .paddingRight10 {
 	padding-right: 0px;
 	padding-bottom: 10px;
@@ -37,12 +60,47 @@
 	padding: 0px;
 }
 
+#searchBarOuterPhone {
+	width: 100%;
+	background-color: transparent;
+	/*padding: 0px 8px 8px 8px;*/
+	padding: 0px 5px 5px 5px;
+}
+
+.searchBarPhoneFixed {
+	position: fixed;
+	top: 0%;
+	left: 0%;	
+	z-index: 999;
+	background-color: #3f4a68 !important;
+	padding: 5px !important;
+}
+
+#searchBarOuterPhone > form, #searchBarOuterPhone > form > .input-group {
+	width: 100%;
+}
+
+#searchBarOuterPhone > form > .input-group > input {
+	width: calc(100% - 35px);
+}
+
+#searchBarOuterPhone > form > .input-group > button {
+	width: 30px;
+	padding-right: 6px;
+	padding-left: 6px;
+	float: right;
+}
+
 }
 
 @media only screen and (max-width: 991px) and (min-width: 768px) {
 	#navbarPhone {
 		display: none;
 	}
+
+#searchBarOuterPhone {
+	display: none;
+}
 
  #hud-navbar-container{
     display: flex;
@@ -99,54 +157,63 @@
 }
 
 @media (min-width: 992px){
-	#navbarPhone {
-		display: none;
-	}
-
-	/*#cartMainButton{
-      margin-left: 20px;
-    }*/
-    #chatViewButtonOuterDiv{
-      padding-left: 20px;
-    }
-    #cartButtonOuterDiv{
-      padding-left: 0px;
-    }
-
-  /*
-  In Phone: padding-right:0px; padding-bottom:10px;
-  ADD to Media Query.
-  */
-  .navbar-nav .paddingRight10 {
-    padding-right: 10px;
-    padding-bottom: 0px;
-  }
-  /*
-  In Phone: padding-right:0px; padding-bottom:20px;
-  ADD to Media Query.
-  */
-  .navbar-nav .paddingRight20 {
-    padding-right: 20px;
-    padding-bottom: 0px;
-  }
-
-  .navbar-nav .paddingLeft10 {
-    padding-left: 10px;
-  }
-  .navbar-nav .paddingLeft20 {
-    padding-left: 20px;
-  }
-  .chatViewButtonOuter label {
-    max-width: 90px;
-  }
+#navbarPhone {
+	display: none;
 }
 
-#navbar, #navbarPhone {
-	margin: 0px;
+#searchBarOuterPhone {
+	display: none;
+}
+
+/*#cartMainButton{
+  margin-left: 20px;
+}*/
+#chatViewButtonOuterDiv{
+	padding-left: 20px;
+}
+#cartButtonOuterDiv{
+	 padding-left: 0px;
+}
+
+/*
+In Phone: padding-right:0px; padding-bottom:10px;
+ADD to Media Query.
+*/
+.navbar-nav .paddingRight10 {
+	padding-right: 10px;
+	padding-bottom: 0px;
+}
+/*
+In Phone: padding-right:0px; padding-bottom:20px;
+ADD to Media Query.
+*/
+.navbar-nav .paddingRight20 {
+	padding-right: 20px;
+	padding-bottom: 0px;
+}
+
+.navbar-nav .paddingLeft10 {
+	padding-left: 10px;
+}
+.navbar-nav .paddingLeft20 {
+	padding-left: 20px;
+}
+.chatViewButtonOuter label {
+	max-width: 90px;
+}
+}
+
+#navbar {
+	margin: 0px 0px 0px 150px;
 }
 
 .navbar-header {
   margin-left: 10px;
+}
+
+#headerLogo {
+	cursor: pointer;
+	padding: 0px !important;
 }
 
 .nav {
@@ -182,8 +249,19 @@
 
 }
 
-#retailerDropdownButton {
+#retailerDropdownOuterPhone {
+	padding: 0px;
+}
 
+#retailerDropdownButtonPhone {
+	padding: 1px 2px 5px 5px;
+	height: 25px;
+	margin-top: 3px;
+	margin-bottom: 2px;
+}
+
+#retailerDropdownButtonPhone > .caret{
+	margin: 0px;
 }
 
 #retailerDropdownButton > span > img {
@@ -192,7 +270,12 @@
 	padding-right: 5px;
 }
 
-#retailerDropdownMenu {
+#retailerDropdownButtonPhone > span > img {
+	height: 15px;
+	width: auto;
+}
+
+#retailerDropdownMenu{
 	display: none;
     position: absolute;
     background-color: #f1f1f1;
@@ -202,9 +285,27 @@
     cursor: pointer;
 }
 
+#retailerDropdownMenuPhone {
+	display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 50px;
+    right:8px;
+    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
+    z-index: 999;
+    cursor: pointer;
+}
+
 #retailerDropdownMenu a {
 	color: black;
     padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+#retailerDropdownMenuPhone a  {
+	color: black;
+    padding: 10px 10px;
     text-decoration: none;
     display: block;
 }
@@ -217,3 +318,25 @@
 	height: 12px;
 	width: auto;
 }
+
+#retailerDropdownMenuPhone > a > span > img {
+	height: 15px;
+	width: auto;
+}
+
+
+#cartImage{
+	height: 18px;
+	width: 18px;
+	margin-right: 5px;
+}
+
+
+
+
+
+
+
+
+
+

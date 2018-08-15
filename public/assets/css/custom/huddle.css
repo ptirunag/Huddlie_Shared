@@ -1,0 +1,133 @@
+
+@media only screen and (max-width: 768px){ 
+
+#huddleInitiatePane {
+	padding-top: 20px;
+}
+	
+#huddleInitiatePaneHuddleButton {
+	height: 34px;
+	border-radius: 15px;
+}
+	
+}
+
+/*Bootstrap Small devices: >768px, <992px */
+@media only screen and (max-width: 992px) and (min-width: 768px) {
+
+
+#huddleInitiatePane {
+	padding-top: 30px;
+}
+	
+#huddleInitiatePaneHuddleButton {
+	height: 54px;
+	border-radius: 20px;
+	font-size: large;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+	
+}
+
+/* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
+@media (min-width: 992px){
+
+#huddleInitiatePane {
+	padding-top: 30px;
+}
+	
+#huddleInitiatePaneHuddleButton {
+	height: 54px;
+	border-radius: 20px;
+	font-size: large;
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+}
+
+/*Everything Else Below.*/
+
+#huddleInitiatePane {
+	background-color: white;
+	text-align: center;
+}
+
+#huddleInitiatePaneHuddleButton, #chatViewButton {
+	margin: 0px;
+	-webkit-animation: waggle 5s ease-out infinite normal;
+	animation: waggle 5s ease-out infinite normal;
+}
+
+
+
+
+
+
+
+
+
+
+/*Animations Below*/
+
+@-webkit-keyframes waggle {
+  0% {
+    transform: none;
+  }
+  80% {
+    transform: none;
+  }
+  90% {
+    transform: rotateZ(-15deg) scale(1.1);
+  }
+  92% {
+    transform: rotateZ(15deg) scale(1.1);
+  }
+  93.5% {
+    transform: rotateZ(-10deg) scale(1.1);
+  }
+  95% {
+    transform: rotateZ(10deg) scale(1.1);
+  }
+  96.5% {
+    transform: rotateZ(-6deg) scale(1.1);
+  }
+  97% {
+    transform: rotateZ(0) scale(1.1);
+  }
+  100% {
+    transform: rotateZ(0) scale(1);
+  }
+}
+
+@keyframes waggle {
+  0% {
+    transform: none;
+  }
+  80% {
+    transform: none;
+  }
+  90% {
+    transform: rotateZ(-20deg) scale(1.1);
+  }
+  92% {
+    transform: rotateZ(25deg) scale(1.1);
+  }
+  93.5% {
+    transform: rotateZ(-15deg) scale(1.1);
+  }
+  95% {
+    transform: rotateZ(15deg) scale(1.1);
+  }
+  96.5% {
+    transform: rotateZ(-12deg) scale(1.1);
+  }
+  97% {
+    transform: rotateZ(0) scale(1.1);
+  }
+  100% {
+    transform: rotateZ(0) scale(1);
+  }
+}

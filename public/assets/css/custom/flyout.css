@@ -56,13 +56,14 @@
   }
 
   .flyoutTopLevelList {
-
+    margin:0px;
   }
 
   .flyoutTopLevelList > li {
     display: block;
     text-align: left;
-    border: solid 1px #ddd;
+    border-top: solid 1px #bbb;
+    border-bottom: solid 1px #bbb;
   } 
 
   .flyoutTopLevelList > li > label {

@@ -37,6 +37,7 @@ app.use('/', index);
 app.use('/index', index);
 app.use('/home', index);
 app.use('/test', index);
+app.use('/mobile', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

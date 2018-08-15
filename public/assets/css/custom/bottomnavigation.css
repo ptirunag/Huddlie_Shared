@@ -1,0 +1,92 @@
+
+@media only screen and (max-width: 768px){ 
+	#navbarBottomPhone {
+		position: fixed;
+		display: flex;
+		bottom: 0%;
+		left: 0%;
+		height: 50px;
+		width: 100%;
+		z-index: 999;
+		background-color: #3f4a68;
+	}
+
+	.navbarBottomInnerDivSpacer{
+		display: block;
+		position: relative;
+		width: 2%;
+		margin: 0px;
+	}
+
+	.navbarBottomInnerDiv, .navbarBottomInnerDivSelected {
+		display: block;
+		position: relative;
+		width: 24%;
+		margin: 0px;
+		text-align: center;
+		padding-bottom: 5px;
+	}
+
+	.navbarBottomInnerDiv {
+		padding-top: 10px;
+	}
+
+	.navbarBottomInnerDivSelected {
+		padding-top: 5px !important;
+		border-top: solid 5px #44d9e6;
+	}
+
+	.navbarBottomInnerDiv > .navbarBottomPhoneButtonImgSelected {
+		display: none;
+	}
+
+	.navbarBottomInnerDivSelected > .navbarBottomPhoneButtonImg {
+		display: none;
+	}
+
+	.navbarBottomInnerDivSelected > label {
+		color: #44d9e6;
+	}
+
+	.navbarBottomInnerDiv > button {
+		background-color: transparent;
+		border: none;
+		text-align: center;
+	}
+
+	#footer {
+		margin-bottom: 34px;
+	}
+}
+
+/*Bootstrap Small devices: >768px, <992px */
+@media only screen and (max-width: 992px) and (min-width: 768px) {
+	#navbarBottomPhone {
+		display: none;
+	}
+}
+
+/* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
+@media (min-width: 992px){
+	#navbarBottomPhone {
+		display: none;
+	}
+}
+
+.navbarBottomPhoneButtonImg, .navbarBottomPhoneButtonImgSelected{
+	height: 20px;
+	width: 20px;
+	/*margin-right: 5px;*/
+}
+
+.navbarBottomPhoneButtonLabel {
+	height: 15px;
+	font-size: 12px;
+	color:white;
+	font-weight: normal;
+	width: 100%;
+	text-align: center;
+	margin: 0px;
+}
+
+/*Everything Else Below.*/
