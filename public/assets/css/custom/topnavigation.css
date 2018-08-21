@@ -157,6 +157,11 @@
 }
 
 @media (min-width: 992px){
+
+.navbar-outerDivChatOn {
+	width: 75%;
+}
+
 #navbarPhone {
 	display: none;
 }
@@ -201,6 +206,13 @@ ADD to Media Query.
 .chatViewButtonOuter label {
 	max-width: 90px;
 }
+}
+
+
+/*Anything else here*/
+
+#navbar-outerDiv {
+	max-height: 45px;
 }
 
 #navbar {

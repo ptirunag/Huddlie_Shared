@@ -151,6 +151,10 @@
 /* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
 @media (min-width: 992px){
   
+  .newTopFlyoutOuterDivChatOn {
+    width: 75%;
+  }
+
   #flyoutCategoriesOuterPhone {
     display: none;
   }

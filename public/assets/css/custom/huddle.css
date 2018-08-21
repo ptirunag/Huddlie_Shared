@@ -1,6 +1,14 @@
 
 @media only screen and (max-width: 768px){ 
 
+.body-noScroll {
+  overflow: hidden;
+}
+
+#tabSelector {
+	min-height: 22px;
+}
+
 #huddleInitiatePane {
 	padding-top: 20px;
 }
@@ -9,12 +17,122 @@
 	height: 34px;
 	border-radius: 15px;
 }
-	
+
+.mainPaneChatOn{
+  width: 100%;
 }
+.mainPaneChatOff{
+  width: 100%;
+}
+
+#chatPane{
+  width:100%;
+  height: calc(100% - 45px);
+  color: #3f4a68;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 990;
+  background-color: white;
+  opacity: 1;
+  text-align: center;
+  overflow: scroll;
+  scroll-behavior: smooth;
+}
+
+#chatActivePane{
+	height: 100%;
+}
+
+
+#chatButtonsPane1 .chatButtons {
+  background-color: white;
+  /*float: right;*/
+  width: 10%;
+  /*margin: 0px !important;*/
+  margin-left: calc(90% - 5px);
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+
+#chatInitiatePane {
+	/*background-color: white;*/
+      width: 100%;
+      /*min-height: 100%;*/
+      padding: 5% 10% 0% 10%;
+}
+
+    #textChatArea{
+
+      }
+        #textDisplayArea{
+          width: 100%;
+          padding: 0% 2% 5px 2%;
+          
+        }
+        #chatTextAreaOuterDiv {
+          margin-bottom: 5px !important;
+        }
+        #chatTextDisplay {
+        	border: 1px solid #eee;
+        	text-align: left;
+        }
+
+  #remotes {
+  	display: flex;
+  }
+
+  .enlargeVideo {
+  	width: 50vw;
+  	height: 50vw;
+  }
+
+  .videoContainer {
+  	flex: 1 1 auto;
+      width: 50%;
+      overflow: hidden;
+      text-align: center;
+      margin-bottom: -5px;
+      max-height: 33vw;
+  }
+  .videoContainer video {
+      width: 100%;
+      height: 33vw;
+      object-fit: cover;
+      overflow: hidden;
+  }
+  .enlargeVideo video {
+      width: 100%;
+      height: 50vw;
+      object-fit: cover;
+      overflow: hidden;
+  }
+  #localVideo {
+    transform: scaleX(1) !important;
+    -webkit-transform:scaleX(1) !important; /* Safari and Chrome */
+    -moz-transform:scaleX(1) !important; /* Firefox */
+  }
+  .volume_bar {
+      position: absolute;
+      width: 5px;
+      height: 0px;
+      right: 0px;
+      bottom: 0px;
+      background-color: #12acef;
+  }
+
+	
+/*bracket to END media query*/
+}
+/*bracket to END media query*/
 
 /*Bootstrap Small devices: >768px, <992px */
 @media only screen and (max-width: 992px) and (min-width: 768px) {
 
+.body-noScroll {
+  overflow: visible;
+}
 
 #huddleInitiatePane {
 	padding-top: 30px;
@@ -28,11 +146,53 @@
 	padding-right: 20px;
 }
 
-	
+#chatPane{
+  width:25%;
+  float: right;
+  min-width: 100px;
+  min-height: 200px;
+  color: white;
+}
+
+#chatActivePane{
+	height: 100%;
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 9999;
+	left:75%;
+	border-left: 1px solid #555;
+	background-attachment: fixed,                           fixed,                          fixed;
+	background-image: linear-gradient(45deg, #82ccb9 5%, #589aa0 30%, #646fbc);
+	background-position: top left,                      center center,                  center center;
+	background-size: auto,                          cover,                          cover;
+}
+
+
+.mainPaneChatOn{
+  width: 75%;
+}
+.mainPaneChatOff{
+  width: 100%;
+}
+
+	#chatInitiatePane{
+      width: 100%;
+      min-height: 100px;
+      padding: 5% 10% 0% 10%;
+    }
+
+  .my-whatsapp {
+  	display: none;
+  }
 }
 
 /* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
 @media (min-width: 992px){
+
+.body-noScroll {
+  overflow: visible;
+}
 
 #huddleInitiatePane {
 	padding-top: 30px;
@@ -46,6 +206,105 @@
 	padding-right: 25px;
 }
 
+
+#chatPane{
+  width:25%;
+  /*float: right;*/
+  position: fixed;
+  min-width: 100px;
+  min-height: (100%-90px);/*200px;*/
+  color: white;
+  top: 90px;
+  right: 0px;
+  height: (100% - 90px);
+}
+
+#chatActivePane{
+	height: 100%;
+	position: fixed;
+	right: 0;
+	top: 0px;
+	z-index: 9999;
+	left:75%;
+	border-left: 1px solid #555;
+	background-attachment: fixed,                           fixed,                          fixed;
+	background-image: linear-gradient(45deg, #82ccb9 5%, #589aa0 30%, #646fbc);
+	background-position: top left,                      center center,                  center center;
+	background-size: auto,                          cover,                          cover;
+}
+
+.mainPaneChatOn{
+  width: 75%;
+}
+.mainPaneChatOff{
+  width: 100%;
+}
+
+#chatButtonsPane1 .chatButtons {
+  background-color: transparent;
+  color: white;
+  /*float: right;*/
+  width: 10%;
+  /*margin: 0px !important;*/
+  margin-left: calc(90% - 5px);
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-bottom: -5px;
+}
+
+	#chatInitiatePane{
+      width: 100%;
+      min-height: 100px;
+      padding: 5% 10% 0% 10%;
+    }
+
+    #textChatArea{
+      }
+        #textDisplayArea{
+          width: 100%;
+          padding: 0% 2% 5px 2%;
+          /*position: absolute;*/
+          /*bottom: 0;*/
+        }
+        
+        #chatTextAreaOuterDiv {
+          margin-bottom: 8px !important;
+        }
+
+#remotes {
+	display: flex;	
+	flex-wrap: wrap;
+}
+  .videoContainer {
+      width: 50%;
+      text-align: center;
+      margin: 0px;
+      height: 10vw;
+      overflow: hidden;
+  }
+  .videoContainer video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      overflow: hidden;
+  }
+  #localVideo {
+    transform: scaleX(1) !important;
+    -webkit-transform:scaleX(1) !important; /* Safari and Chrome */
+    -moz-transform:scaleX(1) !important; /* Firefox */
+  }
+  .volume_bar {
+      position: absolute;
+      width: 5px;
+      height: 0px;
+      right: 0px;
+      bottom: 0px;
+      background-color: #12acef;
+  }
+
+.my-whatsapp {
+  	display: none;
+  }
 }
 
 /*Everything Else Below.*/
@@ -61,13 +320,154 @@
 	animation: waggle 5s ease-out infinite normal;
 }
 
+#chatButtonsPane2 {
+  background-color: rgb(51,51,51);
+  /*min-height: 50px;*/
+  width: 100%;
+  display: flex;
+}
+
+#chatButtonsPane2 .chatButtons {
+  background-color: rgb(63,74,104);
+  /*float: left;*/
+  width: 50%;
+  /*margin: 0px !important;*/
+  margin: 0%;
+  flex: 1 1 auto;
+}
+
+.linkedCopiedLabel {
+  width: 100%;
+  text-align: center;
+  color: green;
+  font-weight: bold;
+}
+
+.tabSelectorChatOn {
+  width: 75%;
+}
+.tabSelectorChatOff {
+  width: 100%;
+}
+
+	#chatShareActivePane, #chatInputTextForm {
+		min-height: 39px;
+	}
+
+	#chatInputTextForm > .col-xs-9,
+	#chatInputTextForm > .col-xs-3 {
+		margin: 0px;
+		padding: 0px;
+	}
+
+    #chatShareInput1, #chatShareInput2 {
+      cursor: text !important;
+      writing-mode: horizontal-tb;
+    }
+
+    #sendLinkSocialButtonsDiv > a {
+      text-align: center;
+      color: white;
+      cursor: pointer;
+      height: 40px;
+    }
+
+    #sendLinkSocialButtonsDiv > a > span {
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 50%;
+    }
+    #sendLinkSocialButtonsDiv > a > span {
+      background: #3b5998;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 50%;
+    }
+
+    #sendLinkSocialButtonsDiv > a > .fa-facebook-messenger {
+      font-size: 1.3em;
+    }
+    #sendLinkSocialButtonsDiv > a > .fa-facebook-f
+    {
+      background: #3b5998;
+      font-size: 1.2em;
+    }
+    #sendLinkSocialButtonsDiv > a > .my-whatsapp
+    {
+    	background-color: #25D366;
+    	font-size: 1.3em;
+    }
+
+    /*#chatInitiatePane{
+      width: 100%;
+      min-height: 100px;
+      padding: 5% 10% 0% 10%;
+    }*/
+    #chatJoinPane{
+      width: 100%;
+      min-height: 100px;
+      padding: 10%;
+    }
+      #remotes{
+      }
+      /*#textChatArea{
+        position: fixed;
+        bottom: 0;
+        min-height: 100px;
+        width: 25%;
+      }
+        #textDisplayArea{
+          width: 100%;
+          padding: 0% 2% 4% 2%;
+          position: absolute;
+          bottom: 0;
+        }
+        #textInputArea{
+          width: 100%;
+          padding: 20px;
+          position: absolute;
+          bottom: 0;
+        }
+        #chatTextAreaOuterDiv {
+          margin-bottom: 10px !important;
+        }*/
 
 
+/* BEGIN CHAT / HUDDLE CODE */
+/*
+  .videoContainer {
+      position: relative;
+      width: 50%;
+      float: left;
+      text-align: center;
+      display: table-cell;
+      margin-bottom: -5px;
+  }
+  .videoContainer video {
+      width: 100%;
+  }
+  #localVideo {
+    transform: scaleX(1) !important;
+    -webkit-transform:scaleX(1) !important;
+    -moz-transform:scaleX(1) !important; 
+  }
+  .volume_bar {
+      position: absolute;
+      width: 5px;
+      height: 0px;
+      right: 0px;
+      bottom: 0px;
+      background-color: #12acef;
+  }*/
+
+/* END CHAT / HUDDLE CODE */
 
 
-
-
-
+.my-whatsapp:before {
+	content: '\f232';
+}
 
 
 /*Animations Below*/

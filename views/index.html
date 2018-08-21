@@ -28,7 +28,8 @@
 	
   <script src="/socket.io/socket.io.js"> </script>
 
-  <script src="https://simplewebrtc.com/latest-v2.js"></script> 
+  <!-- <script src="https://simplewebrtc.com/latest-v2.js"></script>  -->
+  <script type="text/javascript" src="/assets/js/latest-v2.js"></script>
   <script src="/assets/js/bundle.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
   
@@ -2369,11 +2370,113 @@
   <div class="loader"></div>
 </div>
 
-<div id="huddleInitiatePane" class="col-md-12">
-  <button id="huddleInitiatePaneHuddleButton" class="btn btn-info">Huddle Up!</button>
-  <form>
-  </form>
-</div>
+    <!-- Conference Pane -->
+    <div id="chatPane" style="display:none">
+        <div id="chatButtonsPane1">
+            <button id="chatButton-hide" class="btn chatButtons" onclick="chatViewButtonClicked()">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+        </div>
+        <div id="chatInitiatePane">
+            <form id="chatInitiateForm">
+                <label>Invite up to 3 friends to join you in real-time!</label>
+                <label>Enter email adresses to send invite links or share the link below.</label>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email1" placeholder="Enter an email address" 
+                                oninvalid="setCustomValidity('Please enter a valid email address')" oninput="setCustomValidity('')">
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email2" placeholder="Enter an email address" 
+                                oninvalid="setCustomValidity('Please enter a valid email address')" oninput="setCustomValidity('')">
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email3" placeholder="Enter an email address" 
+                                oninvalid="setCustomValidity('Please enter a valid email address')" oninput="setCustomValidity('')">
+                </div>
+                <div class="form-group">
+                    <label for="name">Preferred display name:</label>
+                    <input type="text" class="form-control" id="displayName" required="true" placeholder="Please enter your name">
+                </div>
+                <input type="submit" class="btn btn-info" style="width:100%" value="Start Huddle!">
+            </form>
+
+            <div class="chatSharePane">
+                <div class="col-xs-9"  style="padding:5px 0px 0px 0px !important;">
+                    <input type="text" class="form-control linkedCopiedLabel" readonly="true" value="Link has been copied" style="display:none">
+                    <input class="form-control chatShareInputs" id="chatShareInput1" type="text" value="" readonly="true">
+                </div>
+                <div class="col-xs-3"  style="padding:5px 0px 0px 0px !important;">
+                    <button class="btn btn-info chatShareButtons" style="width:100%;"
+                            data-clipboard-target="#chatShareInput1">Copy</button>
+                </div>
+
+                <div class="col-xs-12" id="sendLinkSocialButtonsDiv" style="padding:10px 0px 0px 0px !important;">
+                    <label style="vertical-align:middle;padding-right:10px">Send Link:   </label>
+                    
+                    <a onclick="sendButtonClicked('facebook');">
+                        <span class="fab fa-facebook-f">
+                        </span>
+                    </a>
+
+                    <a onclick="sendButtonClicked('whatsapp');">
+                        <span class="fab my-whatsapp">
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="chatJoinPane">
+            <form id="chatJoinForm">
+                <br/>
+                <div class="form-group">
+                    <label for="name">Preferred display name:</label>
+                    <input type="text" class="form-control" id="displayNameJoin" required="true" placeholder="Please enter your name">
+                </div>
+                <br/>
+                <input type="submit" class="btn btn-info" style="width:100%" value="Huddle!">
+            </form>
+        </div>
+        <div id="chatActivePane" style="display:none">
+            <div id="chatButtonsPane2">
+                <button id="chatButton-hide2" class="btn btn-info chatButtons" onclick="chatViewButtonClicked()">Hide</button>
+                <button id="chatButton-end2" class="btn btn-info chatButtons" onclick="endHuddleHandler()">End Huddle</button>
+            </div>
+            <div id="remotes">
+                <div class="videoContainer">
+                    <video id="localVideo" controls="true" oncontextmenu="return false;" style="transform:scaleX(1) !important"></video>
+                    <div id="localVolume" class="volume_bar"></div>
+                </div>
+            </div>
+            <div id="chatShareActivePane" class="chatSharePane">
+                <div class="col-xs-9"  style="padding:5px 0px 0px 0px !important;">
+                    <input type="text" class="form-control linkedCopiedLabel" readonly="true" value="Link has been copied" style="display:none">
+                    <input class="form-control chatShareInputs" id="chatShareInput2" type="text" value="" readonly="true">
+                </div>
+                <div class="col-xs-3"  style="padding:5px 0px 0px 0px !important;">
+                    <button class="btn btn-info chatShareButtons" style="width:100%;" data-clipboard-target="#chatShareInput2">Copy</button>
+                </div>
+            </div>
+            <div id="textChatArea">
+                <div id="textDisplayArea">
+                    <div class="form-group" id="chatTextAreaOuterDiv">
+                        <div id="chatTextDisplay" style="width:100%; height:100%; background-color:white; color:black; padding:5px; overflow:auto;">
+                        </div>
+                    </div>
+                    <form class="form-inline" id="chatInputTextForm">
+                        <!-- <div class="form-group" style="width:100%"> -->
+                        <div class="form-group col-xs-9">
+                            <input class="form-control" type="text" name="textInput" id="chatTextInput" placeholder="Enter message" style="margin: 0px; width:100%">
+                        </div>
+                        <div class="form-group col-xs-3">
+                            <input type="submit" name="chatInputSubmit" id="chatInputSubmit" class="btn btn-info" style="margin:0px; width:100%;">
+                        </div>
+                        <!-- </div> -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <div class="row" id="container">
     <div class="alert warning" id="throttleAlertBox">
@@ -4644,6 +4747,13 @@
                     </div>
             </div>
 
+            <div id="huddleInitiatePane" class="col-md-12">
+              <button id="huddleInitiatePaneHuddleButton" class="btn btn-info"
+                  onclick="chatViewButtonClicked();">Huddle Up!</button>
+              <form>
+              </form>
+            </div>
+
             <div id="huddlieInfoGraphicDiv" class="col-md-12">
               <div class="col-md-4">
                 <img src="/Infographicstep1.JPG" style="object-fit: contain; max-width: 100%">
@@ -5599,106 +5709,6 @@
     <div id="mainPane2" class="mainPaneChatOn">
            
     </div>
-    <!-- Conference Pane -->
-    <div id="chatPane" style="display:none">
-        <div id="chatButtonsPane1">
-            <button id="chatButton-hide" class="btn btn-info chatButtons" onclick="chatViewButtonClicked()">Hide</button>
-        </div>
-        <div id="chatInitiatePane">
-            <form id="chatInitiateForm">
-                <label>Invite up to 3 friends to join you in real-time!</label>
-                <br/><br/>
-                <label>Enter email adresses to send invite links or share the link below.</label>
-                <br/><br/>
-                <div class="form-group">
-                    <input type="email" class="form-control" id="email1" placeholder="Enter an email address" 
-                                oninvalid="setCustomValidity('Please enter a valid email address')" oninput="setCustomValidity('')">
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control" id="email2" placeholder="Enter an email address" 
-                                oninvalid="setCustomValidity('Please enter a valid email address')" oninput="setCustomValidity('')">
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control" id="email3" placeholder="Enter an email address" 
-                                oninvalid="setCustomValidity('Please enter a valid email address')" oninput="setCustomValidity('')">
-                </div>
-                <br/>
-                <div class="form-group">
-                    <label for="name">Preferred display name:</label>
-                    <input type="text" class="form-control" id="displayName" required="true" placeholder="Please enter your name">
-                </div>
-                <br/>
-                <input type="submit" class="btn btn-info" style="width:100%" value="Huddle!">
-            </form>
-
-            <div class="chatSharePane">
-                <div class="col-sm-9"  style="padding:5px 0px 0px 0px !important;">
-                    <input type="text" class="form-control linkedCopiedLabel" readonly="true" value="Link has been copied" style="display:none">
-                    <input class="form-control chatShareInputs" id="chatShareInput1" type="text" value="" readonly="true">
-                </div>
-                <div class="col-sm-3"  style="padding:5px 0px 0px 0px !important;">
-                    <button class="btn btn-info chatShareButtons" style="width:100%;"
-                            data-clipboard-target="#chatShareInput1">Copy</button>
-                </div>
-
-                <div class="col-sm-12" id="sendLinkSocialButtonsDiv" style="padding:10px 0px 0px 0px !important;">
-                    <label style="vertical-align:middle;padding-right:10px">Send Link:   </label>
-                    
-                    <a onclick="sendButtonClicked3();">
-                        <span class="fab fa-facebook-f">
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div id="chatJoinPane">
-            <form id="chatJoinForm">
-                <br/>
-                <div class="form-group">
-                    <label for="name">Preferred display name:</label>
-                    <input type="text" class="form-control" id="displayNameJoin" required="true" placeholder="Please enter your name">
-                </div>
-                <br/>
-                <input type="submit" class="btn btn-info" style="width:100%" value="Huddle!">
-            </form>
-        </div>
-        <div id="chatActivePane" style="display:none">
-            <div id="chatButtonsPane2">
-                <button id="chatButton-hide2" class="btn btn-info chatButtons" onclick="chatViewButtonClicked()">Hide</button>
-                <button id="chatButton-end2" class="btn btn-info chatButtons" onclick="endHuddleHandler()">End Huddle</button>
-            </div>
-            <div id="remotes">
-                <div class="videoContainer">
-                    <video id="localVideo" controls="true" oncontextmenu="return false;" style="transform:scaleX(1) !important"></video>
-                    <div id="localVolume" class="volume_bar"></div>
-                </div>
-            </div>
-            <div class="chatSharePane">
-                <div class="col-sm-9"  style="padding:5px 0px 0px 0px !important;">
-                    <input type="text" class="form-control linkedCopiedLabel" readonly="true" value="Link has been copied" style="display:none">
-                    <input class="form-control chatShareInputs" id="chatShareInput2" type="text" value="" readonly="true">
-                </div>
-                <div class="col-sm-3"  style="padding:5px 0px 0px 0px !important;">
-                    <button class="btn btn-info chatShareButtons" style="width:100%;" data-clipboard-target="#chatShareInput2">Copy</button>
-                </div>
-            </div>
-            <div id="textChatArea">
-                <div id="textDisplayArea">
-                    <div class="form-group" id="chatTextAreaOuterDiv">
-                        <div id="chatTextDisplay" style="width:100%; height:100%; background-color:white; color:black; padding:5px; overflow:auto;">
-                        </div>
-                    </div>
-                    <form class="form-inline" id="chatInputTextForm">
-                        <div class="form-group" style="width:75%">
-                            <input class="form-control" type="text" name="textInput" id="chatTextInput" placeholder="Enter message" style="width:100%">
-                        </div>
-                        <input type="submit" name="chatInputSubmit" id="chatInputSubmit" class="btn btn-info" style="margin:0px; width:20%;">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div id="footer">
@@ -6031,6 +6041,10 @@
             var newId = (Math.random() * new Date().getTime()).toString(24).toUpperCase().replace( /\./g , '-');
             sessionStorage.setItem('feedbackId', newId);
         }
+
+        if (sessionStorage.getItem('isChatActive')){
+          sessionStorage.removeItem('isChatActive');
+        }
     }
 
     retailerChanged();
@@ -6061,7 +6075,14 @@
             heightMultiplier = (totalUsers+1) / 2;
         }
 
-        var height = $chatActivePane.outerHeight() - ($localVideo.outerHeight()*heightMultiplier) - ($chatInputTextForm.outerHeight()+60) - 60;
+        var height = $chatActivePane.outerHeight() - $('#chatButtonsPane2').outerHeight() - $('#remotes').outerHeight() - ($chatInputTextForm.outerHeight()+25) - 25;
+
+        console.log($chatActivePane.outerHeight());
+        console.log($('#chatButtonsPane2').outerHeight());
+        console.log($('#remotes').outerHeight());
+        console.log($chatInputTextForm.outerHeight());
+        console.log('height = '+height);
+
         $chatTextAreaOuterDiv.height(height+'px');
     }
 
@@ -6151,6 +6172,11 @@
           $(".overlay").show();    
 
           setTimeout(function(){
+            if (sessionStorage)
+            {
+              sessionStorage.setItem('navbarBottomPreviousButton', targetDiv);
+            }
+
             viewController('homeBanner');
 
             $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
@@ -6161,6 +6187,11 @@
 
           break;
         case 'Cart':
+          if (sessionStorage)
+          {
+            sessionStorage.setItem('navbarBottomPreviousButton', targetDiv);
+          }
+
           viewCart();
 
           $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
@@ -6175,15 +6206,16 @@
           break;
         case 'Huddle':
 
-          $('#huddleInitiatePane').show();
+          // $('#huddleInitiatePane').show();
           
-          $('html,body').animate({
-              scrollTop: 0},
-              'slow');
+          // $('html,body').animate({
+          //     scrollTop: 0},
+          //     'slow');
 
-          $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
-          $('#'+targetDiv).removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected');
-
+          // $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
+          // $('#'+targetDiv).removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected');
+          chatViewButtonClicked();
+          // chatViewButtonClicked('navbarBottom');
           break;
       }
     }
@@ -6346,18 +6378,30 @@
         }
     }
 
-    function sendButtonClicked3(){
-        if (sessionStorage && sessionStorage.getItem('rmid') && sessionStorage.getItem('rmid') != '')
+    function sendButtonClicked(socialNetwork){
+        if (sessionStorage && sessionStorage.getItem('rmid') && sessionStorage.getItem('rmid') != ''
+              && socialNetwork && socialNetwork != '')
         {
             var room = sessionStorage.getItem('rmid');
             var url = window.location.href.split(window.location.pathname)[0] + '?rmid=' + room;
             // var url = 'https://huddlie.com' + '?rmid=' + room;
             console.log(url);
-            var fbShareURL = 'https://www.facebook.com/sharer/sharer.php?u='+url;
 
-            // window.open(fbShareURL,'_blank');
-            window.open(fbShareURL,'targetWindow',
-                                   'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=582px,height=424px');
+            switch(socialNetwork)
+            {
+              case 'facebook':
+                var fbShareURL = 'https://www.facebook.com/sharer/sharer.php?u='+url;
+
+                // window.open(fbShareURL,'_blank');
+                window.open(fbShareURL,'targetWindow',
+                                       'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=582px,height=424px');
+                break;
+              case 'whatsapp':
+              var waShareURL = "whatsapp://send?text=Please%20click%20the%20link%20below%20to%20shop%20along%20with%20me%20on%20Huddlie.%0A%0A"+url;
+              window.open(waShareURL, 'targetWindow',
+                                       'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=582px,height=424px');
+            }
+            
         }
     }
 
@@ -6438,7 +6482,10 @@
         }
         else
         {
+          if (!phone)
+          {
             chatViewButtonClicked();
+          }
         }
 
         requestSharedDiv();
@@ -6536,6 +6583,7 @@
             if (sessionStorage){
                 sessionStorage.setItem('chatId', data.chatId);
                 sessionStorage.setItem('initiator', true);
+                sessionStorage.setItem('isChatActive', true);
 
                 broadcastSharedTab();
                 sendMessage(true);
@@ -6597,6 +6645,10 @@
                     remotes.appendChild(d);
 
                     resizeChatArea();
+
+                    setTimeout(function(){
+                      resizeChatArea();
+                    }, 5000);
                 }
             });
             webrtc.on('videoRemoved', function (video, peer) {
@@ -6606,6 +6658,10 @@
                 if (remotes && el) {
                     remotes.removeChild(el);
                     resizeChatArea();
+
+                    setTimeout(function(){
+                      resizeChatArea();
+                    }, 5000);
                 }
             });
             webrtc.on('volumeChange', function (volume, treshold) {
@@ -6634,8 +6690,15 @@
             $chatInitiatePane.hide();
             $('#chatButtonsPane1').hide();
             $chatActivePane.show();
+
+            $('#newTopFlyoutOuterDiv').addClass("newTopFlyoutOuterDivChatOn");
+            $('#navbar-outerDiv').addClass("navbar-outerDivChatOn");
         }
     });
+
+  $('.videoContainer').click(function(){
+    
+  });
 
     socket.on('totalUsers', function(data){
         if (sessionStorage)
@@ -6651,6 +6714,7 @@
         if (sessionStorage){
             sessionStorage.setItem('username', name);
             sessionStorage.setItem('chatId', chatId);
+            sessionStorage.setItem('isChatActive', true);
         }
     }
 
@@ -8301,10 +8365,13 @@
     }
 
     //Begin chatViewButtonClicked
-    function chatViewButtonClicked(){
+    function chatViewButtonClicked(origin){
         console.log('chat function called');
         if ($chatPane.is(':visible')){
-            viewController('chatOff');
+            if (!origin || origin == '' || origin != 'navbarBottom')
+            {
+              viewController('chatOff');
+            }
         }
         else
         {
@@ -8409,6 +8476,7 @@
         var pushState = true;
 
         var state, url, rmid = '';
+        var nextMode = '';
 
         if (sessionStorage && sessionStorage.getItem('isPopStateEvent')){
             if (sessionStorage.getItem('isPopStateEvent') == 'true'){
@@ -8417,26 +8485,66 @@
             }
         }
 
-        //hide huddle initiate pane by default for any view other than home.
-        //also show huddle button on top by default.
-        $('#huddleInitiatePane').hide();
-        $('.chatViewButtonOuter').show();
+        var isChatPaneVisible = false;
+        if ($chatPane.is(':visible')){
+          isChatPaneVisible = true;
 
-
-        //hide country selected dropdown menu if view changes 
-        if (phone) {
-          $('#retailerDropdownMenuPhone').hide();
+          if (phone)
+          {
+            if (mode == 'homeBanner' || mode == 'viewCart' || mode == 'Collab')
+            {
+              nextMode = mode;
+              mode = 'chatOff';
+            }
+          }
         }
 
-        //hide phone flyout outer and flyout itself
-        if (phone)
+        var isChatActive = false;
+        if (sessionStorage && sessionStorage.getItem('isChatActive')){
+          if (sessionStorage.getItem('isChatActive') == 'true')
+          {
+            isChatActive = true;
+          }
+        }
+
+        var currentView = 'home';
+        if(sessionStorage && sessionStorage.getItem('currentView')){
+          if (sessionStorage.getItem('currentView') != '')
+          {
+            currentView = sessionStorage.getItem('currentView');
+          }
+        }
+
+        if (mode != 'chatOn' && mode != 'chatOff')
         {
-          console.log('hiding nav');
-          $('#flyoutCategoriesOuterPhone').hide();
-          $('#newTopFlyoutOuterDiv').hide();
-        }
+          //hide huddle initiate pane by default for any view other than home.
+          //also show huddle button on top by default.
+          if (isChatActive )
+          {
+            $('#huddleInitiatePane').hide();
+            $('.chatViewButtonOuter').hide();           
+          }
+          else
+          {
+            $('#huddleInitiatePane').hide();
+            $('.chatViewButtonOuter').show();          
+          }
 
-        $('#footerDocsDiv').hide();
+          //hide country selected dropdown menu if view changes 
+          if (phone) {
+            $('#retailerDropdownMenuPhone').hide();
+          }
+
+          //hide phone flyout outer and flyout itself
+          if (phone && currentView != 'home')
+          {
+            console.log('hiding nav');
+            $('#flyoutCategoriesOuterPhone').hide();
+            $('#newTopFlyoutOuterDiv').hide();
+          }
+
+          $('#footerDocsDiv').hide();
+        }
 
         switch(mode){
             case 'PrivacyPolicy':
@@ -8516,8 +8624,71 @@
 
                 //show huddle initiate pane.
                 //hide huddle button on top.
-                $('#huddleInitiatePane').show();
-                $('.chatViewButtonOuter').hide();
+
+                if (isChatActive)
+                {
+                  $('#huddleInitiatePane').hide();
+                  $('.chatViewButtonOuter').hide();
+
+                  // CHAT ON
+                  // CHAT VISIBLE
+                  if (isChatPaneVisible)
+                  {
+                    if (phone)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                  }
+                  // CHAT ON
+                  // CHAT NOT VISIBLE
+                  else
+                  {
+                    if (phone)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                  }
+                }
+                else
+                {
+                  // CHAT NOT ON
+                  // CHAT VISIBLE
+                  if (isChatPaneVisible)
+                  {
+                    if (phone)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                  }
+                  // CHAT NOT ON
+                  // CHAT NOT VISIBLE
+                  else
+                  {
+                    if (phone)
+                    {
+                      $('#huddleInitiatePane').show();   
+                    }
+                    else
+                    {
+                      $('#huddleInitiatePane').show();
+                      $('.chatViewButtonOuter').hide();  
+                    }
+                  }
+                }
+
+                
 
                 // reset mobile flyout
                 if (phone)
@@ -8792,10 +8963,20 @@
 
                 visitStatUpdateManager({updateType:'view',currentView:'viewCart'});
 
+                if (phone) {
+                  if (sessionStorage)
+                  {
+                    sessionStorage.setItem('navbarBottomPreviousButton', navbarBottomCartButtonDiv);
+                  }
+                  $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
+                  $('#navbarBottomCartButtonDiv').removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected');
+                }
+
                 break;
             case 'chatOn':
                 console.log('chat On chosen');
                 $chatPane.show();
+                $('body').addClass('body-noScroll');
                 $mainPane.removeClass("mainPaneChatOff").addClass("mainPaneChatOn");
                 $('.product-box').removeClass("product-box").addClass("product-box-chat-on");
 
@@ -8807,12 +8988,27 @@
 
                 $('#chatViewButton').hide();
                 $('.chatViewButtonOuter').hide();
+
+                if (phone) {
+                  var previousTarget = $('.navbarBottomInnerDivSelected').attr('id');
+                  if (sessionStorage)
+                  {
+                    sessionStorage.setItem('navbarBottomPreviousButton', previousTarget);
+                  }
+                  $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
+                  $('#navbarBottomHuddleButtonDiv').removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected');
+                }
+
                 break;
             case 'chatOff':
             console.log('chat Off chosen');
                 $chatPane.hide();
+                $('body').removeClass('body-noScroll');
                 $mainPane.removeClass("mainPaneChatOn").addClass("mainPaneChatOff");
                 $('.product-box-chat-on').removeClass("product-box-chat-on").addClass("product-box");
+
+                // $('#newTopFlyoutOuterDiv').removeClass("newTopFlyoutOuterDivChatOn");
+                // $('#navbar-outerDiv').removeClass("navbar-outerDivChatOn");
 
                 $hudnavCollapse.css('margin-left', '0px');
 
@@ -8822,6 +9018,22 @@
 
                 $('#chatViewButton').show();
                 $('.chatViewButtonOuter').show();
+
+                if (phone)
+                {
+                  $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
+
+                  var targetDiv = 'navbarBottomHomeButtonDiv';
+
+                  if (sessionStorage && sessionStorage.getItem('navbarBottomPreviousButton') 
+                          && sessionStorage.getItem('navbarBottomPreviousButton') != '')
+                  {
+                    targetDiv = sessionStorage.getItem('navbarBottomPreviousButton');
+                  }
+
+                  $('#'+targetDiv).removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected');
+                }
+
                 break;
             case 'chatActive':
                 if (sessionStorage && sessionStorage.getItem('initiator')){
@@ -8829,6 +9041,9 @@
                         $tabSelector.show();       
                     }
                 }
+
+                $('#newTopFlyoutOuterDiv').addClass("newTopFlyoutOuterDivChatOn");
+                $('#navbar-outerDiv').addClass("navbar-outerDivChatOn");
 
                 pushState = false;
                 break;
@@ -8851,6 +9066,11 @@
 
         if (pushState){
             history.pushState(state, null, url);
+        }
+
+        if (nextMode != '')
+        {
+          viewController(nextMode);
         }
     }
 
@@ -9886,8 +10106,6 @@
     });
 
 </script>
-
-
   
 </body>
 </html>

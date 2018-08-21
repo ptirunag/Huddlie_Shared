@@ -16,6 +16,11 @@ body {
     z-index: 20;
 }*/
 
+.body-noScroll {
+  overflow: hidden;
+}
+
+
 .overlayOld {
   position: absolute;
   top: 0px;
@@ -37,10 +42,11 @@ body {
   width: 80px;
   height: 80px;
   display: none;
+  z-index: 999;
 }
 
 .loader {
-  z-index: 20;
+  z-index: 999;
   border: 16px solid #f3f3f3;
   border-radius: 50%;
   border-top: 16px solid #3498db;
@@ -169,21 +175,6 @@ body {
     }
     .product-box-chat-on {
       width: 25%;
-    }
-
-  
-    #chatActivePane{
-      height: 100%;
-      position: fixed;
-      right: 0;
-      top: 0;
-      z-index: 9999;
-      left:75%;
-      border-left: 1px solid #555;
-      background-attachment: fixed,                           fixed,                          fixed;
-      background-image: linear-gradient(45deg, #82ccb9 5%, #589aa0 30%, #646fbc);
-      background-position: top left,                      center center,                  center center;
-      background-size: auto,                          cover,                          cover;
     }
 }
 
@@ -358,13 +349,6 @@ body {
   background-color: #f9f9f9;
 }*/
 
-.mainPaneChatOn{
-  width: 75%;
-}
-.mainPaneChatOff{
-  width: 100%;
-}
-
 #footerLogo {
   cursor: pointer;
 }
@@ -381,109 +365,6 @@ body {
   font-weight: lighter;
   color:#666;
 }
-
-#chatButtonsPane2 {
-  background-color: rgb(51,51,51);
-}
-
-#chatButtonsPane2 .chatButtons {
-  background-color: rgb(63,74,104);
-  float: left;
-  width: 40%;
-  /*margin: 0px !important;*/
-  margin: 2% 5% 2% 5%;
-}
-
-#chatButtonsPane1 .chatButtons {
-  background-color: rgb(63,74,104);
-  float: right;
-  width: 40%;
-  /*margin: 0px !important;*/
-  margin: 2% 5% 5% 5%;
-}
-
-.linkedCopiedLabel {
-  width: 100%;
-  text-align: center;
-  color: green;
-  font-weight: bold;
-}
-
-.tabSelectorChatOn {
-  width: 75%;
-}
-.tabSelectorChatOff {
-  width: 100%;
-}
-
-#chatPane{
-  width:25%;
-  float: right;
-  min-width: 100px;
-  min-height: 200px;
-  color: white;
-}
-
-    #chatShareInput1, #chatShareInput2 {
-      cursor: text !important;
-      writing-mode: horizontal-tb;
-    }
-
-    #sendLinkSocialButtonsDiv > a {
-      text-align: center;
-      color: white;
-      cursor: pointer;
-      height: 40px;
-    }
-
-    #sendLinkSocialButtonsDiv > a > span {
-      background: #3b5998;
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-      border-radius: 50%;
-    }
-
-    #sendLinkSocialButtonsDiv > a > .fa-facebook-messenger {
-      font-size: 1.3em;
-    }
-    #sendLinkSocialButtonsDiv > a > .fa-facebook-f{
-      font-size: 1.2em;
-    }
-
-    #chatInitiatePane{
-      width: 100%;
-      min-height: 100px;
-      padding: 5% 10% 0% 10%;
-    }
-    #chatJoinPane{
-      width: 100%;
-      min-height: 100px;
-      padding: 10%;
-    }
-      #remotes{
-      }
-      #textChatArea{
-        position: fixed;
-        bottom: 0;
-        min-height: 100px;
-        width: 25%;
-      }
-        #textDisplayArea{
-          width: 100%;
-          padding: 0% 2% 4% 2%;
-          position: absolute;
-          bottom: 0;
-        }
-        #textInputArea{
-          width: 100%;
-          padding: 20px;
-          position: absolute;
-          bottom: 0;
-        }
-        #chatTextAreaOuterDiv {
-          margin-bottom: 10px !important;
-        }
 
 #storeArea{
     min-height: 300px;
@@ -1143,36 +1024,6 @@ body {
 }
 
 /* END ALERT BOXES */
-
-
-/* BEGIN CHAT / HUDDLE CODE */
-
-  .videoContainer {
-      position: relative;
-      width: 50%;
-      float: left;
-      text-align: center;
-      display: table-cell;
-      margin-bottom: -5px;
-  }
-  .videoContainer video {
-      width: 100%;
-  }
-  #localVideo {
-    transform: scaleX(1) !important;
-    -webkit-transform:scaleX(1) !important; /* Safari and Chrome */
-    -moz-transform:scaleX(1) !important; /* Firefox */
-  }
-  .volume_bar {
-      position: absolute;
-      width: 5px;
-      height: 0px;
-      right: 0px;
-      bottom: 0px;
-      background-color: #12acef;
-  }
-
-/* END CHAT / HUDDLE CODE */
 
   /*EXTRA STYLING CODE*/
 .btn-arrow-right,
