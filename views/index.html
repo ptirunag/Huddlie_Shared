@@ -84,7 +84,9 @@
       <li style="width: 50px" class="hidden-xs hidden-sm">
       </li>
       <li class="paddingLeft20">
-        <input type="text" name="" class="form-control" id="searchWords" placeholder="Search" style="width: 100%; display:none">
+        <form id="searchWordsForm">
+          <input type="text" name="" class="form-control" id="searchWords" placeholder="Search" style="width: 100%; display:none">
+        </form>
       </li>
       <li class="paddingRight20">
         <input type="submit" id="searchButton" onclick="searchClicked();" class="btn btn-primary" value="Search" style="width:100%;margin:0;display:none" />
@@ -6433,8 +6435,13 @@
 
     $('#searchBarPhoneForm').submit(function(e){
       e.preventDefault();
-
+      searchClicked();
       console.log('Testing search bar for phone');
+    });
+
+    $('#searchWordsForm').submit(function(e){
+      e.preventDefault();
+      searchClicked();
     });
 
     $searchForm.submit(function(e){
@@ -9166,6 +9173,10 @@
 
                 break;
             case 'searchResults':
+
+                $('#searchWords').autocomplete('close');
+                $('#searchWords').blur();
+
                 //SHOW
                 $storeArea.show();
                 $searchResultsArea.show();
