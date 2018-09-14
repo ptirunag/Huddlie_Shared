@@ -1,0 +1,209 @@
+
+@media only screen and (max-width: 768px){ 
+
+#shoppingCartArea{
+  padding: 25px 5px 25px 5px;
+}
+
+#shoppingCartLeftHeaders {
+	display: none;
+}
+
+	#cartItemOuterContainer {
+		padding: 0px !important;
+	}
+	.cartItemContainerDiv{
+		padding: 10px 0px 10px 0px !important;
+		border-top: 1px solid #bbb;
+        border-bottom: 1px solid #bbb;
+      }
+        .cartItemLeftDiv{
+          display: table-cell;
+          padding: 0px !important;
+        }
+          .cartItemLeftDiv a{
+            cursor: pointer;
+            color:#337ab7;
+          }
+          .cartItemLeftDiv div{
+            float: left;
+          }
+
+          	.cartItemTitleDiv > a > h5 {
+          		margin: 0px !important;
+          	}
+
+            .cartItemImg{
+              object-fit: contain;
+              width: 100%;
+            }
+
+        .cartItemCentreDiv{
+          
+        }
+        .cartItemRightDiv{
+          display: flex;
+          flex-direction: row;
+        }
+        	.cartItemRightDiv > .input-group {
+        		width: 50%;
+        	}
+        	.cartDeleteButtonPhoneDiv {
+        		width: 50%;
+        	}
+        	.cartDeletebuttonPhone {
+        		float: right;
+        	}
+
+    .phoneOnlyParagraph {
+    	display: block !important;
+    }
+    .phoneOnlyHiddenParagraph {
+    	display: none !important;
+    }
+    .cartDeleteButtonPhone {
+    	display: block !important;
+    }
+    .cartDeleteButtonHiddenPhone {
+    	display: none !important;
+    }
+
+}
+
+/*Bootstrap Small devices: >768px, <992px */
+@media only screen and (max-width: 992px) and (min-width: 768px) {
+
+#shoppingCartArea{
+  padding: 25px;
+}
+
+	.cartItemContainerDiv{
+        
+        padding-top: 20px;
+        padding-bottom: 20px;
+        
+        border-bottom: 1px solid #bbb;
+      }
+        .cartItemLeftDiv{
+          display: table-cell;
+        }
+          .cartItemLeftDiv a{
+            cursor: pointer;
+            color:#337ab7;
+          }
+          .cartItemLeftDiv div{
+            float: left;
+          }
+            .cartItemImg{
+              object-fit: contain;
+              max-height: 110px;
+              max-width: 110px;
+            }
+
+        .cartItemCentreDiv{
+          
+        }
+        .cartItemRightDiv{
+          
+        }
+}
+
+/* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
+@media (min-width: 992px){
+
+#shoppingCartArea{
+  padding: 25px;
+}
+
+	.cartItemContainerDiv{
+        
+        padding-top: 20px;
+        padding-bottom: 20px;
+        
+        border-bottom: 1px solid #bbb;
+      }
+        .cartItemLeftDiv{
+          display: table-cell;
+        }
+          .cartItemLeftDiv a{
+            cursor: pointer;
+            color:#337ab7;
+          }
+          .cartItemLeftDiv div{
+            float: left;
+          }
+            .cartItemImg{
+              object-fit: contain;
+              max-height: 110px;
+              max-width: 110px;
+            }
+
+        .cartItemCentreDiv{
+          
+        }
+        .cartItemRightDiv{
+          
+        }
+
+}
+
+
+/*Everything Else Below.*/
+
+
+#shoppingCartArea{
+  background-color: white;
+  min-height:500px;
+}
+
+  #shoppingCartTopDiv{
+    overflow: hidden;
+  }
+    #shoppingCartTopDiv h4{
+      font-weight: bold;
+    }
+
+  #shoppingCartMainDiv{
+
+  }
+    #shoppingCartLeftDiv{
+
+    }
+
+    	.cartItemImgDiv {
+          	width: 25%;
+          }
+          .cartItemTitleDiv {
+          	width: 70%;
+          	padding-left: 5%;
+          }
+      
+          .btn-number{
+            height:32px;
+            padding:2px 8px 0px 7px;
+            margin:0 !important;
+          }
+          .input-number{
+            height:32px;
+            padding:0px 0px 0px 5px;
+            max-width: 40px;
+          }
+
+    #shoppingCartRightDiv{
+      padding-top: 20px;
+    }
+      #checkoutMainDiv{
+        border: 1px solid #ddd;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        padding: 10px;
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+      }
+        .checkoutMainDivItem{
+          text-align: center;
+          padding-top:5px;
+        }

@@ -48,6 +48,7 @@
   <link rel="stylesheet" type="text/css" href="/assets/css/custom/bottomnavigation.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/custom/huddlieInfographicArea.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/custom/itemDetail.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/custom/cart.css">
 	<!-- End Custom Stylesheets -->
   
   <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
@@ -5983,17 +5984,17 @@
             </div>
             <!-- Cart Page -->
             <div class="row" id="shoppingCartArea" style="display: none">
-                <div id="shoppingCartTopDiv" class="col-md-12">
-                    <div class="col-md-6" style="float:left">
-                        <h4>Shopping Cart</h4>
+                <div id="shoppingCartTopDiv" class="col-sm-12">
+                    <div class="col-sm-8" style="">
+                        <h4 style="float: left;">Shopping Cart</h4>
                     </div>
-                    <div class="col-md-6" style="float:right">
+                    <div class="col-sm-4" style="">
                         <button class="btn btn-primary" onclick="history.go(-1);" style="float:right">Close</button>
                     </div>
                 </div>
                 <div id="shoppingCartMainDiv">
                     <div id="shoppingCartLeftDiv" class="col-md-9">
-                        <div class=" col-md-12" style="border-bottom:1px solid #bbb">
+                        <div id="shoppingCartLeftHeaders" class=" col-md-12" style="border-bottom:1px solid #bbb">
                             <div class="cartItemLeftDiv col-md-8">
                             </div>
 
@@ -8504,19 +8505,20 @@
                         cartItemOuterContainerDivText +=
                                         '<div class="cartItemContainerDiv col-md-12">'+
                                             '<div class="cartItemLeftDiv col-md-8">'+
-                                                '<div class="col-md-3">'+
+                                                '<div class="cartItemImgDiv">'+
                                                     '<img class="cartItemImg" src="'+imgURL+'"/>'+
                                                 '</div>'+
-                                                '<div class="col-md-9">'+
+                                                '<div class="cartItemTitleDiv">'+
                                                     '<a onclick="itemLookup(&quot;'+ASIN+'&quot;,&quot;&quot;,&quot;'+ASIN+'&quot;)"><h5><b>'+title+'</b></h5></a>'+
                                                     '<p>Sold by <b>'+merchant+'</b></p>'+
-                                                    '<button class="btn btn-primary" onclick="modifyCart(&quot;'+cartItemId+'&quot;,0);"'+
+                                                    '<button class="btn btn-primary cartDeleteButtonHiddenPhone" onclick="modifyCart(&quot;'+cartItemId+'&quot;,0);"'+
                                                             'style="padding:1px 10px 1px 10px !important">Delete</button>'+
                                                 '</div>'+
                                             '</div>'+
 
                                             '<div class="cartItemCentreDiv col-md-2">'+
-                                                '<p>'+price+'</p>'+
+                                                '<p class="phoneOnlyParagraph" style="display:none;"><strong>Price: </strong>'+price+'</p>'+
+                                                '<p class="phoneOnlyHiddenParagraph">'+price+'</p>'+
                                             '</div>'+
 
                                             '<div class="cartItemRightDiv col-md-2">'+
@@ -8532,6 +8534,10 @@
                                                           '<span class="glyphicon glyphicon-plus"></span>'+
                                                       '</button>'+
                                                     '</span>'+
+                                                '</div>'+
+                                                '<div class="cartDeleteButtonPhoneDiv">'+
+                                                  '<button class="btn btn-primary cartDeleteButtonPhone" onclick="modifyCart(&quot;'+cartItemId+'&quot;,0);"'+
+                                                              'style="padding:5px 10px 5px 10px !important; display:none;">Delete</button>'+
                                                 '</div>'+
                                             '</div>'+
                                         '</div>';
