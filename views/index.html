@@ -2790,6 +2790,10 @@
       <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
       You are submitting requests too quickly. Please retry your requests at a slower rate.
     </div>
+    <div class="alert warning" id="cartEmptyAlertBox" style="display: none;">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+      Cart is empty. Please add items to cart.
+    </div>
     <div id="tabSelector" class="tabSelectorChatOn" style="display:none;">
             <button id="sharedTabButton" class="btn btn-xs btn-success" 
                         style="width:50%; float:left; margin:0px" 
@@ -6057,13 +6061,13 @@
         <br/>
         <label class="navbarBottomPhoneButtonLabel">Cart</label>
     </div>
-    <div id="navbarBottomCollabButtonDiv" class="navbarBottomInnerDiv" 
+    <!-- <div id="navbarBottomCollabButtonDiv" class="navbarBottomInnerDiv" 
                     onclick="navbarBottomClicked('navbarBottomCollabButtonDiv', 'Collab');">
         <img class="navbarBottomPhoneButtonImg" src="navbarBottomButtonImgs/navbarBottomCollab.png" />
         <img class="navbarBottomPhoneButtonImgSelected" src="navbarBottomButtonImgs/navbarBottomCollabSelected.png" />
         <br/>
         <label class="navbarBottomPhoneButtonLabel">Collab</label>
-    </div>
+    </div> -->
     <div id="navbarBottomHuddleButtonDiv" class="navbarBottomInnerDiv" 
                     onclick="navbarBottomClicked('navbarBottomHuddleButtonDiv', 'Huddle');">
         <img class="navbarBottomPhoneButtonImg" src="navbarBottomButtonImgs/navbarBottomHuddle.png" />
@@ -8375,6 +8379,24 @@
             if (sessionStorage.getItem(currentRetailer+'-CartId') && sessionStorage.getItem(currentRetailer+'-HMAC')){
                 $(".overlay").show();
                 socket.emit('getCart', {retailer: currentRetailer, cartId: sessionStorage.getItem(currentRetailer+'-CartId'), hmac: sessionStorage.getItem(currentRetailer+'-HMAC')});
+            }
+            else
+            {
+              //No CART to display. redirect to home, scroll top, and display message "cart empty"
+              
+              if (phone)
+              {
+                navbarBottomClicked('navbarBottomHomeButtonDiv','Home');
+              }
+              else
+              {
+                viewController('homeBanner');
+              }
+
+              $('#cartEmptyAlertBox').show();
+              setTimeout(function(){
+                $('#cartEmptyAlertBox').hide(300);
+              }, 3000);
             }
         }
     }

@@ -21,7 +21,8 @@
 	.navbarBottomInnerDiv, .navbarBottomInnerDivSelected {
 		display: block;
 		position: relative;
-		width: 24%;
+		/*width: 24%;*/
+		width: 32%;
 		margin: 0px;
 		text-align: center;
 		padding-bottom: 5px;
