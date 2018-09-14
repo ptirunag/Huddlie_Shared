@@ -38,6 +38,10 @@
     padding: 0px;
   }
 
+  .flyout0Node label {
+    user-select: none;
+  }
+
   .flyoutDetailDiv {
     background-color: #fff;
     border-bottom: solid 1px #ddd;
@@ -69,6 +73,7 @@
   .flyoutTopLevelList > li > label {
     padding-left: 5%;
     margin: 10px 0px 10px 0px;
+    user-select: none;
   }
   
   .flyoutTopLevelList > li > .caret {
@@ -118,10 +123,12 @@
   .flyoutNodeList label {
     padding-left: 5%;
     margin: 5px 0px 5px 0px;
+    user-select: none;
   }
 
   .flyoutSubHeadNode label {
     padding-left: 7%;
+    user-select: none;
   }
 
   .flyout0NodePhone {
@@ -266,6 +273,17 @@
 
 .flyoutSubHeadNode > label {
   font-weight: bold;
+}
+
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 /*End Flyout*/
