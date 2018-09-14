@@ -841,7 +841,6 @@ io.sockets.on('connection', function (socket) {
                   insertSearchCache(cac2, 0);
               }
 
-
             }).catch((err) =>{
               console.log('catch error'+data.maxCallCount);
               console.log(err);

@@ -87,7 +87,7 @@
         <input type="text" name="" class="form-control" id="searchWords" placeholder="Search" style="width: 100%; display:none">
       </li>
       <li class="paddingRight20">
-        <input type="submit" id="searchButton" class="btn btn-primary" value="Search" style="width:100%;margin:0;display:none" />
+        <input type="submit" id="searchButton" onclick="searchClicked();" class="btn btn-primary" value="Search" style="width:100%;margin:0;display:none" />
       </li>
     </ul>
     </div>
@@ -171,9 +171,9 @@
 <div id="searchBarOuterPhone">
 <form id="searchBarPhoneForm">
   <div class="input-group">
-    <input class="form-control" type="text" name="search" 
+    <input id="searchWordsPhone" class="form-control" type="text" name="search" 
                   placeholder="Search for products">
-    <button class="form-control" type="submit"><i class="fa fa-search"></i></button>
+    <button id="searchButtonPhone" class="form-control" type="submit" onclick="searchClicked();"><i class="fa fa-search"></i></button>
   </div>
 </form>
 </div>
@@ -6090,6 +6090,7 @@
             var $selectRetailer = $('#selectRetailer');
             var $selectDept = $('#selectDept');
             var $searchWords = $('#searchWords');
+            var $searchWordsPhone = $('#searchWordsPhone');
             var $feedbackText = $('#feedbackText');
             var $searchButton = $('#searchButton');
             var $cartMainButton = $('#cartMainButton');
@@ -7116,6 +7117,60 @@
         }
     });
 
+
+    function searchClicked(){
+      var searchWords = '';
+      var retailer = $selectRetailer.val();
+
+      $('#searchWords').autocomplete('close');
+
+      if (phone)
+      {
+        searchWords = $('#searchWordsPhone').val();
+      }
+      else
+      {
+        searchWords = $('#searchWords').val();
+      }
+
+      if (sessionStorage)
+      {
+        sessionStorage.setItem('currentRetailer', retailer);
+
+        sessionStorage.setItem(retailer+'-currentSearchParams', JSON.stringify(
+        {dept: 'All', 
+            keyw: searchWords, 
+            retailer: retailer, 
+            nodeId: '', 
+            nodeName: '',
+            pagenum: 1,
+            minPrice: '',
+            maxPrice: '',
+            brand: '', 
+            discount: '',
+            lookupBrowseNode: true,
+            displayBrands: ''
+        }));
+      }
+
+      socket.emit('searchParams', {
+            dept: 'All', 
+            keyw: searchWords, 
+            retailer: retailer, 
+            nodeId: '', 
+            nodeName: '', 
+            pagenum: 1, 
+            minPrice: '',
+            maxPrice: '',
+            brand: '',
+            discount: '',
+            lookupBrowseNode: true,
+            displayBrands: '',
+            maxCallCount: '5'});
+
+      $(".overlay").show();
+    }
+
     function execSearch(params){
         console.log(params);
 
@@ -7268,8 +7323,37 @@
                 var path = data.path;
                 path.reverse();
 
-                if (path[0] && path[0].pathNodeId && path[0].pathNodeId == '1571272031'){
-                    $selectDept.val('Apparel');
+                // if (path[0] && path[0].pathNodeId && path[0].pathNodeId == '1571272031'){
+                //     $selectDept.val('Apparel');
+                // }
+
+                if (path[0] && path[0].pathNodeId && path[0].pathNodeId != '')
+                {
+                  var pathRoot = path[0].pathNodeId;
+                  console.log('pathRoot is '+pathRoot);
+                  switch(pathRoot)
+                  {
+                    case '1571272031':
+                      $selectDept.val('Apparel');
+                      break;
+                    case '1355017031':
+                      $selectDept.val('Beauty');
+                      break;
+                    case '1951049031':
+                      $selectDept.val('Jewelry');
+                      break;
+                    case '1571284031':
+                      $selectDept.val('Shoes');
+                      break;
+                    case '1984444031':
+                      $selectDept.val('SportingGoods');
+                      break;
+                    case '1350388031':
+                      $selectDept.val('Watches');
+                      break;
+                    default:
+                      break;
+                  }
                 }
 
                 for (i=0;i<path.length;i++){
@@ -7302,6 +7386,28 @@
             if (browseNodeDivText != ''){
                 $browseNodeList.append(browseNodeDivText);
             }
+
+            if (sessionStorage 
+                        && sessionStorage.getItem($selectRetailer.val()+'-currentSearchParams')){
+                    
+                    var currentSearchParams = JSON.parse(sessionStorage.getItem($selectRetailer.val()+'-currentSearchParams'));
+                    console.log(currentSearchParams);
+                    sessionStorage.setItem($selectRetailer.val()+'-currentSearchParams',
+                            JSON.stringify({
+                                dept: $selectDept.val(),
+                                retailer: currentSearchParams.retailer,
+                                keyw: currentSearchParams.keyw,
+                                nodeId: data.nodeId,
+                                nodeName: data.nodeName,
+                                pagenum: currentSearchParams.pagenum,
+                                brand: currentSearchParams.brand,
+                                minPrice: currentSearchParams.minPrice,
+                                maxPrice: currentSearchParams.maxPrice,
+                                discount: currentSearchParams.discount,
+                                lookupBrowseNode: currentSearchParams.lookupBrowseNode,
+                                displayBrands: currentSearchParams.displayBrands
+                            }));
+                }
         }
     });
 
@@ -8950,8 +9056,10 @@
                 $storeArea.hide();
                 $itemDetails.hide();
                 $shoppingCartArea.hide();
-                $searchWords.hide();
-                $searchButton.hide();
+                $searchWords.show();
+                $searchWords.val('');
+                $searchWordsPhone.val('');
+                $searchButton.show();
 
                 //SCROLLTOP
                 document.body.scrollTop = 0;
@@ -9237,6 +9345,8 @@
                 $storeArea.show();
                 $shoppingCartArea.show();
                 $searchWords.show();
+                $searchWords.val('');
+                $searchWordsPhone.val('');
                 $searchButton.show();
 
                 //HIDE
