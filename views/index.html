@@ -111,7 +111,7 @@
         <button id="chatViewButton" class="btn btn-info" type="button" onclick="chatViewButtonClicked();" style="width:100%;">Huddle Up!
         </button>
       </li>
-      <li id="retailerDropdownOuter">
+      <li id="retailerDropdownOuter" style="display: none;">
         <button id="retailerDropdownButton" class="form-control" onclick="retailerDropdownButtonClicked();">
           <span id="retailerDropdownButtonSpanUS"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/flags/4x3/us.svg"/>US</span>
           <span id="retailerDropdownButtonSpanIN" style="display: none;"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/flags/4x3/in.svg"/>IN</span>
@@ -134,7 +134,7 @@
   <div id="navbarPhone" class="">
     <a id="headerLogoPhone" onclick="viewController('homeBanner');" class="brand"><img src="/huddlie-h35.png"> </a>
     <ul class="list-inline">
-      <li id="retailerDropdownOuterPhone">
+      <li id="retailerDropdownOuterPhone" style="display: none;">
         <button id="retailerDropdownButtonPhone" class="form-control" onclick="retailerDropdownButtonClicked();">
           <span id="retailerDropdownButtonSpanUSPhone"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/flags/4x3/us.svg"/></span>
           <span id="retailerDropdownButtonSpanINPhone" style="display: none;"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/flags/4x3/in.svg"/></span>
@@ -160,8 +160,8 @@
 
   <select class="form-control" id="selectRetailer" onchange="retailerChanged()" 
           style="display:none; width:100%; min-width:0px;">
-      <option value="US">Amazon USA</option>
       <option value="IN">Amazon India</option>
+      <option value="US">Amazon USA</option>
   </select>
 </div>
   <!--/.nav-collapse -->
