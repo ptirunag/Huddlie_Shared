@@ -7270,7 +7270,7 @@
         {
           if (department == 'Apparel' || department == 'SportingGoods')
           {
-            
+
           keywords = brand + ' ' + keywords;
           brand = ''; 
           }
@@ -9270,8 +9270,13 @@
                 $multiSelect.hide();
 
                 //SCROLLTOP
+                if (sessionStorage && sessionStorage.getItem('currentResultsPageNum') &&
+                      sessionStorage.getItem('currentResultsPageNum') == '1')
+                {
                 document.body.scrollTop = 0;
                 document.documentElement.scrollTop = 0;
+                }
+                
 
                 // reset mobile flyout
                 if (phone)
