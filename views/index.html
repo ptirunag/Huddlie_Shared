@@ -7199,6 +7199,8 @@
         var discount = '';
         var displayBrands = '';
         var updateDisplayBrands = false;
+        var setDeptToAll = false;
+        var addToKeywords = '';
 
         if (params.nodeId){
             browseNodeId = params.nodeId;
@@ -7219,6 +7221,8 @@
         if (params.brand && params.brand != ''){
             brand = params.brand; 
             updateDisplayBrands = true;
+            setDeptToAll = true;
+            addToKeywords = brand;
         }
 
         if (params.discount){
@@ -7260,6 +7264,16 @@
         var lookupBrowseNode = false;
         if (params && params.lookupBrowseNode){
             lookupBrowseNode = params.lookupBrowseNode;
+        }
+
+        if (setDeptToAll && setDeptToAll == true)
+        {
+          if (department == 'Apparel' || department == 'SportingGoods')
+          {
+            
+          keywords = brand + ' ' + keywords;
+          brand = ''; 
+          }
         }
 
         console.log('department: '+department);
@@ -7392,6 +7406,72 @@
             $browseNodeList.empty();
             if (browseNodeDivText != ''){
                 $browseNodeList.append(browseNodeDivText);
+            }
+
+            if (data.displayBrands && data.displayBrands.constructor === Array
+                    && data.displayBrands.length > 0){
+                var brand = '';
+
+                if (sessionStorage 
+                        && sessionStorage.getItem($selectRetailer.val()+'-currentSearchParams')){
+                    
+                    var currentSearchParams = JSON.parse(sessionStorage.getItem($selectRetailer.val()+'-currentSearchParams'));
+                    console.log(currentSearchParams);
+                    if (currentSearchParams.brand && currentSearchParams.brand != ''){
+                      brand = currentSearchParams.brand;
+                    }
+
+                    sessionStorage.setItem($selectRetailer.val()+'-currentSearchParams',
+                            JSON.stringify({
+                                dept: currentSearchParams.dept,
+                                retailer: currentSearchParams.retailer,
+                                keyw: currentSearchParams.keyw,
+                                nodeId: currentSearchParams.nodeId,
+                                nodeName: currentSearchParams.nodeName,
+                                pagenum: currentSearchParams.pagenum,
+                                brand: currentSearchParams.brand,
+                                minPrice: currentSearchParams.minPrice,
+                                maxPrice: currentSearchParams.maxPrice,
+                                discount: currentSearchParams.discount,
+                                lookupBrowseNode: currentSearchParams.lookupBrowseNode,
+                                displayBrands: JSON.stringify(data.displayBrands)
+                            }));
+                }
+
+                $brandList.show();
+                $brandChildList.empty();
+
+                var brandChildDivText = '';
+                var displayBrands = data.displayBrands;
+                displayBrands.sort();
+
+                for(index=0; index < displayBrands.length; index++){
+                    var checkedString = 'checked';
+
+                    if (brand.indexOf(displayBrands[index]) == -1){
+                        checkedString = '';
+                    }
+
+                    brandChildDivText += '<li class="brandChildList">'+
+                                            '<div class="checkbox">'+
+                                                '<label>'+
+                                                    '<input id="brandItem'+index+'"'+
+                                                            'onclick="brandClicked(&quot;'+index+'&quot;);"'+
+                                                            'type="checkbox" '+
+                                                            'value="'+displayBrands[index]+'"'+
+                                                            'class="brandCheckbox"'+
+                                                            checkedString+'>'+
+                                                    displayBrands[index]+
+                                                '</label>'+
+                                            '</div>'+
+                                        '</li>';
+                }
+
+                $brandChildList.append(brandChildDivText);
+            }
+            else
+            {
+                // $brandList.hide();
             }
 
             if (sessionStorage 

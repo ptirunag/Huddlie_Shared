@@ -312,6 +312,7 @@ var getNodePathAndChildren = function(nodeId, nodeName, retailer, cb){
 	var path = [];
 	var children = [];
 	var retailerVal = 'AMZNIN';
+	var displayBrands = [];
 
 	if (retailer == 'IN'){
 		retailerVal = 'AMZNIN';
@@ -328,13 +329,17 @@ var getNodePathAndChildren = function(nodeId, nodeName, retailer, cb){
 		{
 			if (doc && doc.path) {
 				path = doc.path;
+				if (doc.displayBrands && doc.displayBrands.constructor === Array && doc.displayBrands.length > 0)
+				{
+					displayBrands = doc.displayBrands;
+				}
 
 				TreeData.find({'parentNodeId': nodeId, 'parentName': nodeName, 'retailer': retailerVal}).then(function(doc2){
 					if (doc2.length > 0){
 						children = doc2;
 					}
 
-					cb(true, path, children);
+					cb(true, path, children, displayBrands);
 				});
 			}
 			else 

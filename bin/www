@@ -356,9 +356,9 @@ io.sockets.on('connection', function (socket) {
     }
 
     function getPathAndChildren (nodeId, nodeName, retailer){
-      amazonBrowseNodeTreeData.getNodePathAndChildren(nodeId, nodeName, retailer, function(isSuccess, path, children){
+      amazonBrowseNodeTreeData.getNodePathAndChildren(nodeId, nodeName, retailer, function(isSuccess, path, children, displayBrands){
         if (isSuccess){
-          socket.emit('getNodePathAndChildrenResponse', {isSuccess: isSuccess, nodeId: nodeId, nodeName: nodeName, path: path, children: children});
+          socket.emit('getNodePathAndChildrenResponse', {isSuccess: isSuccess, nodeId: nodeId, nodeName: nodeName, path: path, children: children, displayBrands: displayBrands});
         }
       });
     }
