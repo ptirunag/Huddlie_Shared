@@ -47,6 +47,7 @@
   <link rel="stylesheet" type="text/css" href="/assets/css/custom/topnavigation.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/custom/bottomnavigation.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/custom/huddlieInfographicArea.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/custom/infographicSlideshow.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/custom/itemDetail.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/custom/cart.css">
 	<!-- End Custom Stylesheets -->
@@ -5069,6 +5070,29 @@
             </div>
 
             <div id="huddlieInfoGraphicDiv" class="col-md-12">
+              <!-- <div class="slide-wrap">
+                
+                <a href="#slide-1">1</a>
+                <a href="#slide-2">2</a>
+                <a href="#slide-3">3</a>
+
+                <div class="slider">
+                  <div class="slide" id="slide-1">
+                    <img src="/step1.png" style="object-fit: contain; max-width: 100%">
+                  </div>
+                  <div class="slide" id="slide-2">
+                    <img src="/step1.png" style="object-fit: contain; max-width: 100%">
+                  </div>
+                  <div class="slide" id="slide-3">
+                    <img src="/step1.png" style="object-fit: contain; max-width: 100%">
+                  </div>
+                </div>
+                
+              </div> -->
+              <!-- <div class="tech-slideshow">
+                <div class="mover-1"></div>
+                <div class="mover-2"></div>
+              </div> -->
               <div class="col-md-4">
                 <img src="/Infographicstep1.JPG" style="object-fit: contain; max-width: 100%">
               </div>
@@ -6026,6 +6050,10 @@
 </div>
 
 <div id="footer">
+    <button onclick="itemLookup('B07M8GPJMR','','B07M8GPJMR');">B07M8GPJMR</button>
+    <button onclick="itemLookup('B07F2P5QKG','','B07F2P5QKG');">B07F2P5QKG</button>
+    <button onclick="itemLookup('B0774J6Y5D','','B0774J6Y5D');">B0774J6Y5D</button>
+    <button onclick="itemLookup('B076Y4P7NQ','','B076Y4P7NQ');">B076Y4P7NQ</button>
     <div style="text-align: center; margin-top: 20px">
         <ul class="list-group" style="margin-bottom:0px">
             <li>
@@ -6306,6 +6334,137 @@
         }
     });
 
+    // TESTING mouse position stuff
+
+    // function broadcastSharedTab(){
+    //     
+    // }
+    // socket.on('sharedDiv', function(data){
+    //     if ($mainPane2.is(':visible') && data && data.sharedDiv){
+    //         $mainPane2.html(data.sharedDiv);
+    //     }
+    // });
+
+    var broadcastScrollPositionIndicator = true;
+
+    function broadcastScrollPosition () {
+      // First scroll appropriately for any user.
+      // Code to broad cast it is after this.
+      // See below.
+
+      var initial = true;
+      var x;
+      var y;
+      var finalElement = null;
+
+      $(".product-box:visible,.product-box-chat-on:visible").each(function(){
+        var rect = this.getBoundingClientRect();
+
+        if (initial == true && rect && rect.x && rect.y)
+        {
+          finalElement = this;
+          x = Math.abs(rect.x);
+          y = Math.abs(rect.y);
+          console.log("x = "+x+"; y = "+y);
+          console.log(this);
+          initial = false;
+        }
+        else
+        {
+          if (rect && rect.x && rect.y)
+          {
+            var tempX = Math.abs(rect.x);
+            var tempY = Math.abs(rect.y);
+            console.log("x = "+tempX+"; y = "+tempY);
+
+            if ((tempY < y)
+                || (tempY == y && tempX < x))
+            {
+              finalElement = this;
+              console.log(this);
+              x = tempX;
+              y = tempY;
+            }
+          }
+        }
+      });
+
+      console.log("Final X & Y Values:");
+      console.log("x = "+x+"; y = "+y);
+      console.log(finalElement);
+
+      var scrollTopVal;
+
+      if (phone)
+      {
+        scrollTopVal = $(finalElement).offset().top - 35;
+      }
+      else
+      {
+        scrollTopVal = $(finalElement).offset().top;
+      }
+
+      if (scrollTopVal && $('html, body').scrollTop() != 0 && $('#searchResultsArea').is(":visible"))
+      {
+        shouldCheckScrollEnd = false;
+        $('html, body').animate({
+          scrollTop: scrollTopVal
+        }, 500);
+        setTimeout(function(){
+          shouldCheckScrollEnd = true;
+        },800);
+      }
+
+      var scrollItemId = $(finalElement).attr('id');
+
+      // Broadcast to everyone
+      if (broadcastScrollPositionIndicator == true) 
+      {
+        if (sessionStorage && sessionStorage.getItem('chatId') && sessionStorage.getItem('initiator') && scrollItemId){
+            if (sessionStorage.getItem('initiator')=='true'){
+                socket.emit('broadcastScrollPositionSend', {chatId: sessionStorage.getItem('chatId'), scrollItemId: scrollItemId});
+                console.log('sent scroll position');
+            }
+        }
+      }
+    }
+
+    socket.on('broadcastScrollPositionReceive', function(data){
+      console.log(data);
+      if (data && data.scrollItemId)
+      {
+        console.log($('#'+data.scrollItemId));
+        if ($('#'+data.scrollItemId).is(':visible'))
+        {
+          var scrollTopVal = $('#'+data.scrollItemId).offset().top;
+
+          if (scrollTopVal && phone)
+          {
+            scrollTopVal = scrollTopVal - 35;
+          }
+
+          console.log('scrollTopVal = '+scrollTopVal);
+
+          if (scrollTopVal && $mainPane2.is(':visible'))
+          {
+            console.log('yes, scroll to the product');
+            shouldCheckScrollEnd = false;
+            $('html, body').animate({
+              scrollTop: scrollTopVal
+            }, 500);
+            setTimeout(function(){
+              shouldCheckScrollEnd = true;
+            },800);
+          }
+        }
+      }
+        // if ($mainPane2.is(':visible') && data && data.sharedDiv){
+        //     $mainPane2.html(data.sharedDiv);
+        // }
+    });
+
+    // END TESTING 
+
     socket.on('activeWishlists', function(data){
       if (data && data.hasWishlists && data.hasWishlists == true)
       {
@@ -6367,11 +6526,29 @@
     $(window).resize(resizeChatArea);
     $(window).trigger('resize');
 
+
+    var timeout = null;
+    var shouldCheckScrollEnd = true;
+
     $(window).scroll(function(){
       if ($(this).scrollTop() > 50) {
         $('#searchBarOuterPhone').addClass('searchBarPhoneFixed');
       } else {
         $('#searchBarOuterPhone').removeClass('searchBarPhoneFixed');
+      }
+
+
+      clearTimeout(timeout);
+      //detect scroll ending
+      if (shouldCheckScrollEnd == true)
+      {
+        timeout = setTimeout(function(){
+            console.log('scrolling stopped');
+            if ($('#searchResultsArea').is(":visible") || $('#fourBannersArea').is(":visible"))
+            {
+              broadcastScrollPosition(); 
+            }
+        },500);
       }
     });
 
@@ -6810,6 +6987,7 @@
 
         requestSharedDiv();
     }
+
     function personalTab(){
         $personalTabButton.removeClass();
         $personalTabButton.addClass('btn');
@@ -6827,7 +7005,6 @@
 
         $('#chatButton-hide2').prop('disabled', false);
     }
-
 
     function broadcastSharedTab(){
         if (sessionStorage && sessionStorage.getItem('chatId') && sessionStorage.getItem('initiator')){
@@ -6904,6 +7081,8 @@
                 sessionStorage.setItem('chatId', data.chatId);
                 sessionStorage.setItem('initiator', true);
                 sessionStorage.setItem('isChatActive', true);
+
+                //ADD Code to call function that will send mouse pointer position periodically.
 
                 broadcastSharedTab();
                 sendMessage(true);
@@ -7724,6 +7903,9 @@
                                           '<div class="product-title">'+ title +'<br><p>'+ brand +'</p></div>'+
                                           '<div class="product-prime-box">'+primeImageHtml+'</div>' +
                                           '<p class="product-price">'+price+'</p>'+
+                                          '<button class="btn btn-sm btn-success product-box-button-left" onclick="hightlightItem('+ASIN.toString()+');">Highlight</button>'+
+                                          '<button class="btn btn-sm btn-info product-box-button-right" onclick="">Add to Cart</button><br/>'+
+                                          '<img class="product-box-retailer-img" src="/amazon.png" /><br/>'+
                                       '</div>';
                     }
 

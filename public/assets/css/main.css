@@ -562,6 +562,22 @@ body {
     cursor: pointer;
 }
 
+.product-box-button-left {
+  margin-right: 2px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.product-box-button-right {
+  margin-left: 2px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.product-box-retailer-img {
+  max-height: 30px;
+}
+
 .product-title {
     padding: 15px 3px 0 3px;
     min-width:80%;

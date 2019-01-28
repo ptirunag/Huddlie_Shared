@@ -5,6 +5,7 @@
  */
 
 var app = require('../app');
+var flipkartAPIClient = require('../app/flipkart/flipkartAPIClient.js');
 var chatData = require('../app/models/chat');
 var amazonBrowseNodeTreeData = require('../app/models/amazonBrowseNodes');
 var amazonSearchCache = require('../app/models/amazonSearchCache.js');
@@ -52,6 +53,7 @@ var io = sockets.listen(server, {
     log: false,
     origins: '*:*'
 });
+
 
 var piranhax = require("piranhax");
 var client2 = new piranhax("AKIAII56AVZJQGO7XU6A","ErzbxN+1dH93Qt3MlpyWOa9DvfnK26ywtuSp0mNW","huddlienc-21");
@@ -338,6 +340,15 @@ io.sockets.on('connection', function (socket) {
           io.in(data.chatId).emit('chatHistory', {chatHistory: chatHistory});
         }
       });
+    }
+
+    socket.on('broadcastScrollPositionSend', broadcastScrollPositionSend);
+    function broadcastScrollPositionSend(data){
+      console.log(data);
+      if (data && data.chatId && data.scrollItemId)
+      {
+        socket.to(data.chatId).emit('broadcastScrollPositionReceive', {scrollItemId: data.scrollItemId});
+      }
     }
     
     socket.on('broadcastSharedTab', broadcastSharedTab);
