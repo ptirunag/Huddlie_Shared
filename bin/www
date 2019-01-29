@@ -350,6 +350,14 @@ io.sockets.on('connection', function (socket) {
         socket.to(data.chatId).emit('broadcastScrollPositionReceive', {scrollItemId: data.scrollItemId});
       }
     }
+
+    socket.on('highlightProductBoxSend', highlightProductBoxSend);
+    function highlightProductBoxSend(data){
+      if (data && data.chatId && data.highlightItem)
+      {
+        socket.to(data.chatId).emit('highlightProductBoxReceive',{highlightItem: data.highlightItem});
+      }
+    }
     
     socket.on('broadcastSharedTab', broadcastSharedTab);
     function broadcastSharedTab(data){

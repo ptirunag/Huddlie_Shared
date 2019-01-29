@@ -67,7 +67,8 @@
 	border-top: 1px solid #ccc;
 }
 
-.mainPageProductPaneOuterDiv > .col-md-12 > .product-box {
+.mainPageProductPaneOuterDiv > .col-md-12 > .product-box,
+.mainPageProductPaneOuterDiv > .col-md-12 > .product-box-chat-on  {
   background-color: white;
   border: none !important;
   padding-top: 20px;
@@ -75,7 +76,8 @@
   cursor: pointer;
 }
 
-.mainPageProductPaneOuterDiv > .col-md-12 > .product-box:hover{
+.mainPageProductPaneOuterDiv > .col-md-12 > .product-box:hover,
+.mainPageProductPaneOuterDiv > .col-md-12 > .product-box-chat-on:hover {
 	box-shadow: 2px 2px 2px 2px #bbb;
 	z-index: 999;
 }
