@@ -1,7 +1,14 @@
 var mongoose = require('mongoose');
 var amazonBrowseNodeTreeData = require('../models/amazonBrowseNodes');
 
-mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
+var opts = {
+	useMongoClient:true,
+	auth: {
+		authdb: 'heroku_kw3mx5qs'
+	} 
+}
+mongoose.connect(process.env.MONGODB_URI,opts);
+// mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
 
 var schema = mongoose.Schema;
 
