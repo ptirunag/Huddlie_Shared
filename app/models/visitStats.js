@@ -1,14 +1,7 @@
 var mongoose = require('mongoose');
 var chatModel = require('../models/chat.js');
 
-var opts = {
-	useMongoClient:true,
-	auth: {
-		authdb: 'heroku_kw3mx5qs'
-	} 
-}
-mongoose.connect(process.env.MONGODB_URI,opts);
-// mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
+mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
 
 var schema = mongoose.Schema;
 
