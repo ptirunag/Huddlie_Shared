@@ -3,9 +3,16 @@ var chatModel = require('../models/chat.js');
 
 var opts = {
 	useMongoClient : true,
-	socketTimeoutMS: 30000,
-    keepAlive: true,
-    reconnectTries: 30000
+	replset: {
+		auto_reconnect: false,
+		connectWithNoPrimary: true,
+		ssl: true,
+		sslValidate: false,
+		socketOptions: {
+			keepAlive: 1000,
+			connectTimeoutMS: 30000
+		}
+	}
 }
 mongoose.connect(process.env.MONGODB_URI,opts);
 // mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
