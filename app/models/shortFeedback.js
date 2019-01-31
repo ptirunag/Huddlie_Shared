@@ -1,10 +1,6 @@
 var mongoose = require('mongoose');
 
-// mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
-mongoose.connect(process.env.MONGODB_URI, 	{
-												autoReconnect: true,
-												replicaSet: 'rs-ds217475'
-											});
+mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
 
 var schema = mongoose.Schema;
 

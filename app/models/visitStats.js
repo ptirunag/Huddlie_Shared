@@ -1,15 +1,7 @@
 var mongoose = require('mongoose');
 var chatModel = require('../models/chat.js');
 
-// mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
-mongoose.connect(process.env.MONGODB_URI, 	{
-												autoReconnect: true,
-												replicaSet: 'rs-ds217475'
-											}, function(err){
-												console.log('HERE IS THE ERROR');
-												console.log(err);
-												console.log('HERE ENDS THE ERROR');
-											});
+mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
 
 var schema = mongoose.Schema;
 

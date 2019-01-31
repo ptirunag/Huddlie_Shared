@@ -1,11 +1,27 @@
 var mongoose = require('mongoose');
 
 
-// mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
-mongoose.connect(process.env.MONGODB_URI, 	{
-												autoReconnect: true,
-												replicaSet: 'rs-ds217475'
-											});
+mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
+// var uri = 'mongodb://huddlieServices9!:servicesMaster9!@' +
+//     'ds217475-a0.mlab.com:17475,' +
+//     'ds217475-a1.mlab.com:17475/heroku_kw3mx5qs' +
+//     '?ssl=true&replicaSet=rs-ds217475&authSource=heroku_kw3mx5qs';
+// mongoose.connect(uri, {
+//   server: {
+//     socketOptions: {
+//       socketTimeoutMS: 0,
+//       keepAlive: true
+//     },
+//     reconnectTries: 30
+//   },
+//   replset: {
+//     socketOptions: {
+//       socketTimeoutMS: 0,
+//       keepAlive: true
+//     },
+//     reconnectTries: 30
+//   }
+// });
 
 var schema = mongoose.Schema;
 
