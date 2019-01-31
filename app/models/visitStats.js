@@ -2,7 +2,10 @@ var mongoose = require('mongoose');
 var chatModel = require('../models/chat.js');
 
 var opts = {
-	useMongoClient : true
+	useMongoClient : true,
+	socketTimeoutMS: 30000,
+    keepAlive: true,
+    reconnectTries: 30000
 }
 mongoose.connect(process.env.MONGODB_URI,opts);
 // mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
