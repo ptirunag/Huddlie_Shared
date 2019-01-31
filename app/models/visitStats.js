@@ -1,7 +1,11 @@
 var mongoose = require('mongoose');
 var chatModel = require('../models/chat.js');
 
-mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
+var opts = {
+	useMongoClient : true
+}
+mongoose.connect(process.env.MONGODB_URI,opts);
+// mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
 
 var schema = mongoose.Schema;
 
