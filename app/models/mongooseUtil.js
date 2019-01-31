@@ -2,8 +2,8 @@
 var mongoose = require ('mongoose');
 
 // var dbURI = process.env.MONGODB_URI || 'localhost:27017/Huddlie';
-var dbURI = 'mongodb://huddlieServices9!:servicesMaster9!@ds151994.mlab.com:51994/heroku_gvn2dr71';
-var dbURI2 = 'mongodb://huddlieServices9!:servicesMaster9!@ds217475-a0.mlab.com:17475,ds217475-a1.mlab.com:17475/heroku_kw3mx5qs?replicaSet=rs-ds217475';
+var dbURI2 = 'mongodb://huddlieServices9!:servicesMaster9!@ds151994.mlab.com:51994/heroku_gvn2dr71';
+var dbURI = 'mongodb://huddlieServices9!:servicesMaster9!@ds217475-a0.mlab.com:17475,ds217475-a1.mlab.com:17475/heroku_kw3mx5qs?replicaSet=rs-ds217475';
 
 var MongoClient = require('mongodb').MongoClient;
 
@@ -38,7 +38,11 @@ MongoClient.connect("mongodb://huddlieServices9!:servicesMaster9!@ds217475-a0.ml
   // });
 });
 
-mongoose.connect(dbURI);
+var options = {
+	useMongoClient : true
+}
+
+mongoose.connect(dbURI, options);
 // mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
 
 mongoose.connection.on('connected', function () {  
