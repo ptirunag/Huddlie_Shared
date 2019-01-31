@@ -8,7 +8,6 @@ var hbs = require ('express-handlebars');
 var expressValidator = require ('express-validator');
 var expressSession = require ('express-session');
 
-
 var app = express();
 
 // view engine setup

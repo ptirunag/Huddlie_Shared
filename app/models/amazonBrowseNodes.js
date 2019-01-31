@@ -1,7 +1,8 @@
-var mongoose = require('mongoose');
+var mongoose = require('../models/mongooseUtil.js').mongooseItem;
 
+// var mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
+// mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
 // var uri = 'mongodb://huddlieServices9!:servicesMaster9!@' +
 //     'ds217475-a0.mlab.com:17475,' +
 //     'ds217475-a1.mlab.com:17475/heroku_kw3mx5qs' +

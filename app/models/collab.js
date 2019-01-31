@@ -1,7 +1,8 @@
-var mongoose = require('mongoose');
+var mongoose = require('../models/mongooseUtil.js').mongooseItem;
+// var mongoose = require('mongoose');
 
 
-mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
+// mongoose.connect(process.env.MONGODB_URI || 'localhost:27017/Huddlie');
 
 var schema = mongoose.Schema;
 
