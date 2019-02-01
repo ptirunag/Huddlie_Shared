@@ -4,11 +4,15 @@
 	}
 
 	#huddlieInfoGraphicDiv {
-		padding: 0%;
+		padding: 0px;
 	}
 
 	.owl-nav {
 		display: none;
+	}
+
+	.carouselImage-Laptop {
+		display: none !important;
 	}
 }
 
@@ -25,6 +29,10 @@
 	.owl-nav {
 		display: none;
 	}
+
+	.carouselImage-Mobile {
+		display: none !important;
+	}
 }
 
 /* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
@@ -39,6 +47,10 @@
 
 	#huddlieInfoGraphicDiv > .col-md-4 {
 		padding: 10px;
+	}
+
+	.carouselImage-Mobile {
+		display: none !important;
 	}
 }
 
