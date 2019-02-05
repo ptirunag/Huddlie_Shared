@@ -1,0 +1,145 @@
+@media only screen and (max-width: 768px){ 
+
+	.mainPagePromoOuterColorDiv {
+		padding: 20px 10px 20px 10px;
+	}
+
+    .mainPagePromoOuterDiv > .col-md-12 {
+  		padding: 0px 15px 0px 15px;
+	} 
+
+	.mainPagePromoOuterDiv > .col-md-12 > .product-box {
+		width: 50%;
+	}
+}
+
+/*Bootstrap Small devices: >768px, <992px */
+@media only screen and (max-width: 992px) and (min-width: 768px) {
+
+	.mainPagePromoOuterColorDiv {
+		padding: 20px 10px 20px 10px;
+	}
+
+	.mainPagePromoOuterDiv > .col-md-12 {
+  		padding: 0px 20px 0px 20px;
+	}
+
+	.mainPagePromoOuterDiv > .col-md-12 > .product-box {
+		width: 33.33%;
+	}
+}
+
+/* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
+@media (min-width: 992px){
+
+	.mainPagePromoOuterColorDiv {
+		padding: 10px 20px 10px 20px;
+	}
+	
+ 	.mainPagePromoOuterDiv, .mainPagePromoOuterDiv > .col-md-12 {
+  		/*padding: 0px 75px 0px 75px;*/
+  		padding: 0px 50px 0px 50px;
+	}
+
+	.mainPagePromoOuterDiv > .col-md-12 > .product-box {
+		width: 20%;
+	}
+}
+
+.mainPagePromoOuterShadowDiv{
+	padding: 0px 0px 20px 0px !important;
+	border: 1px solid #ddd;
+	box-shadow: 3px 3px #ddd;
+	background-image: url('/ValentinesPromos/backgroundOpacity50.jpg');
+}
+
+.mainPagePromoDetailOuterShadowDiv {
+	padding: 0px 0px 20px 0px !important;
+	border: 1px solid #ddd;
+	box-shadow: 3px 3px #ddd;
+	background-color: white;
+}
+
+.mainPagePromoBannerDiv {
+	/*width: 100%;*/
+	padding: 0px 0% 50px 0%;
+	/*margin: 0px 20% 50px 20%;*/
+	
+	/*background-image: linear-gradient(#D20001, #D20001);*/
+
+}
+.mainPagePromoBannerDiv > h1 {
+	text-align: center;
+	color: #ff1493;
+	font-weight: bold;
+	/*background: rgba(240,240,240,.2);*/
+}
+.mainPagePromoBannerDiv > h2 {
+	text-align: center;
+	color: #ff1493;
+	/*font-weight: bold;*/
+	padding: 0px 0px 5px 0px;
+	margin: 0px;
+	/*background: rgba(240,240,240,.3);*/
+}
+.mainPagePromoBannerDiv > img {
+	object-fit: cover;
+	width: 100%;
+}
+
+.mainPagePromoItemContainerDiv {
+	padding-left: 8.33%;
+	padding-right: 8.33%;
+}
+
+.mainPagePromoItemImgDiv {
+	/*background-image: linear-gradient(#D20001,white);	*/
+	padding-bottom: 50px;
+
+}
+
+.mainPagePromoItemImgDiv > img {
+	object-fit: contain;
+	max-width: 100%;
+	cursor: pointer;
+}
+
+
+.mainPagePromoHeaderDiv{
+	background-color: white;
+}
+
+.mainPagePromoSubheader{
+	color: #3f4a68;
+	vertical-align: middle;
+	padding-left: 20px;
+	padding-top: 20px;
+	border-top: 1px solid #ccc;
+}
+
+.mainPagePromoOuterDiv > .col-md-12 > .product-box,
+.mainPagePromoOuterDiv > .col-md-12 > .product-box-chat-on  {
+  background-color: white;
+  border: none !important;
+  padding-top: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.mainPagePromoOuterDiv > .col-md-12 > .product-box:hover,
+.mainPagePromoOuterDiv > .col-md-12 > .product-box-chat-on:hover {
+	box-shadow: 2px 2px 2px 2px #bbb;
+	z-index: 999;
+}
+
+.mainPagePromoOuterDiv > .row {
+	margin: 0px !important;
+	padding:0px !important;
+}
+
+
+
+
+
+
+
