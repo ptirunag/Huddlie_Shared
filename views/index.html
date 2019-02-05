@@ -7106,7 +7106,26 @@
             console.log('scrolling stopped');
             if ($('#searchResultsArea').is(":visible") || $('#fourBannersArea').is(":visible"))
             {
-              broadcastScrollPosition(); 
+              if (phone)
+              {
+                if ($('#filters').is(":visible"))
+                {
+                  console.log($('#productArea').position().top);
+                  console.log($(this).scrollTop());
+                  if ($(this).scrollTop() >= ($('#productArea').position().top - 50))
+                  {
+                    broadcastScrollPosition();
+                  }
+                }
+                else
+                {
+                  broadcastScrollPosition();
+                }
+              }
+              else
+              {
+                broadcastScrollPosition();  
+              }
             }
         },500);
       }
