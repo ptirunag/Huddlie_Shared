@@ -4,12 +4,47 @@
 		padding: 20px 10px 20px 10px;
 	}
 
+	.mainPagePromoBannerDiv {
+		padding: 10px 0% 30px 0%;
+	}
+
+	.mainPagePromoBannerDiv > h1 {
+		font-size: 24px;
+		text-align: center;
+		color: #ff1493;
+		font-weight: bold;
+		/*background: rgba(240,240,240,.2);*/
+	}
+	.mainPagePromoBannerDiv > h2 {
+		font-size: 20px;
+		text-align: center;
+		color: #ff1493;
+		/*font-weight: bold;*/
+		padding: 0px 0px 5px 0px;
+		margin: 0px;
+		/*background: rgba(240,240,240,.3);*/
+	}
+
     .mainPagePromoOuterDiv > .col-md-12 {
   		padding: 0px 15px 0px 15px;
 	} 
 
 	.mainPagePromoOuterDiv > .col-md-12 > .product-box {
 		width: 50%;
+	}
+
+	.mainPagePromoDetailBadgeDiv {
+	}
+
+	.mainPagePromoDetailBadge {
+		background-color: #1e90ff;
+		font-size: 14px;
+		padding: 5px;
+		margin: 5px;
+		cursor: pointer;
+	}
+	.mainPagePromoDetailBadge > span {
+		font-size: 10px;
 	}
 }
 
@@ -20,12 +55,47 @@
 		padding: 20px 10px 20px 10px;
 	}
 
+	.mainPagePromoBannerDiv {
+		padding: 0px 0% 50px 0%;
+	}
+
+	.mainPagePromoBannerDiv > h1 {
+		text-align: center;
+		color: #ff1493;
+		font-weight: bold;
+		/*background: rgba(240,240,240,.2);*/
+	}
+	.mainPagePromoBannerDiv > h2 {
+		text-align: center;
+		color: #ff1493;
+		/*font-weight: bold;*/
+		padding: 0px 0px 5px 0px;
+		margin: 0px;
+		/*background: rgba(240,240,240,.3);*/
+	}
+
 	.mainPagePromoOuterDiv > .col-md-12 {
   		padding: 0px 20px 0px 20px;
 	}
 
 	.mainPagePromoOuterDiv > .col-md-12 > .product-box {
 		width: 33.33%;
+	}
+
+	.mainPagePromoDetailBadgeDiv {
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+
+	.mainPagePromoDetailBadge {
+		background-color: #1e90ff;
+		font-size: 14px;
+		padding: 5px;
+		margin: 20px;
+		cursor: pointer;
+	}
+	.mainPagePromoDetailBadge > span {
+		font-size: 10px;
 	}
 }
 
@@ -34,6 +104,25 @@
 
 	.mainPagePromoOuterColorDiv {
 		padding: 10px 20px 10px 20px;
+	}
+
+	.mainPagePromoBannerDiv {
+		padding: 0px 0% 50px 0%;
+	}
+
+	.mainPagePromoBannerDiv > h1 {
+		text-align: center;
+		color: #ff1493;
+		font-weight: bold;
+		/*background: rgba(240,240,240,.2);*/
+	}
+	.mainPagePromoBannerDiv > h2 {
+		text-align: center;
+		color: #ff1493;
+		/*font-weight: bold;*/
+		padding: 0px 0px 5px 0px;
+		margin: 0px;
+		/*background: rgba(240,240,240,.3);*/
 	}
 	
  	.mainPagePromoOuterDiv, .mainPagePromoOuterDiv > .col-md-12 {
@@ -44,6 +133,29 @@
 	.mainPagePromoOuterDiv > .col-md-12 > .product-box {
 		width: 20%;
 	}
+
+	.mainPagePromoDetailBadgeDiv {
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+
+	.mainPagePromoDetailBadge {
+		background-color: #1e90ff;
+		font-size: 14px;
+		padding: 5px;
+		margin: 20px;
+		cursor: pointer;
+	}
+	.mainPagePromoDetailBadge > span {
+		font-size: 10px;
+	}
+	.mainPagePromoDetailPromoItemsOuterDiv {
+		padding-top: 20px;
+	}
+	.mainPagePromoDetailPromoItemImgDivFirst {
+		margin-left: 4.1666%;
+	}
+
 }
 
 .mainPagePromoOuterShadowDiv{
@@ -60,28 +172,6 @@
 	background-color: white;
 }
 
-.mainPagePromoBannerDiv {
-	/*width: 100%;*/
-	padding: 0px 0% 50px 0%;
-	/*margin: 0px 20% 50px 20%;*/
-	
-	/*background-image: linear-gradient(#D20001, #D20001);*/
-
-}
-.mainPagePromoBannerDiv > h1 {
-	text-align: center;
-	color: #ff1493;
-	font-weight: bold;
-	/*background: rgba(240,240,240,.2);*/
-}
-.mainPagePromoBannerDiv > h2 {
-	text-align: center;
-	color: #ff1493;
-	/*font-weight: bold;*/
-	padding: 0px 0px 5px 0px;
-	margin: 0px;
-	/*background: rgba(240,240,240,.3);*/
-}
 .mainPagePromoBannerDiv > img {
 	object-fit: cover;
 	width: 100%;
@@ -92,18 +182,24 @@
 	padding-right: 8.33%;
 }
 
+
 .mainPagePromoItemImgDiv {
 	/*background-image: linear-gradient(#D20001,white);	*/
 	padding-bottom: 50px;
 
 }
 
-.mainPagePromoItemImgDiv > img {
+
+.mainPagePromoDetailPromoItemImgDiv {
+	padding-bottom: 20px;
+}
+
+.mainPagePromoItemImgDiv > img,
+.mainPagePromoDetailPromoItemImgDiv > img{
 	object-fit: contain;
 	max-width: 100%;
 	cursor: pointer;
 }
-
 
 .mainPagePromoHeaderDiv{
 	background-color: white;
