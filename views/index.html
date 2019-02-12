@@ -5064,7 +5064,7 @@
                         </div>
                     </div>
             </div>
-
+          <div id="huddleInitiateOuterPane">
             <div id="huddleInitiatePane" class="col-md-12">
               <button id="huddleInitiatePaneHuddleButton" class="btn btn-info"
                   onclick="chatViewButtonClicked();">Huddle Up!</button>
@@ -5087,44 +5087,8 @@
                   <img class="carouselImage carouselImage-Mobile" src="/Carousel_shots/Mobile-outline-Step3.jpg">  
                 </div>
               </div>
-
-
-              <!-- <div class="slide-wrap">
-                
-                <a href="#slide-1">1</a>
-                <a href="#slide-2">2</a>
-                <a href="#slide-3">3</a>
-
-                <div class="slider">
-                  <div class="slide" id="slide-1">
-                    <img src="/step1.png" style="object-fit: contain; max-width: 100%">
-                  </div>
-                  <div class="slide" id="slide-2">
-                    <img src="/step1.png" style="object-fit: contain; max-width: 100%">
-                  </div>
-                  <div class="slide" id="slide-3">
-                    <img src="/step1.png" style="object-fit: contain; max-width: 100%">
-                  </div>
-                </div>
-                
-              </div> -->
-              <!-- <div class="tech-slideshow">
-                <div class="mover-1"></div>
-                <div class="mover-2"></div>
-              </div> -->
-              <!-- <div class="col-md-4">
-                <img src="/Infographicstep1.JPG" style="object-fit: contain; max-width: 100%">
-              </div>
-              <div id="desktopInfographicContainer" class="col-md-4">
-                <img src="/Infographicstep2desktop.JPG" style="object-fit: contain; max-width: 100%">
-              </div>
-              <div id="phoneInfographicContainer" class="col-md-4">
-                <img src="/Infographicstep2.JPG" style="object-fit: contain; max-width: 100%">
-              </div>
-              <div class="col-md-4">
-                <img src="/Infographicstep3.JPG" style="object-fit: contain; max-width: 100%">
-              </div> -->
             </div>
+          </div>
 
             <!-- cgh1 gift hampers-->
            <!--  <button onclick="itemLookup('B07MWD6V31','','B07MWD6V31');">B07MWD6V31</button>
@@ -6418,7 +6382,8 @@
             <div class="row" id="itemDetails" style="display: none">
                 <div class="row" style="max-width:300px">
                     <div style="padding-left: 25px; padding-top: 10px;">
-                        <button type="button" class="btn btn-primary" onclick="viewController('searchResults');broadcastSharedTab();">Back to Search Results</button>
+                        <!-- <button type="button" class="btn btn-primary" onclick="viewController('searchResults');broadcastSharedTab();">Back to Search Results</button> -->
+                        <button type="button" class="btn btn-primary" onclick="history.go(-1);">Back to Search Results</button>
                     </div>
                 </div>
                 <div id="itemTopDiv" class="row">
@@ -7644,6 +7609,7 @@
       {
         sessionStorage.setItem('promoCodeParam', promoCodeParam);
         viewController('openPromo');
+        broadcastSharedTab();
       }
     }
 
@@ -7693,6 +7659,7 @@
 
             if (sessionStorage){
                 sessionStorage.setItem('chatId', data.chatId);
+                $('#huddleInitiateOuterPane').hide();
                 sessionStorage.setItem('initiator', true);
                 sessionStorage.setItem('isChatActive', true);
 
@@ -7827,6 +7794,7 @@
         if (sessionStorage){
             sessionStorage.setItem('username', name);
             sessionStorage.setItem('chatId', chatId);
+            $('#huddleInitiateOuterPane').hide();
             sessionStorage.setItem('isChatActive', true);
         }
     }
@@ -9936,9 +9904,12 @@
           $('#footerDocsDiv').hide();
         }
 
-        //Hide main page Items by default
-        $('#mainPagePromotionsMainDiv').hide();
-        $('#mainPagePromoDetailDivs').hide();
+        if (mode != 'chatOn' && mode != 'chatOff' && mode != 'chatActive')
+        {
+          //Hide main page Items by default
+          $('#mainPagePromotionsMainDiv').hide();
+          $('#mainPagePromoDetailDivs').hide();
+        }
 
         //End hide main page items
 
