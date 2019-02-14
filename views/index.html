@@ -7655,6 +7655,8 @@
     }
 
     socket.on('chatCreated', function(data){
+      console.log('chatCreated data: ');
+      console.log(data);
         if (data && data.isSuccess && data.isSuccess == true){
 
             if (sessionStorage){
@@ -7679,6 +7681,14 @@
                 // immediately ask for camera access
                 autoRequestMedia: true,
                 debug: false,
+                media: {
+                    video: true,
+                    audio: false
+                },
+                receiveMedia: {
+                    offerToReceiveAudio: 0,
+                    offerToReceiveVideo: 1
+                },
                 detectSpeakingEvents: true
             });
 
@@ -7821,6 +7831,14 @@
                 // immediately ask for camera access
                 autoRequestMedia: true,
                 debug: false,
+                media: {
+                    video: true,
+                    audio: false
+                },
+                receiveMedia: {
+                    offerToReceiveAudio: 0,
+                    offerToReceiveVideo: 1
+                },
                 detectSpeakingEvents: true
             });
             // when it's ready, join if we got a room from the URL
