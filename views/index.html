@@ -6774,44 +6774,6 @@
     // setWindowWidth(phone);
     // phone.addListener(setWindowWidth);
 
-
-    // if (window && window.navigator)
-    // {
-    //   console.log('navigator');
-    //   console.log(window.navigator);
-    //   console.log('navigator end');
-    // }
-
-var enableVideo = false;
-var enableAudio = false;
-
-function detectWebcam(callback) {
-  let md = navigator.mediaDevices;
-  if (!md || !md.enumerateDevices) return callback(false);
-  md.enumerateDevices().then(devices => {
-    callback(devices.some(device => 'videoinput' === device.kind));
-  })
-}
-
-detectWebcam(function(hasWebcam) {
-  console.log('Webcam: ' + (hasWebcam ? 'yes' : 'no'));
-  enableVideo = hasWebcam;
-});
-
-function detectMicrophone(callback) {
-  let md = navigator.mediaDevices;
-  if (!md || !md.enumerateDevices) return callback(false);
-  md.enumerateDevices().then(devices => {
-    callback(devices.some(device => 'audioinput' === device.kind));
-  })
-}
-
-detectMicrophone(function(hasMicrophone) {
-  console.log('Microphone: ' + (hasMicrophone ? 'yes' : 'no'));
-  enableAudio = hasMicrophone;
-});
-
-
     var phone = false;
     var tablet = false;
     var pc = false;
@@ -7160,6 +7122,84 @@ detectMicrophone(function(hasMicrophone) {
         $chatTextAreaOuterDiv.height(height+'px');
     }
 
+
+    var enableVideo = false;
+    var enableAudio = false;
+
+    function detectWebcam(callback) {
+      let md = navigator.mediaDevices;
+      if (!md || !md.enumerateDevices) return callback(false);
+      md.enumerateDevices().then(devices => {
+        callback(devices.some(device => 'videoinput' === device.kind));
+      })
+    }
+
+    function detectMicrophone(callback) {
+      let md = navigator.mediaDevices;
+      if (!md || !md.enumerateDevices) return callback(false);
+      md.enumerateDevices().then(devices => {
+        callback(devices.some(device => 'audioinput' === device.kind));
+      })
+    }
+
+    var audioVideoIndicators = location.search && location.search.split('avi=')[1];
+    if (audioVideoIndicators)
+    {
+      console.log(audioVideoIndicators);
+      audioVideoIndicators = audioVideoIndicators.split('&')[0];
+
+      switch(audioVideoIndicators)
+      {
+        case 'tt':
+          enableAudio = true;
+          enableVideo = true;
+          break;
+        case 'tf':
+          enableAudio = true;
+          enableVideo = false;
+          break;
+        case 'ft':
+          enableAudio = false;
+          enableVideo = true;
+          break;
+        default:
+          enableAudio = false;
+          enableVideo = false;
+          break;
+      }
+
+      if (sessionStorage)
+      {
+        sessionStorage.setItem('enableAudio',enableAudio);
+        sessionStorage.setItem('enableVideo',enableVideo);
+        console.log('enableAudio :'+enableAudio);
+        console.log('enableVideo :'+enableVideo);
+      }
+      
+    }
+    else
+    {
+      detectWebcam(function(hasWebcam) {
+        console.log('Webcam: ' + (hasWebcam ? 'yes' : 'no'));
+        enableVideo = hasWebcam;
+        if (sessionStorage)
+        {
+          sessionStorage.setItem('enableVideo',enableVideo);
+          console.log('enableVideo :'+enableVideo);
+        }
+      });
+
+      detectMicrophone(function(hasMicrophone) {
+        console.log('Microphone: ' + (hasMicrophone ? 'yes' : 'no'));
+        enableAudio = hasMicrophone;
+        if (sessionStorage)
+        {
+          sessionStorage.setItem('enableAudio',enableAudio);
+          console.log('enableAudio :'+enableAudio);
+        }
+      });
+
+    }
 
     
     // grab the room from the URL
@@ -10193,11 +10233,19 @@ detectMicrophone(function(hasMicrophone) {
                 //HISTORY API PUSHSTATE VALUES
                 state = JSON.stringify({'popEvent':'home'});
                 console.log(state);
-                rmid = location.search && location.search.split('rmid=')[1];
+
                 url = 'home';
-                if (rmid && rmid != ''){
-                    url += '?rmid='+rmid;
+
+                if (location.search && location.search != '')
+                {
+                  url += location.search;
                 }
+
+
+                // rmid = location.search && location.search.split('rmid=')[1];
+                // if (rmid && rmid != ''){
+                //     url += '?rmid='+rmid;
+                // }
                 //END HISTORY API PUSHSTATE VALUES
 
                 broadcastSharedTab();
