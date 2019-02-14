@@ -6774,6 +6774,44 @@
     // setWindowWidth(phone);
     // phone.addListener(setWindowWidth);
 
+
+    // if (window && window.navigator)
+    // {
+    //   console.log('navigator');
+    //   console.log(window.navigator);
+    //   console.log('navigator end');
+    // }
+
+var enableVideo = false;
+var enableAudio = false;
+
+function detectWebcam(callback) {
+  let md = navigator.mediaDevices;
+  if (!md || !md.enumerateDevices) return callback(false);
+  md.enumerateDevices().then(devices => {
+    callback(devices.some(device => 'videoinput' === device.kind));
+  })
+}
+
+detectWebcam(function(hasWebcam) {
+  console.log('Webcam: ' + (hasWebcam ? 'yes' : 'no'));
+  enableVideo = hasWebcam;
+});
+
+function detectMicrophone(callback) {
+  let md = navigator.mediaDevices;
+  if (!md || !md.enumerateDevices) return callback(false);
+  md.enumerateDevices().then(devices => {
+    callback(devices.some(device => 'audioinput' === device.kind));
+  })
+}
+
+detectMicrophone(function(hasMicrophone) {
+  console.log('Microphone: ' + (hasMicrophone ? 'yes' : 'no'));
+  enableAudio = hasMicrophone;
+});
+
+
     var phone = false;
     var tablet = false;
     var pc = false;
@@ -7682,11 +7720,11 @@
                 autoRequestMedia: true,
                 debug: false,
                 media: {
-                    video: true,
-                    audio: false
+                    video: enableVideo,
+                    audio: enableAudio
                 },
                 receiveMedia: {
-                    offerToReceiveAudio: 0,
+                    offerToReceiveAudio: 1,
                     offerToReceiveVideo: 1
                 },
                 detectSpeakingEvents: true
@@ -7832,11 +7870,11 @@
                 autoRequestMedia: true,
                 debug: false,
                 media: {
-                    video: true,
-                    audio: false
+                    video: enableVideo,
+                    audio: enableAudio
                 },
                 receiveMedia: {
-                    offerToReceiveAudio: 0,
+                    offerToReceiveAudio: 1,
                     offerToReceiveVideo: 1
                 },
                 detectSpeakingEvents: true
