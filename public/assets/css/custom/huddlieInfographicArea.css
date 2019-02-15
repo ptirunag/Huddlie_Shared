@@ -14,6 +14,16 @@
 	.carouselImage-Laptop {
 		display: none !important;
 	}
+
+	#carouselImage1 {
+		content: url('/Carousel_shots/Mobile-outline-Step1.jpg');
+	}
+	#carouselImage2 {
+		content: url('/Carousel_shots/Mobile-outline-Step2.jpg');
+	}
+	#carouselImage3 {
+		content: url('/Carousel_shots/Mobile-outline-Step3.jpg');
+	}
 }
 
 /*Bootstrap Small devices: >768px, <992px */
@@ -33,6 +43,15 @@
 	.carouselImage-Mobile {
 		display: none !important;
 	}
+	#carouselImage1 {
+		content: url('/Carousel_shots/Laptop-outline-Step1.jpg');
+	}
+	#carouselImage2 {
+		content: url('/Carousel_shots/Laptop-outline-Step2.jpg');
+	}
+	#carouselImage3 {
+		content: url('/Carousel_shots/Laptop-outline-Step3.jpg');
+	}
 }
 
 /* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
@@ -51,6 +70,15 @@
 
 	.carouselImage-Mobile {
 		display: none !important;
+	}
+	#carouselImage1 {
+		content: url('/Carousel_shots/Laptop-outline-Step1.jpg');
+	}
+	#carouselImage2 {
+		content: url('/Carousel_shots/Laptop-outline-Step2.jpg');
+	}
+	#carouselImage3 {
+		content: url('/Carousel_shots/Laptop-outline-Step3.jpg');
 	}
 }
 
