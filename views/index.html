@@ -3478,10 +3478,10 @@
                 var waText = "Please%20click%20the%20link%20below%20to%20shop%20along%20with%20me%20on%20Huddlie.%0A%0A"+url;
                 var waShareURL = "whatsapp://send?text="+waText;
 
-                if (sessionStorage && sessionStorage.getItem('isAndroidApp') && sessionStorage.getItem('isAndroidApp') == 'true')
-                {
-                  waShareURL = "intent://send?text="+waText+"#Intent;scheme=whatsapp;package=com.whatsapp;end";
-                }
+                // if (sessionStorage && sessionStorage.getItem('isAndroidApp') && sessionStorage.getItem('isAndroidApp') == 'true')
+                // {
+                //   waShareURL = "intent://send?text="+waText+"#Intent;scheme=whatsapp;package=com.whatsapp;end";
+                // }
 
                 window.open(waShareURL, 'targetWindow',
                                          'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=582px,height=424px');
