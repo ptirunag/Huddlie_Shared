@@ -11,6 +11,10 @@
 		background-color: #3f4a68;
 	}
 
+	.navbarBottomPhoneHidden {
+		display: none !important;
+	}
+
 	.navbarBottomInnerDivSpacer{
 		display: block;
 		position: relative;

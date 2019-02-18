@@ -3031,6 +3031,25 @@
 
     function resizeChatArea(){
 
+        var originalSize = viewPortWidth + viewPortHeight;
+        var defaultSub = 50;
+        if (phone)
+        {
+          defaultSub = 95;
+        }
+
+        if (phone && (($(window).width() + $(window).height()) < (originalSize - 50)))
+        {
+          //Keyboard is visible
+          $('#navbarBottomPhone').addClass('navbarBottomPhoneHidden');
+          defaultSub = 45;
+        }
+        else
+        {
+          //Keyboard is not visible
+          $('#navbarBottomPhone').removeClass('navbarBottomPhoneHidden');
+        }
+
         totalUsers = $('.videoContainer').length;
         console.log('total divs: '+totalUsers);
 
@@ -3045,7 +3064,7 @@
             heightMultiplier = (totalUsers+1) / 2;
         }
 
-        var height = $chatActivePane.outerHeight() - $('#chatButtonsPane2').outerHeight() - $('#remotes').outerHeight() - ($chatInputTextForm.outerHeight()+25) - 25;
+        var height = $chatActivePane.outerHeight() - $('#chatButtonsPane2').outerHeight() - $('#remotes').outerHeight() - $chatInputTextForm.outerHeight() - defaultSub;
 
         // console.log($chatActivePane.outerHeight());
         // console.log($('#chatButtonsPane2').outerHeight());
