@@ -3041,13 +3041,13 @@
         if (phone && (($(window).width() + $(window).height()) < (originalSize - 50)))
         {
           //Keyboard is visible
-          $('#navbarBottomPhone').addClass('navbarBottomPhoneHidden');
+          $('#navbarBottomPhone').hide();
           defaultSub = 45;
         }
         else
         {
           //Keyboard is not visible
-          $('#navbarBottomPhone').removeClass('navbarBottomPhoneHidden');
+          $('#navbarBottomPhone').show();
         }
 
         totalUsers = $('.videoContainer').length;
