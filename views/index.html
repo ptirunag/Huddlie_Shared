@@ -2361,15 +2361,18 @@
                     
                     <div id="itemRight" class="col-md-2">
                         <div id="addToCartMainDiv">
-                            <div id="addQuantityDiv">
-                                <div id="addQuantityDropDownDiv">
-                                
-                                Quantity:
-                                
-                                <select id="quantityDropDown">
-                                    
-                                </select>
-                                </div>
+                            <!-- Temporarily hiding Add quantity ability -->
+                            <div style="display: none">
+                              <div id="addQuantityDiv">
+                                  <div id="addQuantityDropDownDiv">
+                                  
+                                  Quantity:
+                                  
+                                  <select id="quantityDropDown">
+                                      
+                                  </select>
+                                  </div>
+                              </div>
                             </div>
                             <div id="addToCartButtonDiv">
                                 <button id="addToCartButton" type="button" class="btn btn-primary" onclick="addToCartClicked();" >
@@ -2408,21 +2411,24 @@
 
                             <hr>
 
-                            <div id="wishlistDiv-viewitem">
-                              <div class="form-group">
-                                <label for="wishlistDropdown-viewitem">Select wishlist:</label>
-                                <select class="form-control" id="wishlistDropdown-viewitem" onchange="wishlistDropdownChangedViewItem();">
-                                </select>
-                                <input id="wishlistNameInput-viewitem" type="text" class="form-control" placeholder="Enter Name (Required)"/>
-                                <div class="alert success" id="wishlistAddedSuccessMessage-viewitem" style="display: none">
-                                  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                                  Item added to wishlist.
+                            <!-- Temporarily removing Wishlist stuff -->
+                            <div style="display: none">
+                              <div id="wishlistDiv-viewitem">
+                                <div class="form-group">
+                                  <label for="wishlistDropdown-viewitem">Select wishlist:</label>
+                                  <select class="form-control" id="wishlistDropdown-viewitem" onchange="wishlistDropdownChangedViewItem();">
+                                  </select>
+                                  <input id="wishlistNameInput-viewitem" type="text" class="form-control" placeholder="Enter Name (Required)"/>
+                                  <div class="alert success" id="wishlistAddedSuccessMessage-viewitem" style="display: none">
+                                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                                    Item added to wishlist.
+                                  </div>
+                                  <div class="alert warning" id="wishlistAddedFailMessage-viewitem" style="display: none">
+                                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                                    Failed to add.
+                                  </div>
+                                  <button id="wishlistAddButton-viewitem" type="button" class="btn btn-primary" onclick="wishListItemAddClickedViewItem();">Add to Wishlist</button>
                                 </div>
-                                <div class="alert warning" id="wishlistAddedFailMessage-viewitem" style="display: none">
-                                  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                                  Failed to add.
-                                </div>
-                                <button id="wishlistAddButton-viewitem" type="button" class="btn btn-primary" onclick="wishListItemAddClickedViewItem();">Add to Wishlist</button>
                               </div>
                             </div>
                         </div>
@@ -2446,16 +2452,17 @@
                 <div id="shoppingCartMainDiv">
                     <div id="shoppingCartLeftDiv" class="col-md-9">
                         <div id="shoppingCartLeftHeaders" class=" col-md-12" style="border-bottom:1px solid #bbb">
-                            <div class="cartItemLeftDiv col-md-8">
+                            <div class="cartItemLeftDiv col-md-9">
                             </div>
 
-                            <div class="cartItemCentreDiv col-md-2">
+                            <div class="cartItemCentreDiv col-md-3">
                                 <p><b>Price</b></p>
                             </div>
 
-                            <div class="cartItemRightDiv col-md-2">
+                            <!-- No more +  -  quantity of items in cart - Feb 18, 2019 -->
+                            <!-- <div class="cartItemRightDiv col-md-2">
                                 <p><b>Quantity</b></p>
-                            </div>
+                            </div> -->
                         </div>
                         <div id="cartItemOuterContainer" class="col-md-12">
                         </div>
@@ -2654,6 +2661,7 @@
         e.clearSelection();
     });
 
+    // lazy load product images after the page loads
     window.addEventListener('load', function(){
         var allimages= document.getElementsByClassName('product-image');
         for (var i=0; i<allimages.length; i++) {
@@ -2683,6 +2691,15 @@
     var phone = false;
     var tablet = false;
     var pc = false;
+    var viewPortHeight = 0;
+    var viewPortWidth = 0;
+
+
+    viewPortWidth = $(window).width();
+    console.log('width: '+viewPortWidth);
+    viewPortHeight = $(window).height();
+    console.log('height: '+viewPortHeight);
+
 
     if (matchMedia) {
       console.log('yes, matchMedia');
@@ -2713,6 +2730,13 @@
         phone = true;
         tablet = false;
         pc = false;
+
+        setTimeout(function(){
+            viewPortWidth = $(window).width();
+            console.log('width: '+viewPortWidth);
+            viewPortHeight = $(window).height();
+            console.log('height: '+viewPortHeight);
+        },2000);
       }
     }
     function tabletWidthChanged(x) {
@@ -2721,6 +2745,13 @@
         tablet = true;
         phone = false;
         pc = false;
+
+        setTimeout(function(){
+            viewPortWidth = $(window).width();
+            console.log('width: '+viewPortWidth);
+            viewPortHeight = $(window).height();
+            console.log('height: '+viewPortHeight);
+        },2000);
       }
     }
     function pcWidthChanged(x) {
@@ -2729,6 +2760,13 @@
         pc = true;
         phone = false;
         tablet = false;
+
+        setTimeout(function(){
+            viewPortWidth = $(window).width();
+            console.log('width: '+viewPortWidth);
+            viewPortHeight = $(window).height();
+            console.log('height: '+viewPortHeight);
+        },2000);
       }
     }
 
@@ -2760,21 +2798,13 @@
             if (sessionStorage){
               sessionStorage.setItem('huddlieId', data.cookieVal);
               sessionStorage.setItem('activeWishlists', '');
-              updateWishlistDropdownViewItem();
+
+              // Temporarily hiding wishlist stuff
+              // updateWishlistDropdownViewItem();
             }
         }
     });
 
-    // TESTING mouse position stuff
-
-    // function broadcastSharedTab(){
-    //     
-    // }
-    // socket.on('sharedDiv', function(data){
-    //     if ($mainPane2.is(':visible') && data && data.sharedDiv){
-    //         $mainPane2.html(data.sharedDiv);
-    //     }
-    // });
 
     var broadcastScrollPositionIndicator = true;
 
@@ -2893,8 +2923,6 @@
         // }
     });
 
-    // END TESTING 
-
     socket.on('activeWishlists', function(data){
       if (data && data.hasWishlists && data.hasWishlists == true)
       {
@@ -3002,6 +3030,7 @@
     });
 
     function resizeChatArea(){
+
         totalUsers = $('.videoContainer').length;
         console.log('total divs: '+totalUsers);
 
@@ -3654,6 +3683,23 @@
                 sendMessage(true);
             }
 
+            // var videoConstraints = false;
+
+            // if (enableVideo == true)
+            // {
+            //   videoConstraints = {
+            //     frameRate: {
+            //       max: 15
+            //     },
+            //     width: {
+            //       max: 400
+            //     },
+            //     height: {
+            //       max: 400
+            //     }
+            //   }
+            // }
+
             // create our webrtc connection
             var webrtc = new SimpleWebRTC({
                 url:'https://fierce-river-31228.herokuapp.com/',
@@ -3764,6 +3810,8 @@
             $('#chatButtonsPane1').hide();
             $chatActivePane.show();
 
+            resizeChatArea();
+
             $('#newTopFlyoutOuterDiv').addClass("newTopFlyoutOuterDivChatOn");
             $('#navbar-outerDiv').addClass("navbar-outerDivChatOn");
         }
@@ -3803,6 +3851,23 @@
             viewController('chatActive');
             sharedTab();
             sendMessage(true);
+
+            // var videoConstraints = false;
+
+            // if (enableVideo == true)
+            // {
+            //   videoConstraints = {
+            //     frameRate: {
+            //       max: 15
+            //     },
+            //     width: {
+            //       max: 400
+            //     },
+            //     height: {
+            //       max: 400
+            //     }
+            //   }
+            // }
 
             // create our webrtc connection
             var webrtc = new SimpleWebRTC({
@@ -3883,6 +3948,8 @@
             $chatJoinPane.hide();
             $('#chatButtonsPane1').hide();
             $chatActivePane.show();
+
+            resizeChatArea();
         }
     });
 
@@ -5270,7 +5337,9 @@
                 console.log('adding to existing cart');
                 if (sessionStorage.getItem('currentOfferListingId')){
                     $(".overlay").show();
-                    socket.emit('addToCart', {retailer: currentRetailer, offerListingId: sessionStorage.getItem('currentOfferListingId'), quantity: $quantityDropDown.val(), cartId: sessionStorage.getItem(currentRetailer+'-CartId'), hmac: sessionStorage.getItem(currentRetailer+'-HMAC')});
+                    //Quantity always 1 from now on - Feb 18, 2019
+                    // socket.emit('addToCart', {retailer: currentRetailer, offerListingId: sessionStorage.getItem('currentOfferListingId'), quantity: $quantityDropDown.val(), cartId: sessionStorage.getItem(currentRetailer+'-CartId'), hmac: sessionStorage.getItem(currentRetailer+'-HMAC')});
+                    socket.emit('addToCart', {retailer: currentRetailer, offerListingId: sessionStorage.getItem('currentOfferListingId'), quantity: 1, cartId: sessionStorage.getItem(currentRetailer+'-CartId'), hmac: sessionStorage.getItem(currentRetailer+'-HMAC')});
                 }
             }
             else
@@ -5279,7 +5348,9 @@
                 console.log('creating new cart');
                 if (sessionStorage.getItem('currentOfferListingId')){
                     $(".overlay").show();
-                    socket.emit('createCart', {retailer: currentRetailer, offerListingId: sessionStorage.getItem('currentOfferListingId'), quantity: $quantityDropDown.val()});
+                    //Quantity always 1 from now on - Feb 18, 2019
+                    // socket.emit('createCart', {retailer: currentRetailer, offerListingId: sessionStorage.getItem('currentOfferListingId'), quantity: $quantityDropDown.val()});
+                    socket.emit('createCart', {retailer: currentRetailer, offerListingId: sessionStorage.getItem('currentOfferListingId'), quantity: 1});
                 }
             }
         }
@@ -5522,7 +5593,7 @@
 
                         cartItemOuterContainerDivText +=
                                         '<div class="cartItemContainerDiv col-md-12">'+
-                                            '<div class="cartItemLeftDiv col-md-8">'+
+                                            '<div class="cartItemLeftDiv col-md-9">'+
                                                 '<div class="cartItemImgDiv">'+
                                                     '<img class="cartItemImg" src="'+imgURL+'"/>'+
                                                 '</div>'+
@@ -5534,30 +5605,32 @@
                                                 '</div>'+
                                             '</div>'+
 
-                                            '<div class="cartItemCentreDiv col-md-2">'+
-                                                '<p class="phoneOnlyParagraph" style="display:none;"><strong>Price: </strong>'+price+'</p>'+
+                                            '<div class="cartItemCentreDiv col-md-3">'+
                                                 '<p class="phoneOnlyHiddenParagraph">'+price+'</p>'+
-                                            '</div>'+
-
-                                            '<div class="cartItemRightDiv col-md-2">'+
-                                                '<div class="input-group">'+
-                                                    '<span class="input-group-btn">'+
-                                                      '<button type="button" class="btn btn-default btn-number" onclick="changeQuantity(&quot;'+cartItemId+'&quot;,&quot;minus&quot;)">'+
-                                                          '<span class="glyphicon glyphicon-minus"></span>'+
-                                                      '</button>'+
-                                                    '</span>'+
-                                                    '<input type="text" name="'+cartItemId+'" class="form-control input-number" value="'+quantity+'" min="1" max="'+maxQty+'">'+
-                                                    '<span>'+
-                                                      '<button type="button" class="btn btn-default btn-number" onclick="changeQuantity(&quot;'+cartItemId+'&quot;,&quot;plus&quot;);">'+
-                                                          '<span class="glyphicon glyphicon-plus"></span>'+
-                                                      '</button>'+
-                                                    '</span>'+
-                                                '</div>'+
                                                 '<div class="cartDeleteButtonPhoneDiv">'+
+                                                  '<p class="phoneOnlyParagraph" style="display:none;"><strong>Price: </strong>'+price+'</p>'+
                                                   '<button class="btn btn-primary cartDeleteButtonPhone" onclick="modifyCart(&quot;'+cartItemId+'&quot;,0);"'+
                                                               'style="padding:5px 10px 5px 10px !important; display:none;">Delete</button>'+
                                                 '</div>'+
                                             '</div>'+
+
+                                            //No more + - quantity of items in cart - Feb 18, 2019
+
+                                            // '<div class="cartItemRightDiv col-md-2">'+
+                                            //     '<div class="input-group">'+
+                                            //         '<span class="input-group-btn">'+
+                                            //           '<button type="button" class="btn btn-default btn-number" onclick="changeQuantity(&quot;'+cartItemId+'&quot;,&quot;minus&quot;)">'+
+                                            //               '<span class="glyphicon glyphicon-minus"></span>'+
+                                            //           '</button>'+
+                                            //         '</span>'+
+                                            //         '<input type="text" name="'+cartItemId+'" class="form-control input-number" value="'+quantity+'" min="1" max="'+maxQty+'">'+
+                                            //         '<span>'+
+                                            //           '<button type="button" class="btn btn-default btn-number" onclick="changeQuantity(&quot;'+cartItemId+'&quot;,&quot;plus&quot;);">'+
+                                            //               '<span class="glyphicon glyphicon-plus"></span>'+
+                                            //           '</button>'+
+                                            //         '</span>'+
+                                            //     '</div>'+
+                                            // '</div>'+
                                         '</div>';
                     }
 

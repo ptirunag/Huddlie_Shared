@@ -40,19 +40,30 @@
 
         .cartItemCentreDiv{
           
+          
         }
+
+          .cartDeleteButtonPhoneDiv {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+          }
+          .cartDeleteButtonPhoneDiv > .phoneOnlyParagraph {
+            width: 65%;
+            float: left;
+          }
+          .cartDeleteButtonPhoneDiv > .cartDeleteButtonPhone {
+            width: 35%;
+            float: right;
+          }
+
+
         .cartItemRightDiv{
           display: flex;
           flex-direction: row;
         }
         	.cartItemRightDiv > .input-group {
         		width: 50%;
-        	}
-        	.cartDeleteButtonPhoneDiv {
-        		width: 50%;
-        	}
-        	.cartDeletebuttonPhone {
-        		float: right;
         	}
 
     .phoneOnlyParagraph {
