@@ -1608,7 +1608,7 @@
             </div>
             <div id="remotes">
                 <div class="videoContainer">
-                    <video id="localVideo" controls="true" oncontextmenu="return false;" style="transform:scaleX(1) !important"></video>
+                    <video id="localVideo" controls controlsList="nodownload noremoteplayback" oncontextmenu="return false;" style="transform:scaleX(1) !important"></video>
                     <div id="localVolume" class="volume_bar"></div>
                 </div>
             </div>
@@ -3131,6 +3131,8 @@
         sessionStorage.setItem('enableVideo',enableVideo);
         console.log('enableAudio :'+enableAudio);
         console.log('enableVideo :'+enableVideo);
+
+        sessionStorage.setItem('isAndroidApp',true);
       }
       
     }
@@ -3473,9 +3475,17 @@
                                        'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=582px,height=424px');
                 break;
               case 'whatsapp':
-              var waShareURL = "whatsapp://send?text=Please%20click%20the%20link%20below%20to%20shop%20along%20with%20me%20on%20Huddlie.%0A%0A"+url;
-              window.open(waShareURL, 'targetWindow',
-                                       'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=582px,height=424px');
+                var waText = "Please%20click%20the%20link%20below%20to%20shop%20along%20with%20me%20on%20Huddlie.%0A%0A"+url;
+                var waShareURL = "whatsapp://send?text="+waText;
+
+                if (sessionStorage && sessionStorage.getItem('isAndroidApp') && sessionStorage.getItem('isAndroidApp') == 'true')
+                {
+                  waShareURL = "intent://send?text="+waText+"#Intent;scheme=whatsapp;package=com.whatsapp;end";
+                }
+
+                window.open(waShareURL, 'targetWindow',
+                                         'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=582px,height=424px');
+                break;
             }
             
         }
@@ -3769,6 +3779,7 @@
             webrtc.on('videoAdded', function (video, peer) {
                 console.log('VIDEO ADDED'+peer);
                 video.controls = true;
+                console.log(video);
                 console.log('video added', peer);
                 var remotes = document.getElementById('remotes');
                 if (remotes) {
@@ -3935,6 +3946,7 @@
             });
             webrtc.on('videoAdded', function (video, peer) {
                 video.controls = true;
+                console.log(video);
                 console.log('video added', peer);
                 var remotes = document.getElementById('remotes');
                 if (remotes) {
