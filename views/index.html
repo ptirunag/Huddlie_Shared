@@ -2993,12 +2993,7 @@
     var shouldCheckScrollEnd = true;
 
     $(window).scroll(function(){
-      if ($(this).scrollTop() > 50) {
-        $('#searchBarOuterPhone').addClass('searchBarPhoneFixed');
-      } else {
-        $('#searchBarOuterPhone').removeClass('searchBarPhoneFixed');
-      }
-
+      checkAndShowSearchBarOnPhone();
 
       clearTimeout(timeout);
       //detect scroll ending
@@ -3034,7 +3029,6 @@
     });
 
     function resizeChatArea(){
-
         var originalSize = viewPortWidth + viewPortHeight;
         var defaultSub = 50;
         if (phone)
@@ -3079,6 +3073,24 @@
         $chatTextAreaOuterDiv.height(height+'px');
     }
 
+    function checkAndShowSearchBarOnPhone () {
+      if ($('#chatPane').is(":visible"))
+      {
+        $('#searchBarOuterPhone').removeClass('searchBarPhoneFixed');  
+      }      
+      else if ($(window).scrollTop() > 50) {
+        if ($('#bannersArea').is(":visible") || $('#searchResultsArea').is(":visible") || $('#itemDetails').is(":visible"))
+        {
+          $('#searchBarOuterPhone').addClass('searchBarPhoneFixed'); 
+        }
+        else
+        {
+          $('#searchBarOuterPhone').removeClass('searchBarPhoneFixed'); 
+        }
+      } else {
+        $('#searchBarOuterPhone').removeClass('searchBarPhoneFixed');
+      }
+    }
 
     var enableVideo = false;
     var enableAudio = false;
@@ -3271,6 +3283,7 @@
 
           break;
         case 'Cart':
+
           if (sessionStorage)
           {
             sessionStorage.setItem('navbarBottomPreviousButton', targetDiv);
@@ -3298,6 +3311,7 @@
 
           // $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
           // $('#'+targetDiv).removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected');
+
           chatViewButtonClicked();
           // chatViewButtonClicked('navbarBottom');
           break;
@@ -5842,6 +5856,9 @@
         }
         else
         {
+            //remove search bar on top when not on home view.
+            $('#searchBarOuterPhone').removeClass('searchBarPhoneFixed');
+
             if (sessionStorage) {
                 var rmid = '';
                 if (!sessionStorage.getItem('rmid')){
@@ -6568,6 +6585,7 @@
                   }
                   $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
                   $('#navbarBottomHuddleButtonDiv').removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected');
+                  resizeChatArea();
                 }
 
                 break;
@@ -6603,6 +6621,12 @@
                   }
 
                   $('#'+targetDiv).removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected');
+
+                  if ($(window).scrollTop() > 50)
+                  {
+                    //display searchbar if home and scrolled more than 50;
+                    $('#searchBarOuterPhone').addClass('searchBarPhoneFixed');
+                  }
                 }
 
                 break;
