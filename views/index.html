@@ -1611,13 +1611,23 @@
                     <video id="localVideo" oncontextmenu="return false;" style="transform:scaleX(1) !important"></video>
                     <div id="localVolume" class="volume_bar"></div>
                     <div id="localVideoMuteButton" class="videoMuteButtonContainer">
+                      <button id="muteMicrophoneOffButton_localVideo" class="microphoneMuteButton"
+                                onclick="muteMicrophone(&quot;localVideo&quot;);">
+                        <i class="fa fa-microphone"></i>
+                      </button>
+                      <button id="muteMicrophoneOnButton_localVideo" class="microphoneMuteButton"
+                                onclick="muteMicrophone(&quot;localVideo&quot;);" style="display: none;">
+                        <i class="fa fa-microphone-slash"></i>
+                      </button>
                       <button id="muteVideoOffButton_localVideo" class="videoMuteButton videoMuteOff" 
                                 onclick="muteVideo(&quot;localVideo&quot;);" style="display: none;">
-                        <span class="glyphicon glyphicon-volume-down"></span>
+                        <!-- <span class="glyphicon glyphicon-volume-down"></span> -->
+                        <i class="fa fa-volume-up"></i>
                       </button>
                       <button id="muteVideoOnButton_localVideo" class="videoMuteButton videoMuteOn" 
                                 onclick="muteVideo(&quot;localVideo&quot;);">
-                        <span class="glyphicon glyphicon-volume-off"></span>
+                        <!-- <span class="glyphicon glyphicon-volume-off"></span> -->
+                        <i class="fa fa-volume-off"></i>
                       </button>
                     </div>
                 </div>
@@ -2707,6 +2717,7 @@
     var pc = false;
     var viewPortHeight = 0;
     var viewPortWidth = 0;
+    var webrtc_global;
 
 
     viewPortWidth = $(window).width();
@@ -3755,6 +3766,28 @@
       }
     }
 
+    function muteMicrophone(peerVidId)
+    {
+      if ($('#muteMicrophoneOffButton_localVideo').is(":visible"))
+      {
+        if (webrtc_global)
+        {
+          webrtc_global.mute();
+          $('#muteMicrophoneOffButton_localVideo').hide();
+          $('#muteMicrophoneOnButton_localVideo').show();
+        }
+      }
+      else
+      {
+        if (webrtc_global)
+        {
+          webrtc_global.unmute();
+          $('#muteMicrophoneOffButton_localVideo').show();
+          $('#muteMicrophoneOnButton_localVideo').hide();
+        }
+      }
+    }
+
     socket.on('chatCreated', function(data){
       console.log('chatCreated data: ');
       console.log(data);
@@ -3854,11 +3887,13 @@
 
 
                     var muteButtonHTMLText = '<div class="videoMuteButtonContainer">'+
-                                                '<button id="muteVideoOffButton_'+peerVidId+'" class="videoMuteButton videoMuteOff" onclick="muteVideo(&quot;'+peerVidId+'&quot;);">'+
-                                                  '<span class="glyphicon glyphicon-volume-down"></span>'+
+                                                '<button id="muteVideoOffButton_'+peerVidId+'" class="videoMuteButton videoMuteOff" '+
+                                                          'onclick="muteVideo(&quot;'+peerVidId+'&quot;);">'+
+                                                  '<i class="fa fa-volume-up"></i>'+
                                                 '</button>'+
-                                                '<button id="muteVideoOnButton_'+peerVidId+'" class="videoMuteButton videoMuteOn" onclick="muteVideo(&quot;'+peerVidId+'&quot;);">'+
-                                                  '<span class="glyphicon glyphicon-volume-off"></span>'+
+                                                '<button id="muteVideoOnButton_'+peerVidId+'" class="videoMuteButton videoMuteOn" '+
+                                                          'onclick="muteVideo(&quot;'+peerVidId+'&quot;);">'+
+                                                  '<i class="fa fa-volume-off"></i>'+
                                                 '</button>'+
                                               '</div>';
                     var tempVidContainer = $('#container_'+peerVidId);
@@ -3919,6 +3954,8 @@
                     console.log('cb ERROR'+err);
                 }
             });
+
+            webrtc_global = webrtc;
 
             $chatInitiatePane.hide();
             $('#chatButtonsPane1').hide();
@@ -4047,11 +4084,11 @@
                     var muteButtonHTMLText = '<div class="videoMuteButtonContainer">'+
                                                 '<button id="muteVideoOffButton_'+peerVidId+'" class="videoMuteButton videoMuteOff"'+
                                                         ' onclick="muteVideo(&quot;'+peerVidId+'&quot;);" style="display:none;">'+
-                                                  '<span class="glyphicon glyphicon-volume-down"></span>'+
+                                                  '<i class="fa fa-volume-up"></i>'+
                                                 '</button>'+
                                                 '<button id="muteVideoOnButton_'+peerVidId+'" class="videoMuteButton videoMuteOn"'+
                                                         ' onclick="muteVideo(&quot;'+peerVidId+'&quot;);" style="display:none;">'+
-                                                  '<span class="glyphicon glyphicon-volume-off"></span>'+
+                                                  '<i class="fa fa-volume-off"></i>'+
                                                 '</button>'+
                                               '</div>';
                     var tempVidContainer = $('#container_'+peerVidId);
@@ -4085,6 +4122,8 @@
                 //console.log('own volume', volume);
                 showVolume(document.getElementById('localVolume'), volume);
             });
+
+            webrtc_global = webrtc;
 
             $chatJoinPane.hide();
             $('#chatButtonsPane1').hide();
