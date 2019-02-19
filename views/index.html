@@ -3162,9 +3162,15 @@
 
     
     // grab the room from the URL
+    
     var room = location.search && location.search.split('rmid=')[1];
+
     if (room){
         console.log(room);
+        if (room.split('&fbclid=')[0])
+        {
+          room = room.split('&fbclid=')[0]
+        }
 
         var shareURL = window.location.href.split(window.location.pathname)[0] + '?rmid=' + room;
 
