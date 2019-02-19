@@ -1608,8 +1608,18 @@
             </div>
             <div id="remotes">
                 <div class="videoContainer">
-                    <video id="localVideo" controls controlsList="nodownload noremoteplayback" oncontextmenu="return false;" style="transform:scaleX(1) !important"></video>
+                    <video id="localVideo" oncontextmenu="return false;" style="transform:scaleX(1) !important"></video>
                     <div id="localVolume" class="volume_bar"></div>
+                    <div id="localVideoMuteButton" class="videoMuteButtonContainer">
+                      <button id="muteVideoOffButton_localVideo" class="videoMuteButton videoMuteOff" 
+                                onclick="muteVideo(&quot;localVideo&quot;);" style="display: none;">
+                        <span class="glyphicon glyphicon-volume-down"></span>
+                      </button>
+                      <button id="muteVideoOnButton_localVideo" class="videoMuteButton videoMuteOn" 
+                                onclick="muteVideo(&quot;localVideo&quot;);">
+                        <span class="glyphicon glyphicon-volume-off"></span>
+                      </button>
+                    </div>
                 </div>
             </div>
             <div id="chatShareActivePane" class="chatSharePane">
@@ -3719,6 +3729,32 @@
         }
     }
 
+    function muteVideo(peerVidId)
+    {
+      // do not use jquery here. the muted property will have to be accessed using .attr('muted') if you use jquery selector.
+      var video = document.getElementById(peerVidId);
+      if (video)
+      {
+        console.log('vidElement',video);
+        if (video.muted == false)
+        {
+          //MUTE IT NOW
+          console.log('muted = FALSE');
+          video.muted = true;
+          $('#muteVideoOffButton_'+peerVidId).hide();
+          $('#muteVideoOnButton_'+peerVidId).show();
+        }
+        else
+        {
+          //UNMUTE IT NOW
+          console.log('muted = TRUE');
+          video.muted = false;
+          $('#muteVideoOffButton_'+peerVidId).show();
+          $('#muteVideoOnButton_'+peerVidId).hide();
+        }
+      }
+    }
+
     socket.on('chatCreated', function(data){
       console.log('chatCreated data: ');
       console.log(data);
@@ -3797,15 +3833,14 @@
                 }
             });
             webrtc.on('videoAdded', function (video, peer) {
-                console.log('VIDEO ADDED'+peer);
-                video.controls = true;
-                console.log(video);
+                
                 console.log('video added', peer);
                 var remotes = document.getElementById('remotes');
                 if (remotes) {
                     var d = document.createElement('div');
                     d.className = 'videoContainer';
-                    d.id = 'container_' + webrtc.getDomId(peer);
+                    var peerVidId = webrtc.getDomId(peer);
+                    d.id = 'container_' + peerVidId;
                     d.appendChild(video);
                     var vol = document.createElement('div');
                     vol.id = 'volume_' + peer.id;
@@ -3816,6 +3851,31 @@
                     // };
                     d.appendChild(vol);
                     remotes.appendChild(d);
+
+
+                    var muteButtonHTMLText = '<div class="videoMuteButtonContainer">'+
+                                                '<button id="muteVideoOffButton_'+peerVidId+'" class="videoMuteButton videoMuteOff" onclick="muteVideo(&quot;'+peerVidId+'&quot;);">'+
+                                                  '<span class="glyphicon glyphicon-volume-down"></span>'+
+                                                '</button>'+
+                                                '<button id="muteVideoOnButton_'+peerVidId+'" class="videoMuteButton videoMuteOn" onclick="muteVideo(&quot;'+peerVidId+'&quot;);">'+
+                                                  '<span class="glyphicon glyphicon-volume-off"></span>'+
+                                                '</button>'+
+                                              '</div>';
+                    var tempVidContainer = $('#container_'+peerVidId);
+                    tempVidContainer.append(muteButtonHTMLText);
+                    // d.append(muteButtonHTMLText);
+
+                    if (video.muted == false)
+                    {console.log('muted = FALSE');
+                      $('#muteVideoOffButton_'+peerVidId).show();
+                      $('#muteVideoOnButton_'+peerVidId).hide(); 
+                    }
+                    else
+                    {
+                      console.log('muted = TRUE');
+                      $('#muteVideoOffButton_'+peerVidId).hide();
+                      $('#muteVideoOnButton_'+peerVidId).show();
+                    }
 
                     resizeChatArea();
 
@@ -3965,14 +4025,14 @@
                 }
             });
             webrtc.on('videoAdded', function (video, peer) {
-                video.controls = true;
-                console.log(video);
+                
                 console.log('video added', peer);
                 var remotes = document.getElementById('remotes');
                 if (remotes) {
                     var d = document.createElement('div');
                     d.className = 'videoContainer';
-                    d.id = 'container_' + webrtc.getDomId(peer);
+                    var peerVidId = webrtc.getDomId(peer);
+                    d.id = 'container_' + peerVidId;
                     d.appendChild(video);
                     var vol = document.createElement('div');
                     vol.id = 'volume_' + peer.id;
@@ -3983,6 +4043,32 @@
                     // };
                     d.appendChild(vol);
                     remotes.appendChild(d);
+
+                    var muteButtonHTMLText = '<div class="videoMuteButtonContainer">'+
+                                                '<button id="muteVideoOffButton_'+peerVidId+'" class="videoMuteButton videoMuteOff"'+
+                                                        ' onclick="muteVideo(&quot;'+peerVidId+'&quot;);" style="display:none;">'+
+                                                  '<span class="glyphicon glyphicon-volume-down"></span>'+
+                                                '</button>'+
+                                                '<button id="muteVideoOnButton_'+peerVidId+'" class="videoMuteButton videoMuteOn"'+
+                                                        ' onclick="muteVideo(&quot;'+peerVidId+'&quot;);" style="display:none;">'+
+                                                  '<span class="glyphicon glyphicon-volume-off"></span>'+
+                                                '</button>'+
+                                              '</div>';
+                    var tempVidContainer = $('#container_'+peerVidId);
+                    tempVidContainer.append(muteButtonHTMLText);
+                    // d.append(muteButtonHTMLText);
+
+                    if (video.muted == false)
+                    {console.log('muted = FALSE');
+                      $('#muteVideoOffButton_'+peerVidId).show();
+                      $('#muteVideoOnButton_'+peerVidId).hide(); 
+                    }
+                    else
+                    {
+                      console.log('muted = TRUE');
+                      $('#muteVideoOffButton_'+peerVidId).hide();
+                      $('#muteVideoOnButton_'+peerVidId).show();
+                    }
 
                     resizeChatArea();
                 }
