@@ -1814,16 +1814,32 @@
             </div>
           </div>
 
-            <div style="display: none">
+            <!-- NOTES FOR MANI -->
+            <!-- MAIN PAGE PROMO AREA START -->
+            <!-- Add any css styling in public/assets/css/custom/mainPagePromos.css -->
+
             <div id="mainPagePromotionsMainDiv" style="display: none">
-              
+              <!-- put any html you want to see on the home page in this div -->
+              <div id="promoItemOuter_1" class="mainPagePromoItemOuterDiv">
+              <!-- for the object that will be clicked to open a promo detail page, add onclick="openPromo('promoItemDetail_1');" -->
+              <!-- example: a button. It could be anything though, a div, an img, etc. -->
+                <button class="btn btn-primary" onclick="openPromo('promoItemDetail_1');">Try clicking this</button>
+              <!-- and then add a div in the "mainPagePromoDetailDivs" div below. Ensure id= <same as passed in openPromo('');> -->
+              </div>
             </div>
 
             <div id="mainPagePromoDetailDivs" style="display: none">
-              
-            </div>
+              <!-- Example detail page div -->
+              <div id="promoItemDetail_1" class="mainPagePromoItemDetailDiv">
+                <!-- Add html for the separate promo detail page in this div -->
+                <!-- adding just a blank div of some color so that there is something to ses -->
+                <div style="width: 200px; height: 200px; background-color: #aaa">
+                </div>
+              </div>
+              <!-- Each of these divs will be like a separate promo detail page -->
             </div>
 
+            <!-- MAIN PAGE PROMO AREA END -->
 
             <div id="fourBannersArea" class="col-md-12" style="display:none">
                 
@@ -3688,6 +3704,11 @@
           promoCodeParam = code;
           $('.mainPagePromoDetailOuterColorDiv').hide();
           $('#mainPagePromoCatGiftHampers').show();
+          break;
+        default:
+          promoCodeParam = code;
+          $('.mainPagePromoItemDetailDiv').hide();
+          $('#'+code).show();
           break;
       }
 
