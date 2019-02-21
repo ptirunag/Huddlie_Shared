@@ -140,7 +140,7 @@
     </ul>
   </div>
   <div id="navbarPhone" class="">
-    <a id="headerLogoPhone" onclick="viewController('homeBanner');" class="brand"><img src="/huddlie-h35.png"> </a>
+    <a id="headerLogoPhone" onclick="viewController('homeBanner');setCorrectNavBottomButton('home');" class="brand"><img src="/huddlie-h35.png"> </a>
     <ul class="list-inline">
       <li id="retailerDropdownOuterPhone" style="display: none;">
         <button id="retailerDropdownButtonPhone" class="form-control" onclick="retailerDropdownButtonClicked();">
@@ -3302,34 +3302,80 @@
 
       switch(targetView) {
         case 'Home':
-          $(".overlay").show();    
 
-          setTimeout(function(){
+          if ($chatPane.is(':visible')){
+            //simply chatOff so that last viewed thing is shown.
+            if (sessionStorage && sessionStorage.getItem('navbarBottomPreviousButton') && sessionStorage.getItem('navbarBottomPreviousButton') == 'navbarBottomCartButtonDiv')
+            {
+              if (sessionStorage)
+              {
+                sessionStorage.setItem('navbarBottomPreviousButton', targetDiv);
+              }
+
+              history.go(-1);
+
+              $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
+              $('#'+targetDiv).removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected');   
+            }
+            else
+            { 
+              chatViewButtonClicked(); 
+            }
+          }
+          else if ($('#shoppingCartArea').is(':visible'))
+          {
             if (sessionStorage)
             {
               sessionStorage.setItem('navbarBottomPreviousButton', targetDiv);
             }
 
-            viewController('homeBanner');
+            history.go(-1);
 
             $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
             $('#'+targetDiv).removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected');
+          }
+          
 
-            $(".overlay").hide();
-          }, 300);
+          // $(".overlay").show();    
+
+          // setTimeout(function(){
+          //   if (sessionStorage)
+          //   {
+          //     sessionStorage.setItem('navbarBottomPreviousButton', targetDiv);
+          //   }
+
+          //   viewController('homeBanner');
+
+          //   $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
+          //   $('#'+targetDiv).removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected');
+
+          //   $(".overlay").hide();
+          // }, 300);
 
           break;
         case 'Cart':
-
-          if (sessionStorage)
+          //either chatpane visible or homepane(=shoppingarea not visible).
+          if (!$('#shoppingCartArea').is(':visible') || $chatPane.is(':visible'))
           {
-            sessionStorage.setItem('navbarBottomPreviousButton', targetDiv);
+            //if chatview and previous was cart, just chatoff, no need to get cart again.
+            if ($chatPane.is(':visible') && sessionStorage && sessionStorage.getItem('navbarBottomPreviousButton') 
+                    && sessionStorage.getItem('navbarBottomPreviousButton') == 'navbarBottomCartButtonDiv')
+            {
+              chatViewButtonClicked();
+            }
+            else
+            {
+              if (sessionStorage)
+              {
+                sessionStorage.setItem('navbarBottomPreviousButton', targetDiv);
+              }
+
+              viewCart();
+
+              $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
+              $('#'+targetDiv).removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected');              
+            }
           }
-
-          viewCart();
-
-          $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
-          $('#'+targetDiv).removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected');
 
           break;
         case 'Collab':
@@ -6032,6 +6078,7 @@
 
         var state = JSON.parse(e.state);
         console.log(state);
+        var visibleBottomNavButton = 'home';
 
         switch(state.popEvent){
             case 'openPromo':
@@ -6085,13 +6132,33 @@
                     sessionStorage.setItem(state.retailer+'-URLEncodedHMAC', state.URLEncodedHMAC);
                     console.log('here 1');
                     viewCart();
+                    visibleBottomNavButton = 'cart';
                 }
 
                 break;
             default:
                 break;
         }
+
+        setCorrectNavBottomButton(visibleBottomNavButton);
     });
+
+    function setCorrectNavBottomButton (mode)
+    {
+      $('.navbarBottomInnerDivSelected').removeClass('navbarBottomInnerDivSelected').addClass('navbarBottomInnerDiv');
+
+      switch(mode)
+      {
+        case 'home':
+        console.log('SET HOME BUTTON');
+          $('#navbarBottomHomeButtonDiv').removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected'); 
+          break;
+        case 'cart':
+        console.log('SET CART BUTTON');
+          $('#navbarBottomCartButtonDiv').removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected'); 
+          break;
+      }
+    }
 
     function visitStatUpdateManager (user){
 
@@ -6114,25 +6181,26 @@
         var state, url, rmid = '';
         var nextMode = '';
 
-        if (sessionStorage && sessionStorage.getItem('isPopStateEvent')){
-            if (sessionStorage.getItem('isPopStateEvent') == 'true'){
-                pushState = false;
-                sessionStorage.removeItem('isPopStateEvent');
-            }
-        }
-
         var isChatPaneVisible = false;
         if ($chatPane.is(':visible')){
           isChatPaneVisible = true;
 
           if (phone)
           {
-            if (mode == 'homeBanner' || mode == 'viewCart' || mode == 'Collab')
+            if (mode == 'homeBanner' || mode == 'searchResults' || mode == 'itemDetails'
+                || mode == 'viewCart' || mode == 'openPromo')
             {
               nextMode = mode;
               mode = 'chatOff';
             }
           }
+        }
+
+        if (nextMode == '' && sessionStorage && sessionStorage.getItem('isPopStateEvent')){
+            if (sessionStorage.getItem('isPopStateEvent') == 'true'){
+                pushState = false;
+                sessionStorage.removeItem('isPopStateEvent');
+            }
         }
 
         var isChatActive = false;
@@ -6190,7 +6258,7 @@
         }
 
         //End hide main page items
-
+        console.log('VIEW MODE = '+mode);
         switch(mode){
             case 'PrivacyPolicy':
               $('#footerDocsDiv').show();
@@ -6630,6 +6698,7 @@
 
                 break;
             case 'viewCart':
+
                 //SHOW
                 $storeArea.show();
                 $shoppingCartArea.show();
