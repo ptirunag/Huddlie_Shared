@@ -3249,8 +3249,12 @@
         }
         else
         {
-          //Keyboard is not visible
-          $('#navbarBottomPhone').show();
+          if (phone)
+          {
+            //Keyboard is not visible
+          $('#navbarBottomPhone').show();  
+          }
+          
         }
 
         totalUsers = $('.videoContainer').length;
@@ -3378,8 +3382,14 @@
     }
 
     
-    // grab the room from the URL
-    
+   
+    var seePrivacyPolicy = location.search && 
+                              (location.search.includes("PrivacyPolicy") || location.search == 'PrivacyPolicy');
+    if (seePrivacyPolicy)
+    {
+      viewController('PrivacyPolicy');
+    }
+
     var room = location.search && location.search.split('rmid=')[1];
 
     if (room){
