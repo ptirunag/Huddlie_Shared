@@ -1,0 +1,87 @@
+
+@media only screen and (max-width: 768px){ 
+	#newChatInitiatePane {
+		padding: 0px;
+	}
+
+	#newChatInitiatePane .col-sm-6 {
+		padding: 10px 0px 0px 0px;
+	}
+
+	#newChatInitiateSendEmailButton {
+		margin-top: 5px;
+		width: 100%;
+	}
+}
+
+/*Bootstrap Small devices: >768px, <992px */
+@media only screen and (max-width: 992px) and (min-width: 768px) {
+	#newChatInitiatePane {
+		padding: 0px;
+	}
+
+	#newChatInitiatePane .col-sm-6 {
+		padding: 10px 0px 0px 0px;
+	}
+
+	#newChatInitiateSendEmailButton {
+		margin-top: 5px;
+		width: 100%;
+	}
+}
+
+/* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
+@media (min-width: 992px){
+	#newChatInitiateSendEmailButton {
+		margin-top: 5px;
+		width: 50%;
+		margin-left: 50%;
+	}
+}
+
+
+/*Everything Else Below.*/
+#newChatInitiatePane {
+	background-color: white;
+}
+
+.newChatInitiateInnerPane {
+	background-color: #f3f3f3;
+	border-radius: 20px;
+}
+
+.newChatInitiateLabelCenterAlign {
+	text-align: center;
+	width: 100%;
+	color: #3f4a68;
+}
+.newChatInitiateLabelLeftAlign {
+	width: 100%;
+	color: #3f4a68;
+}
+
+.newChatInitiateTopDiv {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.newChatInitiateTopInnerDiv {
+	border: 1px #bbb solid;
+	border-radius: 10px;
+	padding: 10px;
+	background-color: white;
+}
+
+.newChatInitiateCopyTextboxDiv {
+	padding: 5px 0px 0px 0px !important;
+	width: calc(100% - 70px);
+}
+.newChatInitiateCopyButtonDiv {
+	padding: 5px 0px 0px 0px !important;
+	width: 70px;
+}
+.newChatInitiateCopyButtonDiv > button {
+	width: 100%;
+	padding-left: 6px;
+	padding-right: 6px;
+}

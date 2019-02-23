@@ -1,5 +1,26 @@
 @media only screen and (max-width: 768px){ 
-
+.mainPromoBonanzaBigLabel {
+		text-align: center;
+		width: 100%;
+		font-size: 25px;
+	}
+	.mainPromoBonanzaSmallLabel {
+		text-align: center;
+		width: 100%;
+		font-size: 20px;
+		padding-top: 30px;
+		padding-bottom: 40px;
+	}
+	.mainPromoBonanzaShopNowButton {
+		border: 2px black solid; 
+		background-color: transparent;
+		width: 50%;
+		height: 50px;
+		margin-left: 25%;
+		font-size: 25px;
+		font-weight: bold;
+		margin-bottom: 20px;
+	}
 	.mainPagePromoOuterColorDiv {
 		padding: 20px 10px 20px 10px;
 	}
@@ -50,7 +71,28 @@
 
 /*Bootstrap Small devices: >768px, <992px */
 @media only screen and (max-width: 992px) and (min-width: 768px) {
-
+.mainPromoBonanzaBigLabel {
+		text-align: center;
+		width: 100%;
+		font-size: 50px;
+	}
+	.mainPromoBonanzaSmallLabel {
+		text-align: center;
+		width: 100%;
+		font-size: 35px;
+		padding-top: 30px;
+		padding-bottom: 50px;
+	}
+	.mainPromoBonanzaShopNowButton {
+		border: 2px black solid; 
+		background-color: transparent;
+		width: 220px;
+		height: 70px;
+		margin-left: calc((100% - 220px) / 2);
+		font-size: 40px;
+		font-weight: bold;
+		margin-bottom: 20px;
+	}
 	.mainPagePromoOuterColorDiv {
 		padding: 20px 10px 20px 10px;
 	}
@@ -101,6 +143,29 @@
 
 /* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
 @media (min-width: 992px){
+
+	.mainPromoBonanzaBigLabel {
+		text-align: center;
+		width: 100%;
+		font-size: 50px;
+	}
+	.mainPromoBonanzaSmallLabel {
+		text-align: center;
+		width: 100%;
+		font-size: 35px;
+		padding-top: 30px;
+		padding-bottom: 50px;
+	}
+	.mainPromoBonanzaShopNowButton {
+		border: 2px black solid; 
+		background-color: transparent;
+		width: 220px;
+		height: 70px;
+		margin-left: calc((100% - 220px) / 2);
+		font-size: 40px;
+		font-weight: bold;
+		margin-bottom: 20px;
+	}
 
 	.mainPagePromoOuterColorDiv {
 		padding: 10px 20px 10px 20px;
