@@ -319,7 +319,7 @@
 	text-align: center;
 }
 
-#huddleInitiatePaneHuddleButton, #chatViewButton {
+#huddleInitiatePaneHuddleButton, #chatViewButton, #newChatInitiateHuddleStartButton {
 	margin: 0px;
 	-webkit-animation: waggle 5s ease-out infinite normal;
 	animation: waggle 5s ease-out infinite normal;
@@ -393,20 +393,20 @@
       writing-mode: horizontal-tb;
     }
 
-    #sendLinkSocialButtonsDiv > a {
+    .sendLinkSocialButtonsDiv > a {
       text-align: center;
       color: white;
       cursor: pointer;
       height: 40px;
     }
 
-    #sendLinkSocialButtonsDiv > a > span {
+    .sendLinkSocialButtonsDiv > a > span {
       width: 40px;
       height: 40px;
       line-height: 40px;
       border-radius: 50%;
     }
-    #sendLinkSocialButtonsDiv > a > span {
+    .sendLinkSocialButtonsDiv > a > span {
       background: #3b5998;
       width: 40px;
       height: 40px;
@@ -414,15 +414,15 @@
       border-radius: 50%;
     }
 
-    #sendLinkSocialButtonsDiv > a > .fa-facebook-messenger {
+    .sendLinkSocialButtonsDiv > a > .fa-facebook-messenger {
       font-size: 1.3em;
     }
-    #sendLinkSocialButtonsDiv > a > .fa-facebook-f
+    .sendLinkSocialButtonsDiv > a > .fa-facebook-f
     {
       background: #3b5998;
       font-size: 1.2em;
     }
-    #sendLinkSocialButtonsDiv > a > .my-whatsapp
+    .sendLinkSocialButtonsDiv > a > .my-whatsapp
     {
     	background-color: #25D366;
     	font-size: 1.3em;

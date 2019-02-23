@@ -41,8 +41,10 @@
   <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/owl.carousel.min.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/owl.theme.default.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Archivo Narrow' rel='stylesheet'>
 
   <!-- Custom Stylesheets -->
+  <link rel="stylesheet" type="text/css" href="/assets/css/custom/newChatInitiateTemp.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/custom/mainPagePanes.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/custom/mainPagePromos.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/custom/flyout.css">
@@ -1573,7 +1575,7 @@
                             data-clipboard-target="#chatShareInput1">Copy</button>
                 </div>
 
-                <div class="col-xs-12" id="sendLinkSocialButtonsDiv" style="padding:10px 0px 0px 0px !important;">
+                <div class="col-xs-12" class="sendLinkSocialButtonsDiv" style="padding: 10px 0px 0px 0px !important;">
                     <label style="vertical-align:middle;padding-right:10px">Send Link:   </label>
                     
                     <a onclick="sendButtonClicked('facebook');">
@@ -1812,6 +1814,139 @@
                 </div>
               </div>
             </div>
+
+            <div id="newChatInitiatePane" class="col-sm-12">
+              <div class="col-sm-6">
+                <div class="col-sm-8 col-sm-offset-4 newChatInitiateInnerPane">
+                  <br/>
+                  <label class="newChatInitiateLabelCenterAlign">Step 1 - Invite friends</label>
+                  
+                  <div class="newChatInitiateTopDiv">
+                    <div class="newChatInitiateTopInnerDiv">
+                      <label class="newChatInitiateLabelLeftAlign">Share link through Social Media</label>
+                      <div class="sendLinkSocialButtonsDiv" style="padding: 10px 0px 10px 0px !important;">
+                        <a onclick="sendButtonClicked('facebook');">
+                            <span class="fab fa-facebook-f">
+                            </span>
+                        </a>
+
+                        <a onclick="sendButtonClicked('whatsapp');">
+                            <span class="fab my-whatsapp">
+                            </span>
+                        </a>
+
+                        <button class="btn btn-primary" style="height:39px; border-radius: 18px;" onclick="showHideNewChatInitiateEmailsForm();">
+                          <i class="glyphicon glyphicon-envelope"></i>
+                        </button>
+                      </div>
+                      <label class="newChatInitiateLabelLeftAlign">Or copy the link and share through other medium</label>
+                      <div style="display: flex;flex-direction: row;">
+                        <div class="newChatInitiateCopyTextboxDiv">
+                            <input type="text" class="form-control linkedCopiedLabel" readonly="true" value="Link has been copied" style="display:none">
+                            <input id="chatShareInput3" class="form-control chatShareInputs" type="text" value="" readonly="true">
+                        </div>
+                        <div class="newChatInitiateCopyButtonDiv">
+                            <button class="btn btn-primary chatShareButtons" data-clipboard-target="#chatShareInput3">
+                              <i class="fa fa-files-o"></i> Copy
+                            </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="newChatInitiateEmailsForm" style="display: none;">
+                    <div class="form-group newChatInitiateTopInnerDiv">
+                      <label class="newChatInitiateLabelLeftAlign">Enter up to 3 email addresses</label>
+                      <input type="email" class="form-control" id="emailNew1" 
+                            placeholder="Enter an email address" 
+                            oninvalid="setCustomValidity('Please enter a valid email address')" 
+                            oninput="setCustomValidity('')">
+                      <input type="email" class="form-control" id="emailNew1" 
+                            placeholder="Enter an email address" 
+                            oninvalid="setCustomValidity('Please enter a valid email address')" 
+                            oninput="setCustomValidity('')">
+                      <input type="email" class="form-control" id="emailNew1" 
+                            placeholder="Enter an email address" 
+                            oninvalid="setCustomValidity('Please enter a valid email address')" 
+                            oninput="setCustomValidity('')">
+                      <button id="newChatInitiateSendEmailButton" class="btn btn-primary">
+                        Send Link Via Email
+                      </button>
+                    </div>
+                  </div>
+                  <br/>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="col-sm-8 newChatInitiateInnerPane">
+                  <br/>
+
+                  <label class="newChatInitiateLabelCenterAlign">Step 2 - Start Huddle!</label>
+
+                  <div class="newChatInitiateTopDiv">
+                    <div class="newChatInitiateTopInnerDiv">
+                      <label class="newChatInitiateLabelLeftAlign">Enter your preferred display name</label>
+                      <input type="text" class="form-control" id="displayName" required="true" placeholder="Please enter your name" autocomplete="off" />
+                      <br/>
+                      <button id="newChatInitiateHuddleStartButton" class="btn btn-info" style="width: 100%; font-size: large; border-radius: 25px;height:50px; width: 100px; margin-left: calc((100% - 100px) / 2)">Go!</button>
+                      <br/>
+                    </div>
+                  </div>
+                  <br/>
+                </div>
+              </div>
+            </div>
+
+            <!-- 
+            <div id="chatInitiatePane">
+              <form id="chatInitiateForm">
+                  <label>Invite up to 3 friends to join you in real-time!</label>
+                  <label>Enter email adresses to send invite links or share the link below.</label>
+                  <div class="form-group">
+                      <input type="email" class="form-control" id="email1" placeholder="Enter an email address" 
+                                  oninvalid="setCustomValidity('Please enter a valid email address')" oninput="setCustomValidity('')">
+                  </div>
+                  <div class="form-group">
+                      <input type="email" class="form-control" id="email2" placeholder="Enter an email address" 
+                                  oninvalid="setCustomValidity('Please enter a valid email address')" oninput="setCustomValidity('')">
+                  </div>
+                  <div class="form-group">
+                      <input type="email" class="form-control" id="email3" placeholder="Enter an email address" 
+                                  oninvalid="setCustomValidity('Please enter a valid email address')" oninput="setCustomValidity('')">
+                  </div>
+                  <div class="form-group">
+                      <label for="name">Preferred display name:</label>
+                      <input type="text" class="form-control" id="displayName" required="true" placeholder="Please enter your name" autocomplete="off" />
+                  </div>
+                  <input type="submit" class="btn btn-info" style="width:100%" value="Start Huddle!">
+              </form>
+
+              <div class="chatSharePane">
+                  <div class="col-xs-9"  style="padding:5px 0px 0px 0px !important;">
+                      <input type="text" class="form-control linkedCopiedLabel" readonly="true" value="Link has been copied" style="display:none">
+                      <input class="form-control chatShareInputs" id="chatShareInput1" type="text" value="" readonly="true">
+                  </div>
+                  <div class="col-xs-3"  style="padding:5px 0px 0px 0px !important;">
+                      <button class="btn btn-info chatShareButtons" style="width:100%;"
+                              data-clipboard-target="#chatShareInput1">Copy</button>
+                  </div>
+
+                  <div class="col-xs-12" class="sendLinkSocialButtonsDiv" style="padding:10px 0px 0px 0px !important;">
+                      <label style="vertical-align:middle;padding-right:10px">Send Link:   </label>
+                      
+                      <a onclick="sendButtonClicked('facebook');">
+                          <span class="fab fa-facebook-f">
+                          </span>
+                      </a>
+
+                      <a onclick="sendButtonClicked('whatsapp');">
+                          <span class="fab my-whatsapp">
+                          </span>
+                      </a>
+                  </div>
+              </div>
+            </div> -->
+
           </div>
 
             <!-- NOTES FOR MANI -->
@@ -1821,6 +1956,23 @@
             <div id="mainPagePromotionsMainDiv" style="display: none">
               <!-- put any html you want to see on the home page in this div -->
               <div id="promoItemOuter_1" class="mainPagePromoItemOuterDiv">
+
+                <div class="col-sm-12" style="background-color: #84d9fa; font-family: 'Archivo Narrow' !important; padding-top: 30px;">
+                  <label class="mainPromoBonanzaBigLabel">
+                    HUDDLIE SUMMER BONANZA
+                  </label>
+                  <label class="mainPromoBonanzaBigLabel">
+                    GET 50% CASHBACK
+                  </label>
+                  <label class="mainPromoBonanzaSmallLabel">
+                    Shop on Huddlie and get cashback upto a maximum of Rs.200*
+                  </label>
+                  <button class="mainPromoBonanzaShopNowButton">Shop Now</button>
+                  <label style="text-align: right;width: 100%; padding-right: 15px;font-size: 14px;font-family: 'Arial Narrow'">*T&amp;C Apply</label>
+                </div>
+
+
+
               <!-- for the object that will be clicked to open a promo detail page, add onclick="openPromo('promoItemDetail_1');" -->
 
               <!-- example: a button. 
@@ -1838,7 +1990,18 @@
               <div id="promoItemDetail_1" class="mainPagePromoItemDetailDiv">
                 <!-- Add html for the separate promo detail page in this div -->
                 <!-- adding just a blank div of some color so that there is something to see -->
-                <div style="width: 200px; height: 200px; background-color: #aaa">
+                <div class="col-sm-12" style="background-color: #84d9fa; font-family: 'Archivo Narrow' !important; padding-top: 30px;">
+                  <label class="mainPromoBonanzaBigLabel">
+                    HUDDLIE SUMMER BONANZA
+                  </label>
+                  <label class="mainPromoBonanzaBigLabel">
+                    GET 50% CASHBACK
+                  </label>
+                  <label class="mainPromoBonanzaSmallLabel">
+                    Shop on Huddlie and get cashback upto a maximum of Rs.200*
+                  </label>
+                  <button class="mainPromoBonanzaShopNowButton">Shop Now</button>
+                  <label style="text-align: right;width: 100%; padding-right: 15px;font-size: 14px;font-family: 'Arial Narrow'">*T&amp;C Apply</label>
                 </div>
               </div>
               <!-- Each of these divs will be like a separate promo detail page -->
@@ -3233,6 +3396,7 @@
 
             $('#chatShareInput1').val(shareURL);
             $('#chatShareInput2').val(shareURL);
+            $('#chatShareInput3').val(shareURL);
         }
 
         var newUrl = 'home?rmid='+room;
@@ -3248,6 +3412,24 @@
         $chatInitiatePane.show();
         $('#chatButtonsPane1').show();
         $chatJoinPane.hide();
+
+        if (sessionStorage) {
+            var rmid = '';
+            if (!sessionStorage.getItem('rmid')){
+                rmid = (Math.random() * new Date().getTime()).toString(36).toUpperCase().replace( /\./g , '-');
+                sessionStorage.setItem('rmid', rmid);
+            }
+            else
+            {
+                rmid = sessionStorage.getItem('rmid');
+            }
+
+            var url = window.location.href.split(window.location.pathname)[0] + '?rmid=' + rmid;
+
+            $('#chatShareInput1').val(url);
+            $('#chatShareInput2').val(url);
+            $('#chatShareInput3').val(url);
+        } 
     }
 
 
@@ -3804,6 +3986,7 @@
 
         $('#chatShareInput1').val(url);
         $('#chatShareInput2').val(url);
+        $('#chatShareInput3').val(url);
 
         socket.emit('initiateChat', {emails: emails, name: name, rmid: rmid, url: url});
 
@@ -6071,6 +6254,7 @@
 
                 $('#chatShareInput1').val(url);
                 $('#chatShareInput2').val(url);
+                $('#chatShareInput3').val(url);
             } 
 
             viewController('chatOn');
@@ -6162,6 +6346,17 @@
         console.log('SET CART BUTTON');
           $('#navbarBottomCartButtonDiv').removeClass('navbarBottomInnerDiv').addClass('navbarBottomInnerDivSelected'); 
           break;
+      }
+    }
+
+    function showHideNewChatInitiateEmailsForm(){
+      if ($('#newChatInitiateEmailsForm').is(':visible'))
+      {
+        $('#newChatInitiateEmailsForm').hide();
+      }
+      else
+      {
+        $('#newChatInitiateEmailsForm').show(); 
       }
     }
 
