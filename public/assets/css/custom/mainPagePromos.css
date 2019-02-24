@@ -1,5 +1,14 @@
 @media only screen and (max-width: 768px){ 
-.mainPromoBonanzaBigLabel {
+	#promotnc > .col-sm-8 > h1 {
+		margin: 0px !important;
+		padding-top: 20px;
+		padding-bottom: 10px;
+		font-size: 24px;
+	}
+	#promotnc > .col-sm-6 > ol {
+		padding-left: 20px;
+	}
+	.mainPromoBonanzaBigLabel {
 		text-align: center;
 		width: 100%;
 		font-size: 25px;
@@ -143,6 +152,11 @@
 
 /* Bootstrap Medium devices >992px, <1200px AND Large devices >1200px*/
 @media (min-width: 992px){
+
+	#promotnc > .col-sm-8 > h1 {
+		width: 100%;
+		text-align: center;
+	}
 
 	.mainPromoBonanzaBigLabel {
 		text-align: center;
@@ -300,7 +314,9 @@
 }
 
 
-
+.mainPromoBonanzaBigLabel, .mainPromoBonanzaSmallLabel, .mainPromoBonanzaShopNowButton {
+	cursor: pointer;
+}
 
 
 
