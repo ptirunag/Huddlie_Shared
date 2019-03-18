@@ -35,6 +35,7 @@ var index = require('./routes/index');
 app.use('/', index);
 app.use('/index', index);
 app.use('/home', index);
+app.use('/loaderio-766dffee52f236abf585a0036a6d3219', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
